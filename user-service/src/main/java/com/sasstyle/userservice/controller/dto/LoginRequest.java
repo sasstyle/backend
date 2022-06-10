@@ -1,2 +1,17 @@
-package com.sasstyle.userservice.controller.dto;public class LoginRequest {
+package com.sasstyle.userservice.controller.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class LoginRequest {
+
+    private String username;
+    private String password;
 }

@@ -1,6 +1,7 @@
 package com.sasstyle.userservice.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sasstyle.userservice.security.jwt.JwtAccessDeniedHandler;
+import com.sasstyle.userservice.security.jwt.JwtAuthenticationEntryPoint;
 import com.sasstyle.userservice.util.PasswordUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +21,8 @@ import org.springframework.security.web.header.writers.frameoptions.XFrameOption
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final ObjectMapper objectMapper;
+    private final JwtAuthenticationEntryPoint authenticationEntryPoint;
+    private final JwtAccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -34,8 +36,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-
         http
                 .cors().disable()
                 .csrf().disable()
@@ -46,10 +46,14 @@ public class SecurityConfig {
                 .frameOptions().sameOrigin();
 
         http
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler);
+
+        http
                 .formLogin().disable()
                 .authorizeRequests()
-                .antMatchers("/users", "/users/login", "/login").permitAll()
-                .anyRequest().authenticated();
+                .antMatchers("/users/**").permitAll();
 
         return http.build();
     }

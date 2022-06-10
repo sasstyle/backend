@@ -13,7 +13,7 @@ spring:
     config:
       server:
         git:
-          uri: file:///${user.home}/config-repo
+          uri: file://${user.home}/config-repo
   profiles:
     active: dev
 
@@ -21,4 +21,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, busrefresh, info
+        include: refresh, health, busrefresh, info, busenv
