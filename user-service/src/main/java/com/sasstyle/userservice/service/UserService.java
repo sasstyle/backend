@@ -9,7 +9,7 @@ import com.sasstyle.userservice.error.exception.DuplicatedUsernameException;
 import com.sasstyle.userservice.repository.UserRepository;
 import com.sasstyle.userservice.security.auth.PrincipalDetails;
 import com.sasstyle.userservice.security.jwt.JwtTokenCreator;
-import com.sasstyle.userservice.security.jwt.TokenResponse;
+import com.sasstyle.userservice.controller.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;

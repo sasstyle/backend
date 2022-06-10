@@ -51,11 +51,7 @@ public class User extends BaseTime {
                 .gender(request.getGender())
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
-                .address(new Address(
-                        request.getCity(),
-                        request.getStreet(),
-                        request.getZipcode())
-                )
+                .address(new Address(request.getAddress()))
                 .build();
     }
 }
