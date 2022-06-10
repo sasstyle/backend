@@ -45,6 +45,9 @@ dependencies {
 
     // object mapper
     implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+    // openapi
+    implementation 'org.springdoc:springdoc-openapi-webmvc-core:1.6.9'
 }
 
 dependencyManagement {
