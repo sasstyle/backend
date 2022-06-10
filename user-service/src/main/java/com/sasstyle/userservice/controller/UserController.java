@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 import static org.springframework.http.HttpStatus.CREATED;
 
 @Slf4j
@@ -33,9 +35,9 @@ public class UserController {
                 .body(userService.create(request));
     }
 
-    @GetMapping("/health_check")
-    private ResponseEntity<String> health_check() {
+    @GetMapping("/health")
+    private ResponseEntity<String> health_check(HttpServletRequest request) {
         return ResponseEntity
-                .ok("health ok");
+                .ok("현재 서버가 정상적으로 실행됐습니다. 현재 서버의 포트: " +  request.getServerPort() + " 입니다.");
     }
 }
