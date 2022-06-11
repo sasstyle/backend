@@ -35,7 +35,6 @@ dependencies {
 
     // spring cloud config
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
 
     // spring security
@@ -46,6 +45,11 @@ dependencies {
 
     // object mapper
     implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+    // openapi
+    implementation 'org.springdoc:springdoc-openapi-webmvc-core:1.6.9'
+
+//    testImplementation 'org.mockito:mockito-inline:4.6.1'
 }
 
 dependencyManagement {
