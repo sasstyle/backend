@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.sasstyle.userservice.controller.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -13,14 +14,11 @@ import java.util.Date;
 @Component
 public class JwtTokenCreator {
 
-    @Value("${token.issuer}")
-    private final String issuer;
+    private final Environment env;
 
-    @Value("${token.secret}")
-    private final String secret;
-
-    @Value("${token.expiration_time}")
-    private final String expirationTime;
+    private static final String ISSUER_ENV_NAME = "token.issuer";
+    private static final String SECRET_ENV_NAME = "token.secret";
+    private static final String EXPIRATION_TIME_ENV_NAME = "token.expiration_time";
 
     private static final String ID_FIELD = "userId";
     private static final String USERNAME_FIELD = "username";
@@ -31,11 +29,11 @@ public class JwtTokenCreator {
 
     public String createAccessToken(Long id, String username) {
         return JWT.create()
-                .withIssuer(issuer)
+                .withIssuer(getProperty(ISSUER_ENV_NAME))
                 .withClaim(ID_FIELD, id)
                 .withClaim(USERNAME_FIELD, username)
                 .withExpiresAt(expiresAt())
-                .sign(Algorithm.HMAC512(secret));
+                .sign(Algorithm.HMAC512(getProperty(SECRET_ENV_NAME)));
     }
 
     private String createRefreshToken() {
@@ -44,7 +42,11 @@ public class JwtTokenCreator {
 
     private Date expiresAt() {
         return new Date(
-                new Date().getTime() + Long.parseLong(expirationTime)
+                new Date().getTime() + Long.parseLong(getProperty(EXPIRATION_TIME_ENV_NAME))
         );
+    }
+
+    private String getProperty(String expirationTimeEnvName) {
+        return env.getProperty(expirationTimeEnvName);
     }
 }

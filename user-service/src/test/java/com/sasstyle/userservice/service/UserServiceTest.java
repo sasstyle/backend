@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 
@@ -40,13 +41,16 @@ class UserServiceTest {
 
     private JwtTokenCreator jwtTokenCreator;
 
+    @Mock
+    private Environment env;
+
     private User user;
 
     private JoinRequest joinRequest;
 
     @BeforeEach
     void beforeEach() {
-        jwtTokenCreator = new JwtTokenCreator("sasstyle", "secret", "1000");
+        jwtTokenCreator = new JwtTokenCreator(env);
         userService = new UserService(userRepository, authenticationManager, jwtTokenCreator);
 
         user = UserDummy.user();
@@ -65,6 +69,10 @@ class UserServiceTest {
     void 로그인() {
         Authentication authenticate = authenticated(new PrincipalDetails(user), user.getPassword(), null);
         given(authenticationManager.authenticate(any())).willReturn(authenticate);
+        given(env.getProperty("token.issuer")).willReturn("tester");
+        given(env.getProperty("token.secret")).willReturn("test");
+        given(env.getProperty("token.expiration_time")).willReturn("3600");
+
 
         TokenResponse tokenResponse = userService.login(new LoginRequest(user.getUsername(), user.getPassword()));
 
