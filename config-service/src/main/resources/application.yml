@@ -13,7 +13,7 @@ spring:
     config:
       server:
         git:
-          uri: file://${user.home}/config-repo
+          uri: https://github.com/kingjaewon2000/spring-cloud-config
   profiles:
     active: dev
 
