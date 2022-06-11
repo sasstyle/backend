@@ -1,0 +1,77 @@
+version: '3'
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+      - "15671:15671"
+      - "5671:5671"
+      - "4369:4369"
+    environment:
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
+    networks:
+      - sasstyle-network
+
+  config-service:
+    image: taehyeonggim44/config-service
+    container_name: config-service
+    restart: always
+    depends_on:
+      - rabbitmq
+    ports:
+      - "8888:8888"
+    networks:
+      - sasstyle-network
+
+  discovery-service:
+    image: taehyeonggim44/discovery-service
+    container_name: discovery-service
+    restart: always
+    depends_on:
+      - rabbitmq
+      - config-service
+    environment:
+      SPRING_CLOUD_CONFIG_URI: "http://config-service:8888"
+    ports:
+      - "8761:8761"
+    networks:
+      - sasstyle-network
+
+  gateway-service:
+    image: taehyeonggim44/gateway-service
+    container_name: gateway-service
+    restart: always
+    depends_on:
+      - rabbitmq
+      - config-service
+      - discovery-service
+    environment:
+      SPRING_CLOUD_CONFIG_URI: "http://config-service:8888"
+      SRPING_RABBITMQ_HOST: "rabbitmq"
+    ports:
+      - "8000:8000"
+    networks:
+      - sasstyle-network
+
+  user-service:
+    image: taehyeonggim44/user-service
+    container_name: user-service
+    restart: always
+    depends_on:
+      - rabbitmq
+      - config-service
+      - discovery-service
+      - gateway-service
+    environment:
+      SPRING_CLOUD_CONFIG_URI: "http://config-service:8888"
+      SRPING_RABBITMQ_HOST: "rabbitmq"
+    networks:
+      - sasstyle-network
+
+networks:
+  sasstyle-network:
+    external: true
