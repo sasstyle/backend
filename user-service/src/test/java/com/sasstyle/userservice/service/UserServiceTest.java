@@ -1,10 +1,10 @@
 package com.sasstyle.userservice.service;
 
+import com.sasstyle.userservice.UserDummy;
 import com.sasstyle.userservice.controller.dto.JoinRequest;
 import com.sasstyle.userservice.controller.dto.JoinResponse;
 import com.sasstyle.userservice.controller.dto.LoginRequest;
 import com.sasstyle.userservice.controller.dto.TokenResponse;
-import com.sasstyle.userservice.entity.Address;
 import com.sasstyle.userservice.entity.Gender;
 import com.sasstyle.userservice.entity.User;
 import com.sasstyle.userservice.error.exception.DuplicatedException;
@@ -42,23 +42,26 @@ class UserServiceTest {
 
     private User user;
 
+    private JoinRequest joinRequest;
+
     @BeforeEach
     void beforeEach() {
         jwtTokenCreator = new JwtTokenCreator("sasstyle", "secret", "1000");
         userService = new UserService(userRepository, authenticationManager, jwtTokenCreator);
 
-        user = new User(1L,
-                "sasstyle",
+        user = UserDummy.user();
+        joinRequest = new JoinRequest("sasstyle",
                 "test1234!",
                 "이순신",
                 Gender.MAN,
                 "lee@example.com",
                 "010-1234-5678",
-                new Address("서울시 어딘가...")
+                "서울시 어딘가..."
         );
     }
 
     @Test
+    @DisplayName("로그인 성공")
     void 로그인() {
         Authentication authenticate = authenticated(new PrincipalDetails(user), user.getPassword(), null);
         given(authenticationManager.authenticate(any())).willReturn(authenticate);
@@ -76,15 +79,7 @@ class UserServiceTest {
         given(userRepository.existsByEmail(user.getEmail())).willReturn(false);
         given(userRepository.save(any())).willReturn(user);
 
-        JoinResponse response = userService.create(
-                new JoinRequest("sasstyle",
-                        "test1234!",
-                        "이순신",
-                        Gender.MAN,
-                        "lee@example.com",
-                        "010-1234-5678",
-                        "서울시 어딘가...")
-        );
+        JoinResponse response = userService.create(joinRequest);
 
         assertThat(user.getId()).isEqualTo(response.getUserId());
         assertThat(user.getUsername()).isEqualTo(response.getUsername());
@@ -96,17 +91,7 @@ class UserServiceTest {
         given(userRepository.existsByUsername(user.getUsername())).willReturn(true);
 
         assertThrows(DuplicatedUsernameException.class, () -> {
-            userService.create(
-                    new JoinRequest(
-                            "sasstyle",
-                            "test1234!",
-                            "이순신",
-                            Gender.MAN,
-                            "lee@example.com",
-                            "010-1234-5678",
-                            "서울시 어딘가..."
-                    )
-            );
+            userService.create(joinRequest);
         });
     }
 
@@ -117,16 +102,7 @@ class UserServiceTest {
         given(userRepository.existsByEmail(user.getEmail())).willReturn(true);
 
         assertThrows(DuplicatedException.class, () -> {
-            userService.create(
-                    new JoinRequest("sasstyle",
-                            "test1234!",
-                            "이순신",
-                            Gender.MAN,
-                            "lee@example.com",
-                            "010-1234-5678",
-                            "서울시 어딘가..."
-                    )
-            );
+            userService.create(joinRequest);
         });
     }
 

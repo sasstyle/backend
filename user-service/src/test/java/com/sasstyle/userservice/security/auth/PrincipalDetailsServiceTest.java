@@ -1,5 +1,6 @@
 package com.sasstyle.userservice.security.auth;
 
+import com.sasstyle.userservice.UserDummy;
 import com.sasstyle.userservice.entity.Address;
 import com.sasstyle.userservice.entity.Gender;
 import com.sasstyle.userservice.entity.User;
@@ -34,19 +35,11 @@ class PrincipalDetailsServiceTest {
 
     @BeforeEach
     void beforeEach() {
-        user = new User(1L,
-                "sasstyle",
-                "test1234!",
-                "이순신",
-                Gender.MAN,
-                "lee@example.com",
-                "010-1234-5678",
-                new Address("서울시 어딘가...")
-        );
+        user = UserDummy.user();
     }
 
     @Test
-    @DisplayName("로그인 성공 - 아이디가 있는 경우")
+    @DisplayName("로그인 성공 - 사용자 아이디가 있는 경우")
     void 아이디_O() {
         given(userRepository.findByUsername(user.getUsername())).willReturn(user);
 
@@ -58,7 +51,7 @@ class PrincipalDetailsServiceTest {
     }
 
     @Test
-    @DisplayName("로그인 실패 - 아이디가 없는 경우")
+    @DisplayName("로그인 실패 - 사용자 아이디가 없는 경우")
     void 아이디_X() {
         given(userRepository.findByUsername(anyString())).willReturn(null);
 
