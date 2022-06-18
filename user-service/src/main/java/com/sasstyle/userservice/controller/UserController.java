@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +52,7 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "이미 존재하는 사용자 아이디 혹은 이메일로 회원가입을 진행하는 경우 발생할 수 있습니다.")
     })
     @PostMapping
-    public ResponseEntity<JoinResponse> join(@RequestBody JoinRequest request) {
+    public ResponseEntity<JoinResponse> join(@Validated @RequestBody JoinRequest request) {
         return ResponseEntity
                 .status(CREATED)
                 .body(userService.create(request));
