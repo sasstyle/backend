@@ -22,18 +22,13 @@ public class JwtValidator {
 
     public boolean isValid(String jwt) {
         try {
-            DecodedJWT verify = JWT
-                    .require(Algorithm.HMAC512(env.getProperty(ENV_SECRET)))
-                    .withIssuer(env.getProperty(ENV_ISSUER))
-                    .acceptExpiresAt(Long.parseLong(env.getProperty(ENV_EXPIRATION_TIME)))
-                    .build()
-                    .verify(jwt);
+            DecodedJWT verify = getDecodedJWT(jwt);
 
-            Long userId = verify.getClaim("userId").asLong();
+            String userId = verify.getClaim("userId").asString();
             String username = verify.getClaim("username").asString();
 
-            if (userId != null && StringUtils.hasText(username)) {
-                log.info("username: {}", username);
+            if (StringUtils.hasText(userId) && StringUtils.hasText(username)) {
+                log.info("userId: {}, username: {}", userId, username);
                 return true;
             }
         } catch (Exception e) {
@@ -41,5 +36,29 @@ public class JwtValidator {
         }
 
         return false;
+    }
+
+    public String getUserId(String jwt) {
+        try {
+            DecodedJWT verify = getDecodedJWT(jwt);
+            String userId = verify.getClaim("userId").asString();
+
+            return userId;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+
+        return null;
+    }
+
+    private DecodedJWT getDecodedJWT(String jwt) {
+        DecodedJWT verify = JWT
+                .require(Algorithm.HMAC512(env.getProperty(ENV_SECRET)))
+                .withIssuer(env.getProperty(ENV_ISSUER))
+                .acceptExpiresAt(Long.parseLong(env.getProperty(ENV_EXPIRATION_TIME)))
+                .build()
+                .verify(jwt);
+
+        return verify;
     }
 }

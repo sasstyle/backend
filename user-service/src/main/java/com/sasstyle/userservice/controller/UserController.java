@@ -1,9 +1,7 @@
 package com.sasstyle.userservice.controller;
 
-import com.sasstyle.userservice.controller.dto.JoinRequest;
-import com.sasstyle.userservice.controller.dto.JoinResponse;
-import com.sasstyle.userservice.controller.dto.LoginRequest;
-import com.sasstyle.userservice.controller.dto.TokenResponse;
+import com.sasstyle.userservice.controller.dto.*;
+import com.sasstyle.userservice.entity.User;
 import com.sasstyle.userservice.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,6 +22,19 @@ import static org.springframework.http.HttpStatus.CREATED;
 public class UserController {
 
     private final UserService userService;
+
+    @Operation(summary = "내 정보 조회", description = "인증된 사용자에 해당하는 정보를 반환합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "내 정보 조회 성공"),
+            @ApiResponse(responseCode = "401", description = "로그인이 안 되어 있는 경우 발생할 수 있습니다.")
+    })
+    @GetMapping("/me")
+    public ResponseEntity<UserInfoResponse> myInfo(@RequestHeader String userId) {
+        log.info("userId = {}", userId);
+
+        return ResponseEntity
+                .ok(new UserInfoResponse(userService.findByUserId(userId)));
+    }
 
     @Operation(summary = "로그인", description = "아이디와 비밀번호를 이용하여 로그인을 진행합니다.")
     @ApiResponse(responseCode = "200", description = "로그인 성공")

@@ -4,7 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.sasstyle.userservice.controller.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
@@ -20,17 +19,17 @@ public class JwtTokenCreator {
     private static final String SECRET_ENV_NAME = "token.secret";
     private static final String EXPIRATION_TIME_ENV_NAME = "token.expiration_time";
 
-    private static final String ID_FIELD = "userId";
+    private static final String USER_ID_FIELD = "userId";
     private static final String USERNAME_FIELD = "username";
 
-    public TokenResponse create(Long id, String username) {
-        return new TokenResponse(createAccessToken(id, username), createRefreshToken());
+    public TokenResponse create(String userId, String username) {
+        return new TokenResponse(createAccessToken(userId, username), createRefreshToken());
     }
 
-    public String createAccessToken(Long id, String username) {
+    public String createAccessToken(String userId, String username) {
         return JWT.create()
                 .withIssuer(getProperty(ISSUER_ENV_NAME))
-                .withClaim(ID_FIELD, id)
+                .withClaim(USER_ID_FIELD, userId)
                 .withClaim(USERNAME_FIELD, username)
                 .withExpiresAt(expiresAt())
                 .sign(Algorithm.HMAC512(getProperty(SECRET_ENV_NAME)));

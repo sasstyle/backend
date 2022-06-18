@@ -1,15 +1,12 @@
 package com.sasstyle.userservice.service;
 
-import com.sasstyle.userservice.controller.dto.JoinRequest;
-import com.sasstyle.userservice.controller.dto.JoinResponse;
-import com.sasstyle.userservice.controller.dto.LoginRequest;
+import com.sasstyle.userservice.controller.dto.*;
 import com.sasstyle.userservice.entity.User;
 import com.sasstyle.userservice.error.exception.DuplicatedException;
 import com.sasstyle.userservice.error.exception.DuplicatedUsernameException;
 import com.sasstyle.userservice.repository.UserRepository;
 import com.sasstyle.userservice.security.auth.PrincipalDetails;
 import com.sasstyle.userservice.security.jwt.JwtTokenCreator;
-import com.sasstyle.userservice.controller.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,6 +25,15 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenCreator jwtTokenCreator;
 
+    public User findByUserId(String userId) {
+        User user = userRepository.findByUserId(userId);
+
+        if (user == null) {
+        }
+
+        return user;
+    }
+
     public TokenResponse login(LoginRequest request) {
         UsernamePasswordAuthenticationToken unauthenticated = UsernamePasswordAuthenticationToken.unauthenticated(
                 request.getUsername(),
@@ -38,7 +44,7 @@ public class UserService {
         PrincipalDetails principal = (PrincipalDetails) authenticate.getPrincipal();
 
         return jwtTokenCreator.create(
-                principal.getUser().getId(),
+                principal.getUser().getUserId(),
                 principal.getUsername()
         );
     }
@@ -55,7 +61,7 @@ public class UserService {
 
         User savedUser = userRepository.save(User.create(request));
 
-        return new JoinResponse(savedUser.getId(), savedUser.getUsername());
+        return new JoinResponse(savedUser.getUserId(), savedUser.getUsername());
     }
 
     private boolean isDuplicateUsername(String username) {

@@ -89,7 +89,7 @@ class UserServiceTest {
 
         JoinResponse response = userService.create(joinRequest);
 
-        assertThat(user.getId()).isEqualTo(response.getUserId());
+        assertThat(user.getUserId()).isEqualTo(response.getUserId());
         assertThat(user.getUsername()).isEqualTo(response.getUsername());
     }
 
