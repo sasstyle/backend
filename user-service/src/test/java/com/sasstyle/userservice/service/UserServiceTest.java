@@ -9,6 +9,7 @@ import com.sasstyle.userservice.entity.Gender;
 import com.sasstyle.userservice.entity.User;
 import com.sasstyle.userservice.error.exception.DuplicatedException;
 import com.sasstyle.userservice.error.exception.DuplicatedUsernameException;
+import com.sasstyle.userservice.error.exception.UserNotFoundException;
 import com.sasstyle.userservice.repository.UserRepository;
 import com.sasstyle.userservice.security.auth.PrincipalDetails;
 import com.sasstyle.userservice.security.jwt.JwtTokenGenerator;
@@ -114,4 +115,34 @@ class UserServiceTest {
         });
     }
 
+    @Test
+    @DisplayName("내 정보 조회 성공")
+    void 내_정보_조회() {
+        String userId = user.getUserId(); // 02a5c76e-fa26-4ea6-a797-0756a09e7f76
+
+        given(userRepository.findByUserId(userId)).willReturn(user);
+
+        User findUser = userService.findByUserId(this.user.getUserId());
+
+        assertThat(user.getUserId()).isEqualTo(findUser.getUserId());
+        assertThat(user.getUsername()).isEqualTo(findUser.getUsername());
+        assertThat(user.getName()).isEqualTo(findUser.getName());
+        assertThat(user.getEmail()).isEqualTo(findUser.getEmail());
+        assertThat(user.getGender()).isEqualTo(findUser.getGender());
+        assertThat(user.getPhoneNumber()).isEqualTo(findUser.getPhoneNumber());
+        assertThat(user.getAddress()).isEqualTo(findUser.getAddress());
+    }
+
+
+    @Test
+    @DisplayName("내 정보 조회 실패 - userId가 잘못된 경우")
+    void 내_정보_조회_실패_UserId_잘못() {
+        String userId = user.getUserId() + "Dummy";
+
+        given(userRepository.findByUserId(userId)).willReturn(null);
+
+        assertThrows(UserNotFoundException.class, () -> {
+            userService.findByUserId(userId);
+        });
+    }
 }

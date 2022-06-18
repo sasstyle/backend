@@ -4,6 +4,7 @@ import com.sasstyle.userservice.controller.dto.*;
 import com.sasstyle.userservice.entity.User;
 import com.sasstyle.userservice.error.exception.DuplicatedException;
 import com.sasstyle.userservice.error.exception.DuplicatedUsernameException;
+import com.sasstyle.userservice.error.exception.UserNotFoundException;
 import com.sasstyle.userservice.repository.UserRepository;
 import com.sasstyle.userservice.security.auth.PrincipalDetails;
 import com.sasstyle.userservice.security.jwt.JwtTokenGenerator;
@@ -29,6 +30,7 @@ public class UserService {
         User user = userRepository.findByUserId(userId);
 
         if (user == null) {
+            throw new UserNotFoundException("유저를 찾을 수 없습니다.");
         }
 
         return user;
