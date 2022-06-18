@@ -11,7 +11,7 @@ import com.sasstyle.userservice.error.exception.DuplicatedException;
 import com.sasstyle.userservice.error.exception.DuplicatedUsernameException;
 import com.sasstyle.userservice.repository.UserRepository;
 import com.sasstyle.userservice.security.auth.PrincipalDetails;
-import com.sasstyle.userservice.security.jwt.JwtTokenCreator;
+import com.sasstyle.userservice.security.jwt.JwtTokenGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,7 @@ class UserServiceTest {
     @Mock
     private AuthenticationManager authenticationManager;
 
-    private JwtTokenCreator jwtTokenCreator;
+    private JwtTokenGenerator jwtTokenGenerator;
 
     @Mock
     private Environment env;
@@ -50,8 +50,8 @@ class UserServiceTest {
 
     @BeforeEach
     void beforeEach() {
-        jwtTokenCreator = new JwtTokenCreator(env);
-        userService = new UserService(userRepository, authenticationManager, jwtTokenCreator);
+        jwtTokenGenerator = new JwtTokenGenerator(env);
+        userService = new UserService(userRepository, authenticationManager, jwtTokenGenerator);
 
         user = UserDummy.user();
         joinRequest = new JoinRequest("sasstyle",

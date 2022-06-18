@@ -6,7 +6,7 @@ import com.sasstyle.userservice.error.exception.DuplicatedException;
 import com.sasstyle.userservice.error.exception.DuplicatedUsernameException;
 import com.sasstyle.userservice.repository.UserRepository;
 import com.sasstyle.userservice.security.auth.PrincipalDetails;
-import com.sasstyle.userservice.security.jwt.JwtTokenCreator;
+import com.sasstyle.userservice.security.jwt.JwtTokenGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,7 +23,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
-    private final JwtTokenCreator jwtTokenCreator;
+    private final JwtTokenGenerator jwtTokenGenerator;
 
     public User findByUserId(String userId) {
         User user = userRepository.findByUserId(userId);
@@ -43,7 +43,7 @@ public class UserService {
         Authentication authenticate = authenticationManager.authenticate(unauthenticated);
         PrincipalDetails principal = (PrincipalDetails) authenticate.getPrincipal();
 
-        return jwtTokenCreator.create(
+        return jwtTokenGenerator.createToken(
                 principal.getUser().getUserId(),
                 principal.getUsername()
         );

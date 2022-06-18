@@ -11,7 +11,7 @@ import java.util.Date;
 
 @RequiredArgsConstructor
 @Component
-public class JwtTokenCreator {
+public class JwtTokenGenerator {
 
     private final Environment env;
 
@@ -22,7 +22,7 @@ public class JwtTokenCreator {
     private static final String USER_ID_FIELD = "userId";
     private static final String USERNAME_FIELD = "username";
 
-    public TokenResponse create(String userId, String username) {
+    public TokenResponse createToken(String userId, String username) {
         return new TokenResponse(createAccessToken(userId, username), createRefreshToken());
     }
 
