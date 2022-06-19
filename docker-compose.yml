@@ -17,7 +17,7 @@ services:
       - sasstyle-network
 
   config-service:
-    image: taehyeonggim44/config-service
+    image: config-service
     container_name: config-service
     restart: always
     depends_on:
@@ -28,7 +28,7 @@ services:
       - sasstyle-network
 
   discovery-service:
-    image: taehyeonggim44/discovery-service
+    image: discovery-service
     container_name: discovery-service
     restart: always
     depends_on:
@@ -42,7 +42,7 @@ services:
       - sasstyle-network
 
   gateway-service:
-    image: taehyeonggim44/gateway-service
+    image: gateway-service
     container_name: gateway-service
     restart: always
     depends_on:
@@ -58,7 +58,7 @@ services:
       - sasstyle-network
 
   user-service:
-    image: taehyeonggim44/user-service
+    image: user-service
     container_name: user-service
     restart: always
     depends_on:
