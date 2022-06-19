@@ -39,9 +39,15 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
                 return onError(exchange, "JWT token is not valid", HttpStatus.UNAUTHORIZED);
             }
 
+            String userId = jwtValidator.getUserId(jwt);
+
+            HttpHeaders httpHeaders = HttpHeaders.writableHttpHeaders(request.getHeaders());
+            httpHeaders.add("userId", userId);
+
             return chain.filter(exchange);
         };
     }
+
 
     private Mono<Void> onError(ServerWebExchange exchange, String err, HttpStatus httpStatus) {
         ServerHttpResponse response = exchange.getResponse();

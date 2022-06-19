@@ -7,23 +7,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
-@Schema(description = "회원가입 요청 DTO")
+@Schema(description = "회원정보 수정 요청 DTO")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class JoinRequest {
+public class UserUpdateRequest {
 
-    @NotNull(message = "아이디를 입력해 주세요.")
-    @Size(min = 4, max = 13, message = "아이디는 4~13자리로 입력해주세요.")
-    @Schema(description = "아이디", example = "sasstyle", required = true)
-    private String username;
-
-    @NotNull(message = "비밀번호를 입력해 주세요.")
     @Size(min = 8, max =  13, message = "비밀번호는 8~13자리로 입력해주세요.")
-    @Schema(description = "비밀번호", example = "test1234!", required = true)
+    @Schema(description = "비밀번호", example = "sasstyle1234")
     private String password;
 
     @NotNull(message = "이름을 입력해 주세요.")
@@ -31,7 +28,6 @@ public class JoinRequest {
     @Schema(description = "이름", example = "이순신", required = true)
     private String name;
 
-    @NotNull(message = "성별를 선택해 주세요.")
     @Schema(description = "성별", example = "남자", required = true)
     private Gender gender;
 

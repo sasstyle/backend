@@ -9,8 +9,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class JoinResponse {
 
-    @Schema(description = "사용자 번호", example = "1")
-    private Long userId;
+    @Schema(description = "사용자 UUID", example = "02a5c76e-fa26-4ea6-a797-0756a09e7f76")
+    private String userId;
 
     @Schema(description = "아이디", example = "sasstyle")
     private String username;
