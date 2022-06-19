@@ -23,7 +23,7 @@ public class UserInfoResponse {
     @Schema(description = "이메일", example = "sasstyle@sasstyle.com")
     private String email;
 
-    @Schema(description = "휴대폰 번호", example = "010-1234-5678")
+    @Schema(description = "전화번호", example = "010-1234-5678")
     private String phoneNumber;
 
     @Schema(description = "주소", example = "서울시 어딘가...")

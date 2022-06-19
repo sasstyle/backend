@@ -52,7 +52,7 @@ class UserServiceTest {
     private JoinRequest joinRequest;
 
     @BeforeEach
-    void beforeEach() {
+    void setUp() {
         jwtTokenGenerator = new JwtTokenGenerator(env);
         userService = new UserService(userRepository, authenticationManager, jwtTokenGenerator);
 
