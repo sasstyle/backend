@@ -63,7 +63,7 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "로그인이 안 되어 있는 경우 발생할 수 있습니다.")
     })
     @PutMapping
-    public ResponseEntity<UserInfoResponse> updateUser(@RequestHeader String userId, @RequestBody UserUpdateRequest request) {
+    public ResponseEntity<UserInfoResponse> updateUser(@RequestHeader String userId, @Validated @RequestBody UserUpdateRequest request) {
         return ResponseEntity
                 .ok(new UserInfoResponse(userService.updateUser(userId, request)));
     }
