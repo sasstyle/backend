@@ -82,7 +82,9 @@ public class UserService {
 
     @Transactional
     public void deleteUser(String userId) {
-        userRepository.deleteByUserId(userId);
+        User user = userRepository.findByUserId(userId);
+
+        userRepository.delete(user);
     }
 
     public boolean hasPassword(String password) {
