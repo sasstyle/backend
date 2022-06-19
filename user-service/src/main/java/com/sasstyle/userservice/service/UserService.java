@@ -15,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -52,7 +53,7 @@ public class UserService {
     }
 
     @Transactional
-    public JoinResponse create(JoinRequest request) {
+    public JoinResponse createUser(JoinRequest request) {
         if (isDuplicateUsername(request.getUsername())) {
             throw new DuplicatedUsernameException("회원의 아이디가 이미 등록됐습니다.");
         }
@@ -64,6 +65,28 @@ public class UserService {
         User savedUser = userRepository.save(User.create(request));
 
         return new JoinResponse(savedUser.getUserId(), savedUser.getUsername());
+    }
+
+    @Transactional
+    public User updateUser(String userId, UserUpdateRequest request) {
+        User user = findByUserId(userId);
+
+        if (hasPassword(request.getPassword())) {
+            user.updatePassword(request.getPassword());
+        }
+
+        user.updateInfo(request);
+
+        return user;
+    }
+
+    @Transactional
+    public void deleteUser(String userId) {
+        userRepository.deleteByUserId(userId);
+    }
+
+    public boolean hasPassword(String password) {
+        return StringUtils.hasText(password);
     }
 
     private boolean isDuplicateUsername(String username) {

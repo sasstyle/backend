@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,7 +54,32 @@ public class UserController {
     public ResponseEntity<JoinResponse> join(@Validated @RequestBody JoinRequest request) {
         return ResponseEntity
                 .status(CREATED)
-                .body(userService.create(request));
+                .body(userService.createUser(request));
+    }
+
+    @Operation(summary = "회원정보 수정", description = "사용자 계정의 정보를 수정합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "회원정보 수정 성공"),
+            @ApiResponse(responseCode = "401", description = "로그인이 안 되어 있는 경우 발생할 수 있습니다.")
+    })
+    @PutMapping
+    public ResponseEntity<UserInfoResponse> updateUser(@RequestHeader String userId, @RequestBody UserUpdateRequest request) {
+        return ResponseEntity
+                .ok(new UserInfoResponse(userService.updateUser(userId, request)));
+    }
+
+    @Operation(summary = "회원탈퇴", description = "사용자 계정의 정보를 삭제합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "회원탈퇴 성공"),
+            @ApiResponse(responseCode = "401", description = "로그인이 안 되어 있는 경우 발생할 수 있습니다.")
+    })
+    @DeleteMapping
+    public ResponseEntity<Void> deleteUser(@RequestHeader String userId) {
+        userService.deleteUser(userId);
+
+        return ResponseEntity
+                .ok()
+                .build();
     }
 
     @Operation(summary = "서버 체크", description = "서버가 정상적으로 실행되는지 확인합니다.")

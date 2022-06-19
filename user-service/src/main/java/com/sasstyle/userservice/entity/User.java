@@ -1,13 +1,13 @@
 package com.sasstyle.userservice.entity;
 
 import com.sasstyle.userservice.controller.dto.JoinRequest;
+import com.sasstyle.userservice.controller.dto.UserUpdateRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
 import java.util.UUID;
 
 import static com.sasstyle.userservice.util.PasswordUtils.encode;
@@ -59,4 +59,17 @@ public class User extends BaseTime {
                 .address(new Address(request.getAddress()))
                 .build();
     }
+
+    public void updateInfo(UserUpdateRequest request) {
+        this.name = request.getName();
+        this.gender = request.getGender();
+        this.email = request.getEmail();
+        this.phoneNumber = request.getPhoneNumber();
+        this.address = new Address(request.getAddress());
+    }
+
+    public void updatePassword(String password) {
+        this.password = encode(password);
+    }
+
 }

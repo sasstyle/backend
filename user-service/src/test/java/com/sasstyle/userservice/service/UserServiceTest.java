@@ -88,7 +88,7 @@ class UserServiceTest {
         given(userRepository.existsByEmail(user.getEmail())).willReturn(false);
         given(userRepository.save(any())).willReturn(user);
 
-        JoinResponse response = userService.create(joinRequest);
+        JoinResponse response = userService.createUser(joinRequest);
 
         assertThat(user.getUserId()).isEqualTo(response.getUserId());
         assertThat(user.getUsername()).isEqualTo(response.getUsername());
@@ -100,7 +100,7 @@ class UserServiceTest {
         given(userRepository.existsByUsername(user.getUsername())).willReturn(true);
 
         assertThrows(DuplicatedUsernameException.class, () -> {
-            userService.create(joinRequest);
+            userService.createUser(joinRequest);
         });
     }
 
@@ -111,7 +111,7 @@ class UserServiceTest {
         given(userRepository.existsByEmail(user.getEmail())).willReturn(true);
 
         assertThrows(DuplicatedException.class, () -> {
-            userService.create(joinRequest);
+            userService.createUser(joinRequest);
         });
     }
 
