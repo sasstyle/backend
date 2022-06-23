@@ -34,6 +34,9 @@ dependencies {
     // spring cloud config
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
+
+    // openapi
+    implementation 'org.springdoc:springdoc-openapi-webmvc-core:1.6.9'
 }
 
 dependencyManagement {

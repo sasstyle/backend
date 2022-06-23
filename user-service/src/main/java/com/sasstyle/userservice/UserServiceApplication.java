@@ -10,8 +10,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 @SpringBootApplication
 @EnableDiscoveryClient
-@OpenAPIDefinition(info =
-@Info(title = "USER-SERVICE API", version = "${springdoc.version}", description = "USER-SERVICE API v1.0")
+@OpenAPIDefinition(
+        info = @Info(title = "USER-SERVICE API", version = "${springdoc.version}", description = "USER-SERVICE API v1.0")
 )
 public class UserServiceApplication {
 
