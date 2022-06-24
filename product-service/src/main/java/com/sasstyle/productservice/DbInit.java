@@ -15,15 +15,15 @@ public class DbInit {
 
     @PostConstruct
     public void init() {
-        Category clothing = Category.create("의류");
-        categoryRepository.save(clothing);
-
+        Category clothing = Category.create(null, "의류");
         Category top = Category.create(clothing, "상의");
-        categoryRepository.save(top);
-
         Category sweaTshirt = Category.create(top, "맨투맨");
         Category hoodedTshirt = Category.create(top, "후드티셔츠");
-        categoryRepository.save(sweaTshirt);
-        categoryRepository.save(hoodedTshirt);
+
+        clothing.addChildren(top);
+        top.addChildren(sweaTshirt);
+        top.addChildren(hoodedTshirt);
+
+        categoryRepository.save(clothing);
     }
 }

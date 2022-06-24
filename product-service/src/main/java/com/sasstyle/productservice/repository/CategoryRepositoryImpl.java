@@ -20,8 +20,19 @@ public class CategoryRepositoryImpl implements CategoryQueryRepository {
 
         return queryFactory
                 .selectFrom(category)
-                .join(category.children, children).fetchJoin()
+                .leftJoin(category.children, children).fetchJoin()
                 .where(category.parent.isNull())
                 .fetch();
+    }
+
+    @Override
+    public Category findByIdWithChildren(Long id) {
+        QCategory children = new QCategory("children");
+
+        return queryFactory
+                .selectFrom(category)
+                .leftJoin(category.children, children).fetchJoin()
+                .where(category.id.eq(id))
+                .fetchOne();
     }
 }

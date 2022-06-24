@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -31,27 +32,27 @@ public class Category extends BaseTime {
     private String name;
     private int depth;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", cascade = ALL)
     private List<Category> children = new ArrayList<>();
 
     //== 비지니스 메서드 ==//
-    /**
-     * 부모 카테고리 생성
-     */
-    public static Category create(String name) {
-        return Category.builder()
-                .name(name)
-                .build();
-    }
-
-    /**
-     * 자식 카테고리 생성
-     */
     public static Category create(Category category, String name) {
+        int depth = 0;
+
+        if (category != null) {
+            depth = category.getDepth() + 1;
+        }
+
         return Category.builder()
                 .parent(category)
                 .name(name)
-                .depth(category.getDepth() + 1)
+                .depth(depth)
+                .children(new ArrayList<>())
                 .build();
+    }
+
+    public void addChildren(Category category) {
+        children.add(category);
+        category.parent = this;
     }
 }
