@@ -82,11 +82,4 @@ public class UserController {
                 .build();
     }
 
-    @Operation(summary = "서버 체크", description = "서버가 정상적으로 실행되는지 확인합니다.")
-    @ApiResponse(responseCode = "200", description = "서버 체크 성공")
-    @GetMapping("/health")
-    private ResponseEntity<String> health(HttpServletRequest request) {
-        return ResponseEntity
-                .ok("현재 서버가 정상적으로 실행됐습니다. 현재 서버의 포트: " +  request.getServerPort() + " 입니다.");
-    }
 }

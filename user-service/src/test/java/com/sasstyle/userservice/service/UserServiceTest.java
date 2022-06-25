@@ -3,6 +3,7 @@ package com.sasstyle.userservice.service;
 import com.sasstyle.userservice.UserDummy;
 import com.sasstyle.userservice.controller.dto.*;
 import com.sasstyle.userservice.entity.Gender;
+import com.sasstyle.userservice.entity.Role;
 import com.sasstyle.userservice.entity.User;
 import com.sasstyle.userservice.error.exception.DuplicatedException;
 import com.sasstyle.userservice.error.exception.DuplicatedUsernameException;
@@ -57,14 +58,7 @@ class UserServiceTest {
         userService = new UserService(userRepository, authenticationManager, jwtTokenGenerator);
 
         user = UserDummy.user();
-        joinRequest = new JoinRequest("sasstyle",
-                "test1234!",
-                "이순신",
-                Gender.MAN,
-                "lee@example.com",
-                "010-1234-5678",
-                "서울시 어딘가..."
-        );
+        joinRequest = UserDummy.join();
     }
 
     @Test
@@ -94,6 +88,7 @@ class UserServiceTest {
 
         assertThat(user.getUserId()).isEqualTo(response.getUserId());
         assertThat(user.getUsername()).isEqualTo(response.getUsername());
+        assertThat(user.getRole()).isEqualTo(Role.USER);
     }
 
     @Test
@@ -133,6 +128,7 @@ class UserServiceTest {
         assertThat(user.getGender()).isEqualTo(findUser.getGender());
         assertThat(user.getPhoneNumber()).isEqualTo(findUser.getPhoneNumber());
         assertThat(user.getAddress()).isEqualTo(findUser.getAddress());
+        assertThat(user.getRole()).isEqualTo(findUser.getRole());
     }
 
 
@@ -149,11 +145,13 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("회원정보 수정 성공")
+    @DisplayName("회원정보 수정 성공 - 모든 정보를 수정하는 경우")
     void 회원정보_수정_성공() {
         String userId = user.getUserId();
 
+
         UserUpdateRequest userUpdateRequest = new UserUpdateRequest(
+                "https://picsum.photos/seed/picsum/500/500",
                 "test1234",
                 "홍길동",
                 Gender.MAN,
@@ -166,6 +164,64 @@ class UserServiceTest {
 
         User updateUser = userService.updateUser(userId, userUpdateRequest);
 
+        assertTrue(passwordEncoder.matches(userUpdateRequest.getPassword(), updateUser.getPassword()));
+        assertThat(updateUser.getProfileUrl()).isEqualTo(userUpdateRequest.getProfileUrl());
+        assertThat(updateUser.getName()).isEqualTo(userUpdateRequest.getName());
+        assertThat(updateUser.getGender()).isEqualTo(userUpdateRequest.getGender());
+        assertThat(updateUser.getEmail()).isEqualTo(userUpdateRequest.getEmail());
+        assertThat(updateUser.getPhoneNumber()).isEqualTo(userUpdateRequest.getPhoneNumber());
+        assertThat(updateUser.getAddress().getDetails()).isEqualTo(userUpdateRequest.getAddress());
+    }
+
+    @Test
+    @DisplayName("회원정보 수정 성공 - 프로필, 이름, 성별, 이메일, 전화번호, 주소를 수정하는 경우")
+    void 회원정보_수정_성공_프로필() {
+        String userId = user.getUserId();
+
+
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest(
+                "https://picsum.photos/seed/picsum/500/500",
+                null,
+                "홍길동",
+                Gender.MAN,
+                "test1234@test.com",
+                "010-9876-5432",
+                "제주도 어딘가..."
+        );
+
+        given(userRepository.findByUserId(userId)).willReturn(user);
+
+        User updateUser = userService.updateUser(userId, userUpdateRequest);
+
+        assertThat(updateUser.getPassword()).isEqualTo(user.getPassword());
+        assertThat(updateUser.getProfileUrl()).isEqualTo(userUpdateRequest.getProfileUrl());
+        assertThat(updateUser.getName()).isEqualTo(userUpdateRequest.getName());
+        assertThat(updateUser.getGender()).isEqualTo(userUpdateRequest.getGender());
+        assertThat(updateUser.getEmail()).isEqualTo(userUpdateRequest.getEmail());
+        assertThat(updateUser.getPhoneNumber()).isEqualTo(userUpdateRequest.getPhoneNumber());
+        assertThat(updateUser.getAddress().getDetails()).isEqualTo(userUpdateRequest.getAddress());
+    }
+
+    @Test
+    @DisplayName("회원정보 수정 성공 - 비밀번호, 이름, 성별, 이메일, 전화번호, 주소를 수정하는 경우")
+    void 회원정보_수정_성공_비밀번호() {
+        String userId = user.getUserId();
+
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest(
+                null,
+                "test1234",
+                "홍길동",
+                Gender.MAN,
+                "test1234@test.com",
+                "010-9876-5432",
+                "제주도 어딘가..."
+        );
+
+        given(userRepository.findByUserId(userId)).willReturn(user);
+
+        User updateUser = userService.updateUser(userId, userUpdateRequest);
+
+        assertThat(updateUser.getProfileUrl()).isEqualTo(user.getProfileUrl());
         assertTrue(passwordEncoder.matches(userUpdateRequest.getPassword(), updateUser.getPassword()));
         assertThat(updateUser.getName()).isEqualTo(userUpdateRequest.getName());
         assertThat(updateUser.getGender()).isEqualTo(userUpdateRequest.getGender());
@@ -180,6 +236,7 @@ class UserServiceTest {
         String userId = user.getUserId();
 
         UserUpdateRequest userUpdateRequest = new UserUpdateRequest(
+                user.getProfileUrl(),
                 "test1234",
                 "홍길동",
                 Gender.MAN,
