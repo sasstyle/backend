@@ -37,6 +37,9 @@ public class Category extends BaseTime {
     @OneToMany(mappedBy = "parent", cascade = ALL)
     private List<Category> children = new ArrayList<>();
 
+    @OneToMany(mappedBy = "category", cascade = ALL)
+    private List<Product> products = new ArrayList<>();
+
     //== 비지니스 메서드 ==//
     public static Category create(Category category, String name) {
         int depth = 0;
@@ -50,6 +53,7 @@ public class Category extends BaseTime {
                 .name(name)
                 .depth(depth)
                 .children(new ArrayList<>())
+                .products(new ArrayList<>())
                 .build();
     }
 

@@ -30,6 +30,10 @@ public class CategoryService {
         return categoryRepository.findByIdWithChildren(id);
     }
 
+    public Category findByIdWithProducts(Long id) {
+        return categoryRepository.findByIdWithProduct(id);
+    }
+
     @Transactional
     public Long createCategory(Long id, String name) {
         if (id == null) {

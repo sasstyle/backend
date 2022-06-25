@@ -4,12 +4,14 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sasstyle.productservice.controller.dto.CategoryResponse;
 import com.sasstyle.productservice.entity.Category;
 import com.sasstyle.productservice.entity.QCategory;
+import com.sasstyle.productservice.entity.QProduct;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.sasstyle.productservice.entity.QCategory.category;
+import static com.sasstyle.productservice.entity.QProduct.product;
 
 @RequiredArgsConstructor
 public class CategoryRepositoryImpl implements CategoryQueryRepository {
@@ -35,11 +37,20 @@ public class CategoryRepositoryImpl implements CategoryQueryRepository {
         QCategory children = new QCategory("children");
 
         Category result = queryFactory
-                .selectFrom(QCategory.category)
-                .leftJoin(QCategory.category.children, children).fetchJoin()
-                .where(QCategory.category.id.eq(id))
+                .selectFrom(category)
+                .leftJoin(category.children, children).fetchJoin()
+                .where(category.id.eq(id))
                 .fetchOne();
 
         return new CategoryResponse(result);
+    }
+
+    @Override
+    public Category findByIdWithProduct(Long id) {
+        return queryFactory
+                .selectFrom(category)
+                .leftJoin(category.products, product).fetchJoin()
+                .where(category.id.eq(id))
+                .fetchOne();
     }
 }
