@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.UUID;
 
+import static com.sasstyle.userservice.entity.Role.USER;
 import static com.sasstyle.userservice.util.PasswordUtils.encode;
 import static javax.persistence.EnumType.STRING;
 import static lombok.AccessLevel.PROTECTED;
@@ -37,6 +38,9 @@ public class User extends BaseTime {
     private String name;
 
     @Enumerated(value = STRING)
+    private Role role;
+
+    @Enumerated(value = STRING)
     private Gender gender;
 
     @Column(nullable = false, unique = true)
@@ -53,6 +57,7 @@ public class User extends BaseTime {
                 .username(request.getUsername())
                 .password(encode(request.getPassword()))
                 .name(request.getName())
+                .role(USER)
                 .gender(request.getGender())
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())

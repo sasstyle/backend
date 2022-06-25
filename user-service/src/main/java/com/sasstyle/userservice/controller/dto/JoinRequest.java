@@ -32,7 +32,7 @@ public class JoinRequest {
     private String name;
 
     @NotNull(message = "성별를 선택해 주세요.")
-    @Schema(description = "성별", example = "남자", required = true)
+    @Schema(description = "성별", example = "MAN", required = true)
     private Gender gender;
 
     @NotNull(message = "이메일을 입력해 주세요.")

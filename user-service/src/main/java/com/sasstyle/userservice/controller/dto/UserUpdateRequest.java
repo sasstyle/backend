@@ -28,7 +28,7 @@ public class UserUpdateRequest {
     @Schema(description = "이름", example = "이순신", required = true)
     private String name;
 
-    @Schema(description = "성별", example = "남자", required = true)
+    @Schema(description = "성별", example = "MAN", required = true)
     private Gender gender;
 
     @NotNull(message = "이메일을 입력해 주세요.")

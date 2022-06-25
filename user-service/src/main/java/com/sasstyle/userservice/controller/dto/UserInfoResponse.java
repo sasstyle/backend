@@ -1,6 +1,7 @@
 package com.sasstyle.userservice.controller.dto;
 
 import com.sasstyle.userservice.entity.Gender;
+import com.sasstyle.userservice.entity.Role;
 import com.sasstyle.userservice.entity.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,10 @@ public class UserInfoResponse {
     @Schema(description = "이름", example = "홍길동")
     private String name;
 
-    @Schema(description = "성별", example = "남자")
+    @Schema(description = "역할", example = "일반")
+    private String role;
+
+    @Schema(description = "성별", example = "MAN")
     private Gender gender;
 
     @Schema(description = "이메일", example = "sasstyle@sasstyle.com")
@@ -31,6 +35,7 @@ public class UserInfoResponse {
 
     public UserInfoResponse(User user) {
         this.name = user.getName();
+        this.role = user.getRole().getDescription();
         this.gender = user.getGender();
         this.email = user.getEmail();
         this.phoneNumber = user.getPhoneNumber();
