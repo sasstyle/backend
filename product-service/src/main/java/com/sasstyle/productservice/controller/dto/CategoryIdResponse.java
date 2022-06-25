@@ -1,5 +1,6 @@
 package com.sasstyle.productservice.controller.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -7,5 +8,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CategoryIdResponse {
 
+    @Schema(description = "카테고리 아이디", example = "1", required = true)
     private Long categoryId;
 }

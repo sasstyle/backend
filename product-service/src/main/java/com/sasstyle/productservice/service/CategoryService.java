@@ -17,7 +17,11 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    @Transactional
+    public Category findById(Long id) {
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("카테고리를 찾을 수 없습니다."));
+    }
+
     public List<CategoryResponse> findAllWithChildren() {
         return categoryRepository.findAllWithChildren().stream()
                 .map(CategoryResponse::new)
@@ -35,8 +39,7 @@ public class CategoryService {
             return categoryRepository.save(Category.create(null, name)).getId();
         }
 
-        Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("카테고리를 찾을 수 없습니다."));
+        Category category = findById(id);
 
         return categoryRepository.save(Category.create(category, name)).getId();
 
@@ -44,6 +47,8 @@ public class CategoryService {
 
     @Transactional
     public void deleteCategory(Long id) {
-        categoryRepository.deleteById(id);
+        Category category = findById(id);
+
+        categoryRepository.delete(category);
     }
 }

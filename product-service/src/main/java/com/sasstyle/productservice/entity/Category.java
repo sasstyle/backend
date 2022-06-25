@@ -29,6 +29,8 @@ public class Category extends BaseTime {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "parent_id")
     private Category parent;
+
+    @Column(nullable = false)
     private String name;
     private int depth;
 
