@@ -19,6 +19,9 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class UserUpdateRequest {
 
+    @Schema(description = "프로필 이미지", example = "https://picsum.photos/seed/picsum/200/300")
+    private String profileUrl;
+
     @Size(min = 8, max =  13, message = "비밀번호는 8~13자리로 입력해주세요.")
     @Schema(description = "비밀번호", example = "sasstyle1234")
     private String password;

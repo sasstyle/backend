@@ -1,5 +1,6 @@
 package com.sasstyle.userservice.validation;
 
+import com.sasstyle.userservice.UserDummy;
 import com.sasstyle.userservice.controller.dto.JoinRequest;
 import com.sasstyle.userservice.entity.Gender;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,15 +23,29 @@ public class JoinRequestTest extends BeanValidationTest {
         factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
 
-        request = new JoinRequest(
-                "sasstyle",
-                "test1234!",
-                "이순신",
-                Gender.MAN,
-                "lee@example.com",
-                "010-1234-5678",
-                "서울시 어딘가..."
-        );
+        request = UserDummy.join();
+    }
+
+    @Test
+    @DisplayName("회원가입 실패 - 프로필 이미지를 입력하지 않는 경우1(NULL)")
+    void 회원가입_실패_프로필_이미지_NULL() {
+        request.setProfileUrl(null);
+
+        isJoinFalse();
+    }
+
+    @Test
+    @DisplayName("회원가입 실패 - 프로필 이미지를 입력하지 않는 경우2(공백)")
+    void 회원가입_실패_프로필_이미지_공백() {
+        request.setProfileUrl("");
+
+        isJoinFalse();
+    }
+
+    @Test
+    @DisplayName("회원가입 성공 - 프로피 이미지를 정상적으로 입력한 경우")
+    void 회원가입_성공_프로필_이미지_성공() {
+        isJoinTrue();
     }
 
     @Test

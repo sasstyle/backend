@@ -27,6 +27,9 @@ public class User extends BaseTime {
     @GeneratedValue
     private Long id;
 
+    @Column(nullable = false)
+    private String profileUrl;
+
     @Column(nullable = false, unique = true)
     private String userId;
 
@@ -53,6 +56,7 @@ public class User extends BaseTime {
     //== 비지니스 메서드 ==//
     public static User create(JoinRequest request) {
         return User.builder()
+                .profileUrl(request.getProfileUrl())
                 .userId(UUID.randomUUID().toString())
                 .username(request.getUsername())
                 .password(encode(request.getPassword()))
@@ -73,8 +77,11 @@ public class User extends BaseTime {
         this.address = new Address(request.getAddress());
     }
 
+    public void updateProfileUrl(String profileUrl) {
+        this.profileUrl = profileUrl;
+    }
+
     public void updatePassword(String password) {
         this.password = encode(password);
     }
-
 }

@@ -15,6 +15,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserInfoResponse {
 
+    @Schema(description = "프로필 이미지", example = "https://picsum.photos/seed/picsum/200/300")
+    private String profileUrl;
+
     @Schema(description = "이름", example = "홍길동")
     private String name;
 
@@ -34,6 +37,7 @@ public class UserInfoResponse {
     private String address;
 
     public UserInfoResponse(User user) {
+        this.profileUrl = user.getProfileUrl();
         this.name = user.getName();
         this.role = user.getRole().getDescription();
         this.gender = user.getGender();

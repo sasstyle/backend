@@ -1,5 +1,6 @@
 package com.sasstyle.userservice.validation;
 
+import com.sasstyle.userservice.UserDummy;
 import com.sasstyle.userservice.controller.dto.UserUpdateRequest;
 import com.sasstyle.userservice.entity.Gender;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,14 +23,23 @@ public class UserUpdateRequestTest extends BeanValidationTest {
         factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
 
-        request = new UserUpdateRequest(
-                "test1234!",
-                "이순신",
-                Gender.MAN,
-                "lee@example.com",
-                "010-1234-5678",
-                "서울시 어딘가..."
-        );
+        request = UserDummy.updateRequest();
+    }
+
+    @Test
+    @DisplayName("회원수정 성공 - 프로필 이미지를 수정한 경우")
+    void 회원수정_성공_프로필_이미지_수정() {
+        request.setProfileUrl("https://picsum.photos/seed/picsum/500/500");
+
+        isUpdateTrue();
+    }
+
+    @Test
+    @DisplayName("회원수정 성공 - 프로필 이미지를 입력하지 않는 경우")
+    void 회원수정_성공_프로필_이미지_입력_X() {
+        request.setProfileUrl("");
+
+        isUpdateTrue();
     }
 
     @Test
