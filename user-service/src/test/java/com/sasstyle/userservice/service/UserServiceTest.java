@@ -3,6 +3,7 @@ package com.sasstyle.userservice.service;
 import com.sasstyle.userservice.UserDummy;
 import com.sasstyle.userservice.controller.dto.*;
 import com.sasstyle.userservice.entity.Gender;
+import com.sasstyle.userservice.entity.Role;
 import com.sasstyle.userservice.entity.User;
 import com.sasstyle.userservice.error.exception.DuplicatedException;
 import com.sasstyle.userservice.error.exception.DuplicatedUsernameException;
@@ -94,6 +95,7 @@ class UserServiceTest {
 
         assertThat(user.getUserId()).isEqualTo(response.getUserId());
         assertThat(user.getUsername()).isEqualTo(response.getUsername());
+        assertThat(user.getRole()).isEqualTo(Role.USER);
     }
 
     @Test
@@ -133,6 +135,7 @@ class UserServiceTest {
         assertThat(user.getGender()).isEqualTo(findUser.getGender());
         assertThat(user.getPhoneNumber()).isEqualTo(findUser.getPhoneNumber());
         assertThat(user.getAddress()).isEqualTo(findUser.getAddress());
+        assertThat(user.getRole()).isEqualTo(findUser.getRole());
     }
 
 

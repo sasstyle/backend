@@ -2,6 +2,7 @@ package com.sasstyle.userservice;
 
 import com.sasstyle.userservice.entity.Address;
 import com.sasstyle.userservice.entity.Gender;
+import com.sasstyle.userservice.entity.Role;
 import com.sasstyle.userservice.entity.User;
 
 public class UserDummy {
@@ -13,6 +14,7 @@ public class UserDummy {
                 .username("sasstyle")
                 .password("test1234!")
                 .name("이순신")
+                .role(Role.USER)
                 .gender(Gender.MAN)
                 .email("lee@example.com")
                 .phoneNumber("010-1234-5678")
