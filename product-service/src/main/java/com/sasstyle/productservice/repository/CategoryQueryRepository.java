@@ -1,7 +1,6 @@
 package com.sasstyle.productservice.repository;
 
 import com.sasstyle.productservice.controller.dto.CategoryResponse;
-import com.sasstyle.productservice.entity.Category;
 
 import java.util.List;
 
