@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -23,14 +22,12 @@ public class CategoryService {
     }
 
     public List<CategoryResponse> findAllWithChildren() {
-        return categoryRepository.findAllWithChildren().stream()
-                .map(CategoryResponse::new)
-                .collect(Collectors.toList());
+        return categoryRepository.findAllWithChildren();
 
     }
 
     public CategoryResponse findByIdWithChildren(Long id) {
-        return new CategoryResponse(categoryRepository.findByIdWithChildren(id));
+        return categoryRepository.findByIdWithChildren(id);
     }
 
     @Transactional
