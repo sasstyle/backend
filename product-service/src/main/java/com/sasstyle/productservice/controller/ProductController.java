@@ -1,13 +1,13 @@
 package com.sasstyle.productservice.controller;
 
-import com.sasstyle.productservice.controller.dto.*;
+import com.sasstyle.productservice.controller.dto.ProductDetailResponse;
+import com.sasstyle.productservice.controller.dto.ProductIdResponse;
+import com.sasstyle.productservice.controller.dto.ProductRequest;
+import com.sasstyle.productservice.controller.dto.ProductUpdateRequest;
 import com.sasstyle.productservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController

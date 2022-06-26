@@ -5,7 +5,6 @@ import com.sasstyle.productservice.controller.dto.CategoryRequest;
 import com.sasstyle.productservice.controller.dto.CategoryResponse;
 import com.sasstyle.productservice.controller.dto.ProductResponse;
 import com.sasstyle.productservice.service.CategoryService;
-import com.sasstyle.productservice.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

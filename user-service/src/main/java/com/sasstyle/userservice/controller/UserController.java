@@ -1,7 +1,6 @@
 package com.sasstyle.userservice.controller;
 
 import com.sasstyle.userservice.controller.dto.*;
-import com.sasstyle.userservice.entity.User;
 import com.sasstyle.userservice.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,8 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.http.HttpStatus.CREATED;
 

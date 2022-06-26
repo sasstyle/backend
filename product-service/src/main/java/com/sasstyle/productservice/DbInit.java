@@ -2,15 +2,12 @@ package com.sasstyle.productservice;
 
 import com.sasstyle.productservice.controller.dto.ProductRequest;
 import com.sasstyle.productservice.entity.Category;
-import com.sasstyle.productservice.entity.Product;
 import com.sasstyle.productservice.repository.CategoryRepository;
-import com.sasstyle.productservice.repository.ProductRepository;
 import com.sasstyle.productservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -37,7 +34,7 @@ public class DbInit {
         // 상품 샘플 데이터
         for (int i = 1; i <= 100; i++) {
             ProductRequest productRequest = new ProductRequest(
-                    clothing.getId(),
+                    top.getId(),
                     "https://picsum.photos/seed/picsum/200/300",
                     "괜찮은 맨투맨[" + i + "]", 10000,
                     10,

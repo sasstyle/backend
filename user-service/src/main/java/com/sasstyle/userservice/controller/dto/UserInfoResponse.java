@@ -1,7 +1,6 @@
 package com.sasstyle.userservice.controller.dto;
 
 import com.sasstyle.userservice.entity.Gender;
-import com.sasstyle.userservice.entity.Role;
 import com.sasstyle.userservice.entity.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

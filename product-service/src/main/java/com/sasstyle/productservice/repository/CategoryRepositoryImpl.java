@@ -4,7 +4,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sasstyle.productservice.controller.dto.CategoryResponse;
 import com.sasstyle.productservice.entity.Category;
 import com.sasstyle.productservice.entity.QCategory;
-import com.sasstyle.productservice.entity.QProduct;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

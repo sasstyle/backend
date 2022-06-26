@@ -11,9 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -21,10 +18,6 @@ public class ProductService {
 
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
-
-    public List<Product> findAll() {
-        return new ArrayList<>();
-    }
 
     public Product findById(Long productId) {
         return productRepository.findById(productId)
