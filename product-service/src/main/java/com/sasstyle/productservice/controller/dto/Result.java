@@ -6,8 +6,8 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ProductIdResponse {
+public class Result<T> {
 
-    @Schema(description = "상품 아이디", example = "1", required = true)
-    private Long productId;
+    @Schema(description = "래퍼 필드")
+    private T data;
 }

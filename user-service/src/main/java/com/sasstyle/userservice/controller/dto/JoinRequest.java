@@ -17,7 +17,7 @@ import javax.validation.constraints.*;
 public class JoinRequest {
 
     @NotBlank(message = "프로필 이미지 주소를 입력해 주세요.")
-    @Schema(description = "프로필 이미지", required = true, example = "https://picsum.photos/seed/picsum/200/300")
+    @Schema(description = "프로필 이미지", example = "https://picsum.photos/seed/picsum/200/300", required = true)
     private String profileUrl;
 
     @NotNull(message = "아이디를 입력해 주세요.")

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Service
@@ -18,7 +19,7 @@ public class CategoryService {
 
     public Category findById(Long id) {
         return categoryRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("카테고리를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NoSuchElementException("카테고리를 찾을 수 없습니다."));
     }
 
     public List<CategoryResponse> findAllWithChildren() {
@@ -26,12 +27,14 @@ public class CategoryService {
 
     }
 
-    public CategoryResponse findByIdWithChildren(Long id) {
-        return categoryRepository.findByIdWithChildren(id);
-    }
+    public List<Long> toCategoryIds(Long id) {
+        List<Long> categoryIds = categoryRepository.toCategoryIds(id);
 
-    public Category findByIdWithProducts(Long id) {
-        return categoryRepository.findByIdWithProduct(id);
+        if (categoryIds.isEmpty()) {
+            throw new NoSuchElementException("카테고리를 찾을 수 없습니다.");
+        }
+
+        return categoryIds;
     }
 
     @Transactional

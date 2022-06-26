@@ -6,11 +6,12 @@ import com.sasstyle.productservice.entity.Category;
 import com.sasstyle.productservice.entity.QCategory;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.sasstyle.productservice.entity.QCategory.category;
-import static com.sasstyle.productservice.entity.QProduct.product;
+import static java.util.Objects.isNull;
+import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 public class CategoryRepositoryImpl implements CategoryQueryRepository {
@@ -27,12 +28,11 @@ public class CategoryRepositoryImpl implements CategoryQueryRepository {
                 .where(category.parent.isNull())
                 .fetch();
 
-
-        return result.stream().map(CategoryResponse::new).collect(Collectors.toList());
+        return result.stream().map(CategoryResponse::new).collect(toList());
     }
 
     @Override
-    public CategoryResponse findByIdWithChildren(Long id) {
+    public List<Long> toCategoryIds(Long id) {
         QCategory children = new QCategory("children");
 
         Category result = queryFactory
@@ -41,15 +41,22 @@ public class CategoryRepositoryImpl implements CategoryQueryRepository {
                 .where(category.id.eq(id))
                 .fetchOne();
 
-        return new CategoryResponse(result);
+        return categoryIds(result);
     }
 
-    @Override
-    public Category findByIdWithProduct(Long id) {
-        return queryFactory
-                .selectFrom(category)
-                .leftJoin(category.products, product).fetchJoin()
-                .where(category.id.eq(id))
-                .fetchOne();
+    private List<Long> categoryIds(Category category) {
+        List<Long> result = new ArrayList<>();
+
+        if (isNull(category)) {
+            return result;
+        }
+
+        result.add(category.getId());
+
+        for (Category c : category.getChildren()) {
+            result.addAll(categoryIds(c));
+        }
+
+        return result;
     }
 }

@@ -2,18 +2,18 @@ package com.sasstyle.productservice.controller;
 
 import com.sasstyle.productservice.controller.dto.CategoryIdResponse;
 import com.sasstyle.productservice.controller.dto.CategoryRequest;
-import com.sasstyle.productservice.controller.dto.CategoryResponse;
-import com.sasstyle.productservice.controller.dto.ProductResponse;
+import com.sasstyle.productservice.controller.dto.Result;
 import com.sasstyle.productservice.service.CategoryService;
+import com.sasstyle.productservice.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -23,26 +23,27 @@ import static org.springframework.http.HttpStatus.CREATED;
 public class CategoryController {
 
     private final CategoryService categoryService;
+    private final ProductService productService;
 
     @Operation(summary = "모든 카테고리 조회", description = "모든 카테고리를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "모든 카테고리 조회 성공")
     @GetMapping
-    public ResponseEntity<List<CategoryResponse>> categories() {
+    public ResponseEntity<Result> categories() {
         return ResponseEntity
-                .ok(categoryService.findAllWithChildren());
+                .ok(new Result(categoryService.findAllWithChildren()));
     }
 
-    @Operation(summary = "단일 카테고리 조회", description = "카테고리 아이디에 해당하는 카테고리 및 자식 카테고리를 조회합니다.")
+    @Operation(summary = "카테고리 상품 조회", description = "카테고리 아이디 및 카테고리 자식에 해당하는 상품을 조회합니다.")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "단일 카테고리 조회 성공"),
-            @ApiResponse(responseCode = "400", description = "해당하는 카테고리가 존재하지 않는 경우 발생할 수 있습니다.")
+            @ApiResponse(responseCode = "200", description = "상품 조회 성공"),
+            @ApiResponse(responseCode = "400", description = "카테고리 아이디에 해당하는 카테고리가 존재하지 않는 경우에 발생할 수 있습니다.")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<List<ProductResponse>> products(@PathVariable Long id) {
+    public ResponseEntity<Result> products(@PathVariable Long id, Pageable pageable) {
+        List<Long> categoryIds = categoryService.toCategoryIds(id);
+
         return ResponseEntity
-                .ok(categoryService.findByIdWithProducts(id).getProducts().stream()
-                        .map(ProductResponse::new)
-                        .collect(Collectors.toList()));
+                .ok(new Result(productService.findProductMap(categoryIds, pageable)));
     }
 
     @Operation(summary = "카테고리 생성", description = "상품의 카테고리를 생성합니다.")
@@ -59,7 +60,7 @@ public class CategoryController {
     @Operation(summary = "카테고리 삭제", description = "카테고리 아이디에 해당하는 카테고리 및 자식 카테고리를 삭제합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "카테고리 삭제 성공"),
-            @ApiResponse(responseCode = "400", description = "해당하는 카테고리가 존재하지 않는 경우 발생할 수 있습니다.")
+            @ApiResponse(responseCode = "400", description = "카테고리 아이디에 해당하는 카테고리가 존재하지 않는 경우에 발생할 수 있습니다.")
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
@@ -69,4 +70,5 @@ public class CategoryController {
                 .ok()
                 .build();
     }
+
 }

@@ -9,9 +9,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public class TokenResponse {
 
-    @Schema(description = "액세스 토큰")
+    @Schema(description = "액세스 토큰", required = true)
     private String accessToken;
 
-    @Schema(description = "리프레시 토큰")
+    @Schema(description = "리프레시 토큰", required = true)
     private String refreshToken;
 }
