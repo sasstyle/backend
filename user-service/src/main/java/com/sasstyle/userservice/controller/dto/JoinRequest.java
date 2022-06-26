@@ -16,6 +16,10 @@ import javax.validation.constraints.*;
 @AllArgsConstructor
 public class JoinRequest {
 
+    @NotBlank(message = "프로필 이미지 주소를 입력해 주세요.")
+    @Schema(description = "프로필 이미지", example = "https://picsum.photos/seed/picsum/200/300", required = true)
+    private String profileUrl;
+
     @NotNull(message = "아이디를 입력해 주세요.")
     @Size(min = 4, max = 13, message = "아이디는 4~13자리로 입력해주세요.")
     @Schema(description = "아이디", example = "sasstyle", required = true)
@@ -32,7 +36,7 @@ public class JoinRequest {
     private String name;
 
     @NotNull(message = "성별를 선택해 주세요.")
-    @Schema(description = "성별", example = "남자", required = true)
+    @Schema(description = "성별", example = "MAN", required = true)
     private Gender gender;
 
     @NotNull(message = "이메일을 입력해 주세요.")

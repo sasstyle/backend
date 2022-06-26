@@ -1,4 +1,4 @@
-package com.sasstyle.userservice;
+package com.sasstyle.productservice;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -7,16 +7,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-@EnableJpaAuditing
 @SpringBootApplication
+@EnableJpaAuditing
 @EnableDiscoveryClient
 @OpenAPIDefinition(
-        info = @Info(title = "USER-SERVICE API", version = "${springdoc.version}", description = "USER-SERVICE API v1.0")
+        info = @Info(title = "PRODUCT-SERVICE API", version = "${springdoc.version}", description = "PRODUCT-SERVICE API v1.0")
 )
-public class UserServiceApplication {
+public class ProductServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(UserServiceApplication.class, args);
+        SpringApplication.run(ProductServiceApplication.class, args);
     }
 
 }

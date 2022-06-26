@@ -71,6 +71,10 @@ public class UserService {
     public User updateUser(String userId, UserUpdateRequest request) {
         User user = findByUserId(userId);
 
+        if (hasProfileUrl(request.getProfileUrl())) {
+            user.updateProfileUrl(request.getProfileUrl());
+        }
+
         if (hasPassword(request.getPassword())) {
             user.updatePassword(request.getPassword());
         }
@@ -85,6 +89,10 @@ public class UserService {
         User user = userRepository.findByUserId(userId);
 
         userRepository.delete(user);
+    }
+
+    private boolean hasProfileUrl(String profileUrl) {
+        return StringUtils.hasText(profileUrl);
     }
 
     public boolean hasPassword(String password) {

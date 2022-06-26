@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.UUID;
 
+import static com.sasstyle.userservice.entity.Role.USER;
 import static com.sasstyle.userservice.util.PasswordUtils.encode;
 import static javax.persistence.EnumType.STRING;
 import static lombok.AccessLevel.PROTECTED;
@@ -26,6 +27,9 @@ public class User extends BaseTime {
     @GeneratedValue
     private Long id;
 
+    @Column(nullable = false)
+    private String profileUrl;
+
     @Column(nullable = false, unique = true)
     private String userId;
 
@@ -35,6 +39,9 @@ public class User extends BaseTime {
     @Column(nullable = false)
     private String password;
     private String name;
+
+    @Enumerated(value = STRING)
+    private Role role;
 
     @Enumerated(value = STRING)
     private Gender gender;
@@ -49,10 +56,12 @@ public class User extends BaseTime {
     //== 비지니스 메서드 ==//
     public static User create(JoinRequest request) {
         return User.builder()
+                .profileUrl(request.getProfileUrl())
                 .userId(UUID.randomUUID().toString())
                 .username(request.getUsername())
                 .password(encode(request.getPassword()))
                 .name(request.getName())
+                .role(USER)
                 .gender(request.getGender())
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
@@ -68,8 +77,11 @@ public class User extends BaseTime {
         this.address = new Address(request.getAddress());
     }
 
+    public void updateProfileUrl(String profileUrl) {
+        this.profileUrl = profileUrl;
+    }
+
     public void updatePassword(String password) {
         this.password = encode(password);
     }
-
 }
