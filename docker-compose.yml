@@ -72,6 +72,22 @@ services:
     networks:
       - sasstyle-network
 
+  product-service:
+    image: product-service
+    container_name: product-service
+    restart: always
+    depends_on:
+      - rabbitmq
+      - config-service
+      - discovery-service
+      - gateway-service
+      - user-service
+    environment:
+      SPRING_CLOUD_CONFIG_URI: "http://config-service:8888"
+      SRPING_RABBITMQ_HOST: "rabbitmq"
+    networks:
+      - sasstyle-network
+
 networks:
   sasstyle-network:
     external: true
