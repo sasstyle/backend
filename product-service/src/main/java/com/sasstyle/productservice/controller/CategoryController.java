@@ -3,7 +3,9 @@ package com.sasstyle.productservice.controller;
 import com.sasstyle.productservice.controller.dto.CategoryIdResponse;
 import com.sasstyle.productservice.controller.dto.CategoryRequest;
 import com.sasstyle.productservice.controller.dto.CategoryResponse;
+import com.sasstyle.productservice.controller.dto.ProductResponse;
 import com.sasstyle.productservice.service.CategoryService;
+import com.sasstyle.productservice.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -36,9 +39,11 @@ public class CategoryController {
             @ApiResponse(responseCode = "400", description = "해당하는 카테고리가 존재하지 않는 경우 발생할 수 있습니다.")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryResponse> category(@PathVariable Long id) {
+    public ResponseEntity<List<ProductResponse>> products(@PathVariable Long id) {
         return ResponseEntity
-                .ok(categoryService.findByIdWithChildren(id));
+                .ok(categoryService.findByIdWithProducts(id).getProducts().stream()
+                        .map(ProductResponse::new)
+                        .collect(Collectors.toList()));
     }
 
     @Operation(summary = "카테고리 생성", description = "상품의 카테고리를 생성합니다.")
