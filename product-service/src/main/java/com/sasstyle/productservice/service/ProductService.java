@@ -1,20 +1,18 @@
 package com.sasstyle.productservice.service;
 
-import com.sasstyle.productservice.controller.dto.ProductRequest;
-import com.sasstyle.productservice.controller.dto.ProductResponse;
-import com.sasstyle.productservice.controller.dto.ProductUpdateRequest;
+import com.sasstyle.productservice.controller.dto.*;
 import com.sasstyle.productservice.entity.Category;
 import com.sasstyle.productservice.entity.Product;
 import com.sasstyle.productservice.entity.ProductDetail;
 import com.sasstyle.productservice.repository.CategoryRepository;
 import com.sasstyle.productservice.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 import static java.util.Objects.isNull;
@@ -42,8 +40,16 @@ public class ProductService {
         return product;
     }
 
-    public Map<Long, List<ProductResponse>> findProductMap(List<Long> categoryIds, Pageable pageable) {
-        return productRepository.findProductMap(categoryIds, pageable);
+    public Page<ProductResponse> searchInQuery(List<Long> categoryIds, Pageable pageable) {
+        return productRepository.searchInQuery(categoryIds, pageable);
+    }
+
+    public Page<ProductResponse> search(ProductSearch productSearch, Pageable pageable) {
+        return productRepository.search(productSearch, pageable);
+    }
+
+    public List<ProductAutoCompleteResponse> autocomplete(ProductSearch productSearch, Pageable pageable) {
+        return productRepository.autocomplete(productSearch, pageable);
     }
 
     @Transactional
