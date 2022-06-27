@@ -32,7 +32,7 @@ public class CategoryRepositoryImpl implements CategoryQueryRepository {
     }
 
     @Override
-    public List<Long> toCategoryIds(Long id) {
+    public List<Long> findCategoryIds(Long id) {
         QCategory children = new QCategory("children");
 
         Category result = queryFactory
@@ -41,10 +41,10 @@ public class CategoryRepositoryImpl implements CategoryQueryRepository {
                 .where(category.id.eq(id))
                 .fetchOne();
 
-        return categoryIds(result);
+        return toCategoryIds(result);
     }
 
-    private List<Long> categoryIds(Category category) {
+    private List<Long> toCategoryIds(Category category) {
         List<Long> result = new ArrayList<>();
 
         if (isNull(category)) {
@@ -54,7 +54,7 @@ public class CategoryRepositoryImpl implements CategoryQueryRepository {
         result.add(category.getId());
 
         for (Category c : category.getChildren()) {
-            result.addAll(categoryIds(c));
+            result.addAll(toCategoryIds(c));
         }
 
         return result;
