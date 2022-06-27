@@ -27,8 +27,8 @@ public class CategoryService {
 
     }
 
-    public List<Long> toCategoryIds(Long id) {
-        List<Long> categoryIds = categoryRepository.toCategoryIds(id);
+    public List<Long> findCategoryIds(Long id) {
+        List<Long> categoryIds = categoryRepository.findCategoryIds(id);
 
         if (categoryIds.isEmpty()) {
             throw new NoSuchElementException("카테고리를 찾을 수 없습니다.");
