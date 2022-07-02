@@ -1,6 +1,7 @@
 package com.sasstyle.userservice;
 
 import com.sasstyle.userservice.controller.dto.JoinRequest;
+import com.sasstyle.userservice.controller.dto.RoleRequest;
 import com.sasstyle.userservice.controller.dto.UserUpdateRequest;
 import com.sasstyle.userservice.entity.Address;
 import com.sasstyle.userservice.entity.Gender;
@@ -34,7 +35,8 @@ public class UserDummy {
                 Gender.MAN,
                 "lee@example.com",
                 "010-1234-5678",
-                "서울시 어딘가..."
+                "서울시 어딘가...",
+                RoleRequest.BRAND
         );
     }
 

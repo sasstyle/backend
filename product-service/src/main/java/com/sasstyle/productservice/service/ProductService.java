@@ -40,6 +40,10 @@ public class ProductService {
         return product;
     }
 
+    public Page<ProductResponse> findProducts(Pageable pageable) {
+        return productRepository.findProducts(pageable);
+    }
+
     public Page<ProductResponse> searchInQuery(List<Long> categoryIds, Pageable pageable) {
         return productRepository.searchInQuery(categoryIds, pageable);
     }

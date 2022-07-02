@@ -13,6 +13,8 @@ public interface ProductQueryRepository {
 
     Product findProduct(Long id);
 
+    Page<ProductResponse> findProducts(Pageable pageable);
+
     Page<ProductResponse> searchInQuery(List<Long> categoryIds, Pageable pageable);
 
     Page<ProductResponse> search(ProductSearch productSearch, Pageable pageable);
