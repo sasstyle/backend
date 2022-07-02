@@ -52,4 +52,8 @@ public class JoinRequest {
     @NotNull(message = "주소를 입력해 주세요.")
     @Schema(description = "주소", example = "서울시 어딘가...", required = true)
     private String address;
+
+    @NotNull(message = "권한을 입력해 주세요.")
+    @Schema(description = "권한", example = "BRAND", required = true)
+    private RoleRequest role;
 }
