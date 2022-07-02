@@ -29,9 +29,7 @@ public class ProductController {
     }
 
     @Operation(summary = "상품 이름 검색", description = "상품 이름을 포함하는 상품 목록을 조회합니다.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "상품 목록 조회 성공")
-    })
+    @ApiResponse(responseCode = "200", description = "상품 목록 조회 성공")
     @GetMapping("/search")
     public ResponseEntity<Page<ProductResponse>> search(@ModelAttribute ProductSearch productSearch, Pageable pageable) {
         return ResponseEntity
@@ -39,9 +37,7 @@ public class ProductController {
     }
 
     @Operation(summary = "상품 이름 자동 완성", description = "상품 이름을 검색할때 자동 완성 목록을 조회합니다.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "상품 목록 조회 성공")
-    })
+    @ApiResponse(responseCode = "200", description = "상품 목록 조회 성공")
     @GetMapping("/search/autocomplete")
     public ResponseEntity<Result> autocomplete(@ModelAttribute ProductSearch productSearch, Pageable pageable) {
         return ResponseEntity
