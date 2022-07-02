@@ -29,11 +29,34 @@ public class ProductRepositoryImpl implements ProductQueryRepository {
     @Override
     public Product findProduct(Long id) {
         return queryFactory
-                .select(product)
-                .from(product)
+                .select(product).from(product)
                 .leftJoin(product.productDetails, productDetail).fetchJoin()
                 .where(productIdEq(id))
                 .fetchOne();
+    }
+
+    @Override
+    public Page<ProductResponse> findProducts(Pageable pageable) {
+        List<ProductResponse> content = queryFactory
+                .select(new QProductResponse(
+                        product.category.id,
+                        product.id,
+                        product.imageUrl,
+                        product.name,
+                        product.price))
+                .from(product)
+                .distinct()
+                .join(product.category, category)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(product.id.desc())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(product.count()).from(product).distinct()
+                .join(product.category, category);
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
     @Override

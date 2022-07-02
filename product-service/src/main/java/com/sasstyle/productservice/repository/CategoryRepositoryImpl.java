@@ -23,7 +23,7 @@ public class CategoryRepositoryImpl implements CategoryQueryRepository {
         QCategory children = new QCategory("children");
 
         List<Category> result = queryFactory
-                .selectFrom(category)
+                .selectFrom(category).distinct()
                 .leftJoin(category.children, children).fetchJoin()
                 .where(category.parent.isNull())
                 .fetch();

@@ -61,7 +61,7 @@ public class User extends BaseTime {
                 .username(request.getUsername())
                 .password(encode(request.getPassword()))
                 .name(request.getName())
-                .role(USER)
+                .role(Role.valueOf(request.getRole().name()))
                 .gender(request.getGender())
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
