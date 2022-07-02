@@ -20,16 +20,16 @@ public class DbInit {
     @PostConstruct
     public void init() {
         // 카테고리 샘플 데이터
-        Category clothing = Category.create(null, "의류");
-        Category top = Category.create(clothing, "상의");
+        Category top = Category.create(null, "상의");
+        Category tshirt = Category.create(top, "티셔츠");
+        Category blouse = Category.create(top, "블라우스");
         Category sweaTshirt = Category.create(top, "맨투맨");
-        Category hoodedTshirt = Category.create(top, "후드티셔츠");
 
-        clothing.addChildren(top);
+        top.addChildren(tshirt);
+        top.addChildren(blouse);
         top.addChildren(sweaTshirt);
-        top.addChildren(hoodedTshirt);
 
-        categoryRepository.save(clothing);
+        categoryRepository.save(top);
 
         // 상품 샘플 데이터
         for (int i = 1; i <= 100; i++) {
