@@ -2,7 +2,6 @@ package com.sasstyle.userservice.validation;
 
 import com.sasstyle.userservice.UserDummy;
 import com.sasstyle.userservice.controller.dto.UserUpdateRequest;
-import com.sasstyle.userservice.entity.Gender;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,11 +42,19 @@ public class UserUpdateRequestTest extends BeanValidationTest {
     }
 
     @Test
-    @DisplayName("회원수정 성공 - 사용자 비밀번호가 8자리인 경우")
-    void 회원수정_성공_비밀번호_8자() {
-        request.setPassword("lovelove");
+    @DisplayName("회원수정 성공 - 사용자 비밀번호가 8자리인 경우(숫자 특수문자 포함)")
+    void 회원수정_성공_비밀번호_8자_숫특() {
+        request.setPassword("lovelo1!");
 
         isUpdateTrue();
+    }
+
+    @Test
+    @DisplayName("회원수정 실패 - 사용자 비밀번호가 8자리인 경우(숫자 특수문자 X)")
+    void 회원수정_실패_비밀번호_8자() {
+        request.setPassword("lovelove");
+
+        isUpdateFalse();
     }
 
     @Test
@@ -61,7 +68,7 @@ public class UserUpdateRequestTest extends BeanValidationTest {
     @Test
     @DisplayName("회원수정 성공 - 사용자 비밀번호가 13자리인 경우")
     void 회원수정_성공_비밀번호_13자() {
-        request.setPassword("sasstyle12345");
+        request.setPassword("sasstyle1234!");
 
         isUpdateTrue();
     }
@@ -75,15 +82,15 @@ public class UserUpdateRequestTest extends BeanValidationTest {
     }
 
     @Test
-    @DisplayName("회원가입 실패 - 사용자 이름을 입력하지 않는 경우")
-    void 회원가입_실패_이름_입력_X() {
+    @DisplayName("회원수정 실패 - 사용자 이름을 입력하지 않는 경우")
+    void 회원수정_실패_이름_입력_X() {
         request.setName(null);
 
         isUpdateFalse();
     }
 
     @Test
-    @DisplayName("회원수정입 성공 - 사용자 이름이 2자리인 경우")
+    @DisplayName("회원수정 성공 - 사용자 이름이 2자리인 경우")
     void 회원수정_성공_이름_2자() {
         request.setName("홍길");
 
@@ -115,9 +122,17 @@ public class UserUpdateRequestTest extends BeanValidationTest {
     }
 
     @Test
-    @DisplayName("회원가입 실패 - 사용자 이메일을 입력하지 않는 경우")
-    void 회원가입_실패_이메일_입력_X() {
+    @DisplayName("회원수정 실패 - 사용자 이메일을 입력하지 않는 경우")
+    void 회원수정_실패_이메일_입력_X() {
         request.setEmail(null);
+
+        isUpdateFalse();
+    }
+
+    @Test
+    @DisplayName("회원수정 실패 - 사용자 이름에 특수문자가 포함된 경우")
+    void 회원수정_실패_이름_특문() {
+        request.setName("이순신!");
 
         isUpdateFalse();
     }
@@ -147,8 +162,8 @@ public class UserUpdateRequestTest extends BeanValidationTest {
     }
 
     @Test
-    @DisplayName("회원가입 실패 - 사용자 전화번호를 입력하지 않는 경우")
-    void 회원가입_실패_전화번호_입력_X() {
+    @DisplayName("회원수정 실패 - 사용자 전화번호를 입력하지 않는 경우")
+    void 회원수정_실패_전화번호_입력_X() {
         request.setPhoneNumber(null);
 
         isUpdateFalse();
