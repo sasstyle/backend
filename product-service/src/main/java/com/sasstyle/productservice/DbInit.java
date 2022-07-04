@@ -11,7 +11,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Component
+//@Component
 public class DbInit {
 
     private final CategoryRepository categoryRepository;
@@ -43,7 +43,7 @@ public class DbInit {
                     List.of("https://picsum.photos/seed/picsum/200/300", "https://picsum.photos/seed/picsum/400/600")
             );
 
-            productService.createProduct(productRequest);
+            productService.createProduct("823bb5ef-c61d-4889-93ee-0aaf2caa65d4", productRequest);
         }
     }
 }

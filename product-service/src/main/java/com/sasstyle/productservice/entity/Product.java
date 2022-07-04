@@ -31,6 +31,7 @@ public class Product extends BaseTime {
     private Category category;
 
     private String userId;
+    private String brandName;
     private String imageUrl;
     private String name;
     private int price;
@@ -43,9 +44,11 @@ public class Product extends BaseTime {
     private List<ProductDetail> productDetails = new ArrayList<>();
 
     //== 비지니스 메서드 ==//
-    public static Product create(Category category, ProductRequest request) {
+    public static Product create(Category category, String userId, String brandName, ProductRequest request) {
         return Product.builder()
                 .category(category)
+                .userId(userId)
+                .brandName(brandName)
                 .imageUrl(request.getImageUrl())
                 .name(request.getName())
                 .price(request.getPrice())

@@ -1,5 +1,6 @@
 package com.sasstyle.productservice.service;
 
+import com.sasstyle.productservice.client.UserServiceClient;
 import com.sasstyle.productservice.controller.dto.*;
 import com.sasstyle.productservice.entity.Category;
 import com.sasstyle.productservice.entity.Product;
@@ -24,6 +25,7 @@ public class ProductService {
 
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
+    private final UserServiceClient userServiceClient;
 
     public Product findById(Long productId) {
         return productRepository.findById(productId)
@@ -57,13 +59,16 @@ public class ProductService {
     }
 
     @Transactional
-    public Long createProduct(ProductRequest request) {
+    public Long createProduct(String userId, ProductRequest request) {
         // 카테고리 조회
         Category category = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new NoSuchElementException("카테고리를 찾을 수 없습니다."));
 
+        // 사용자 조회
+        UserResponse userResponse = userServiceClient.findByUserId(userId);
+
         // 상품 생성
-        Product product = Product.create(category, request);
+        Product product = Product.create(category, userId, userResponse.getName(), request);
 
         // 상품 디테일 이미지 생성
         request.getDetailImages().stream()
@@ -74,16 +79,28 @@ public class ProductService {
     }
 
     @Transactional
-    public void updateProduct(Long productId, ProductUpdateRequest request) {
+    public void updateProduct(String userId, Long productId, ProductUpdateRequest request) {
         Product product = findById(productId);
+
+        if (isNotValidSeller(userId, product.getUserId())) {
+            throw new IllegalArgumentException("상품 판매자와 로그인한 사용자가 일치하지 않습니다.");
+        }
 
         product.update(request);
     }
 
     @Transactional
-    public void deleteProduct(Long productId) {
+    public void deleteProduct(String userId, Long productId) {
         Product product = findById(productId);
 
+        if (isNotValidSeller(userId, product.getUserId())) {
+            throw new IllegalArgumentException("상품 판매자와 로그인한 사용자가 일치하지 않습니다.");
+        }
+
         productRepository.delete(product);
+    }
+
+    private boolean isNotValidSeller(String userId, String productUserId) {
+        return !userId.equals(productUserId);
     }
 }

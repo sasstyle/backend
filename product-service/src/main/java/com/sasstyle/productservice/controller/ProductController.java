@@ -61,9 +61,9 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "카테고리 아이디에 해당하는 카테고리가 존재하지 않는 경우에 발생할 수 있습니다.")
     })
     @PostMapping
-    public ResponseEntity<ProductIdResponse> createProduct(@RequestBody ProductRequest request) {
+    public ResponseEntity<ProductIdResponse> createProduct(@RequestHeader String userId, @RequestBody ProductRequest request) {
         return ResponseEntity
-                .ok(new ProductIdResponse(productService.createProduct(request)));
+                .ok(new ProductIdResponse(productService.createProduct(userId, request)));
     }
 
     @Operation(summary = "상품 수정", description = "상품 아이디에 해당하는 상품을 수정합니다.")
@@ -72,8 +72,10 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "상품 아이디에 해당하는 상품이 존재하지 않는 경우에 발생할 수 있습니다.")
     })
     @PutMapping("/{productId}")
-    public ResponseEntity<Void> updateProduct(@PathVariable Long productId, @RequestBody ProductUpdateRequest request) {
-        productService.updateProduct(productId, request);
+    public ResponseEntity<Void> updateProduct(@RequestHeader String userId,
+                                              @PathVariable Long productId,
+                                              @RequestBody ProductUpdateRequest request) {
+        productService.updateProduct(userId, productId, request);
 
         return ResponseEntity
                 .ok()
@@ -86,8 +88,8 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "상품 아이디에 해당하는 상품이 존재하지 않는 경우에 발생할 수 있습니다.")
     })
     @DeleteMapping("/{productId}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long productId) {
-        productService.deleteProduct(productId);
+    public ResponseEntity<Void> deleteProduct(@RequestHeader String userId, @PathVariable Long productId) {
+        productService.deleteProduct(userId, productId);
 
         return ResponseEntity
                 .ok()

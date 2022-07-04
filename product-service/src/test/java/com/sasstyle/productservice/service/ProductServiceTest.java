@@ -40,6 +40,8 @@ class ProductServiceTest {
     private ProductRequest request;
     private Product product;
 
+    private String userId = "cf53ab4e-64c9-49a7-97a7-9d18b73af22d";
+
     @BeforeEach
     void setUp() {
         request = new ProductRequest(
@@ -54,7 +56,7 @@ class ProductServiceTest {
         );
 
         category = new Category(1L, null,"의류", 1, new ArrayList<>(), new ArrayList<>());
-        product = Product.create(category, request);
+        product = Product.create(category, userId, "", request);
     }
 
     @Test
@@ -63,7 +65,7 @@ class ProductServiceTest {
         given(categoryRepository.findById(category.getId())).willReturn(Optional.of(category));
         given(productRepository.save(any())).willReturn(product);
 
-        Long productId = productService.createProduct(request);
+        Long productId = productService.createProduct(userId, request);
 
         assertThat(productId).isEqualTo(product.getId());
     }
@@ -81,7 +83,7 @@ class ProductServiceTest {
                 "업데이트 상단 설명",
                 "업데이트 하단 설명");
 
-        productService.updateProduct(product.getId(), updateRequest);
+        productService.updateProduct(userId, product.getId(), updateRequest);
 
         assertThat(product.getImageUrl()).isEqualTo(updateRequest.getImageUrl());
         assertThat(product.getName()).isEqualTo(updateRequest.getName());
@@ -96,7 +98,7 @@ class ProductServiceTest {
     void 상품_삭제() {
         given(productRepository.findById(any())).willReturn(Optional.of(product));
 
-        productService.deleteProduct(product.getId());
+        productService.deleteProduct(userId, product.getId());
 
         given(productRepository.findById(product.getId())).willReturn(Optional.empty());
 

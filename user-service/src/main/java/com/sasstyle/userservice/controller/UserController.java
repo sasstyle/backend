@@ -34,6 +34,12 @@ public class UserController {
                 .ok(new UserInfoResponse(userService.findByUserId(userId)));
     }
 
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserInfoResponse> findByUserId(@PathVariable String userId) {
+        return ResponseEntity
+                .ok(new UserInfoResponse(userService.findByUserId(userId)));
+    }
+
     @Operation(summary = "로그인", description = "아이디와 비밀번호를 이용하여 로그인을 진행합니다.")
     @ApiResponse(responseCode = "200", description = "로그인 성공")
     @PostMapping("/login")
