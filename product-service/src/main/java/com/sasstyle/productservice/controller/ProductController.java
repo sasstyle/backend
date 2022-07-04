@@ -9,8 +9,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.http.HttpStatus.CREATED;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -63,7 +66,8 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<ProductIdResponse> createProduct(@RequestHeader String userId, @RequestBody ProductRequest request) {
         return ResponseEntity
-                .ok(new ProductIdResponse(productService.createProduct(userId, request)));
+                .status(CREATED)
+                .body(new ProductIdResponse(productService.createProduct(userId, request)));
     }
 
     @Operation(summary = "상품 수정", description = "상품 아이디에 해당하는 상품을 수정합니다.")
