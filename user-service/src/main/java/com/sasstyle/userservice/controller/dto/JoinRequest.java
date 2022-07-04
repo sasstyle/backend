@@ -21,7 +21,7 @@ public class JoinRequest {
     private String profileUrl;
 
     @NotNull(message = "아이디를 입력해 주세요.")
-    @Pattern(regexp = "^[A-Za-z0-9]{4,12}$", message = "아이디는 4~13자리로 입력해주세요.")
+    @Pattern(regexp = "^[A-Za-z0-9]{4,12}$", message = "아이디는 4~12자리로 입력해주세요.")
     @Schema(description = "아이디", example = "sasstyle", required = true)
     private String username;
 
