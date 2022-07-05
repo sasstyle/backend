@@ -52,12 +52,10 @@ public class User extends BaseTime {
     private Address address;
 
     @Builder
-    public User(Long id, String profileUrl, String userId, String username, String password, String name, Role role,
+    public User(Long id, UserProfile userProfile, String userId, String username, String password, String name, Role role,
                 Gender gender, String email, String phoneNumber, String address) {
         this.id = id;
-        this.userProfile = UserProfile.builder()
-                .profileUrl(profileUrl)
-                .build();
+        this.userProfile = userProfile;
         this.userId = userId;
         this.username = username;
         this.password = encode(password);

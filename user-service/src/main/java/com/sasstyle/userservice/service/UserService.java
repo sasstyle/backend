@@ -66,8 +66,14 @@ public class UserService {
             throw new DuplicatedException("회원의 이메일이 이미 등록됐습니다.");
         }
 
-        User user = User.builder()
+        // 유저 프로필 엔티티 생성
+        UserProfile userProfile = UserProfile.builder()
                 .profileUrl(request.getProfileUrl())
+                .build();
+
+        // 유저 생성
+        User user = User.builder()
+                .userProfile(userProfile)
                 .userId(UUID.randomUUID().toString())
                 .username(request.getUsername())
                 .password(request.getPassword())

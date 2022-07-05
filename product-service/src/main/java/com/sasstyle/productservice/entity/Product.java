@@ -37,7 +37,6 @@ public class Product extends BaseTime {
     private int stockQuantity;
     private String topDescription;
     private String bottomDescription;
-    private long views;
 
     @OneToMany(mappedBy = "product", cascade = ALL, orphanRemoval = true)
     private List<ProductImage> productImages = new ArrayList<>();
@@ -45,7 +44,7 @@ public class Product extends BaseTime {
     //== 비지니스 메서드 ==//
     @Builder
     public Product(Long id, Category category, String userId, String brandName, String profileUrl, String name,
-                   int price, int stockQuantity, String topDescription, String bottomDescription, long views, List<String> images) {
+                   int price, int stockQuantity, String topDescription, String bottomDescription, List<String> images) {
         this.id = id;
         this.category = category;
         this.userId = userId;
@@ -59,7 +58,6 @@ public class Product extends BaseTime {
         this.stockQuantity = stockQuantity;
         this.topDescription = topDescription;
         this.bottomDescription = bottomDescription;
-        this.views = views;
         this.productImages = new ArrayList<>();
 
         if (images != null && !images.isEmpty()) {

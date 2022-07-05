@@ -6,12 +6,17 @@ import com.sasstyle.userservice.controller.dto.UserUpdateRequest;
 import com.sasstyle.userservice.entity.Gender;
 import com.sasstyle.userservice.entity.Role;
 import com.sasstyle.userservice.entity.User;
+import com.sasstyle.userservice.entity.UserProfile;
 
 public class UserDummy {
 
     public static User user() {
-        return User.builder()
+        UserProfile userProfile = UserProfile.builder()
                 .profileUrl("https://picsum.photos/seed/picsum/200/300")
+                .build();
+
+        return User.builder()
+                .userProfile(userProfile)
                 .userId("02a5c76e-fa26-4ea6-a797-0756a09e7f76")
                 .username("sasstyle")
                 .password("test1234!")
