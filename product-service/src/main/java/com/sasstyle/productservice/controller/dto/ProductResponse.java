@@ -15,7 +15,7 @@ public class ProductResponse {
     private Long productId;
 
     @Schema(description = "상품 이미지", example = "https://picsum.photos/seed/picsum/200/300", required = true)
-    private String imageUrl;
+    private String profileUrl;
 
     @Schema(description = "상품 이름", example = "한정판 후드티", required = true)
     private String name;
@@ -24,10 +24,10 @@ public class ProductResponse {
     private int price;
 
     @QueryProjection
-    public ProductResponse(Long categoryId, Long productId, String imageUrl, String name, int price) {
+    public ProductResponse(Long categoryId, Long productId, String profileUrl, String name, int price) {
         this.categoryId = categoryId;
         this.productId = productId;
-        this.imageUrl = imageUrl;
+        this.profileUrl = profileUrl;
         this.name = name;
         this.price = price;
     }
@@ -35,7 +35,7 @@ public class ProductResponse {
     public ProductResponse(Product product) {
         this.categoryId = product.getCategory().getId();
         this.productId = product.getId();
-        this.imageUrl = product.getImageUrl();
+        this.profileUrl = product.getProductProfile().getProfileUrl();
         this.name = product.getName();
         this.price = product.getPrice();
     }

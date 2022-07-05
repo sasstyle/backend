@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class ProductDetailResponse {
 
     @Schema(description = "상품 이미지", example = "https://picsum.photos/seed/picsum/200/300", required = true)
-    private String imageUrl;
+    private String profileUrl;
 
     @Schema(description = "상품 이름", example = "한정판 후드티", required = true)
     private String name;
@@ -28,15 +28,15 @@ public class ProductDetailResponse {
     private String bottomDescription;
 
     @Schema(description = "상품 상세 이미지", example = "[https://picsum.photos/seed/picsum/200/300]")
-    private List<String> detailImages;
+    private List<String> images;
 
     public ProductDetailResponse(Product product) {
-        this.imageUrl = product.getImageUrl();
+        this.profileUrl = product.getProductProfile().getProfileUrl();
         this.name = product.getName();
         this.price = product.getPrice();
         this.topDescription = product.getTopDescription();
         this.bottomDescription = product.getBottomDescription();
-        this.detailImages = product.getProductDetails().stream()
+        this.images = product.getProductImages().stream()
                 .map(detail -> String.valueOf(detail.getImageUrl()))
                 .collect(Collectors.toList());
     }

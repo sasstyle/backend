@@ -165,7 +165,7 @@ class UserServiceTest {
         User updateUser = userService.updateUser(userId, userUpdateRequest);
 
         assertTrue(passwordEncoder.matches(userUpdateRequest.getPassword(), updateUser.getPassword()));
-        assertThat(updateUser.getProfileUrl()).isEqualTo(userUpdateRequest.getProfileUrl());
+        assertThat(updateUser.getUserProfile().getProfileUrl()).isEqualTo(userUpdateRequest.getProfileUrl());
         assertThat(updateUser.getName()).isEqualTo(userUpdateRequest.getName());
         assertThat(updateUser.getGender()).isEqualTo(userUpdateRequest.getGender());
         assertThat(updateUser.getEmail()).isEqualTo(userUpdateRequest.getEmail());
@@ -194,7 +194,7 @@ class UserServiceTest {
         User updateUser = userService.updateUser(userId, userUpdateRequest);
 
         assertThat(updateUser.getPassword()).isEqualTo(user.getPassword());
-        assertThat(updateUser.getProfileUrl()).isEqualTo(userUpdateRequest.getProfileUrl());
+        assertThat(updateUser.getUserProfile().getProfileUrl()).isEqualTo(userUpdateRequest.getProfileUrl());
         assertThat(updateUser.getName()).isEqualTo(userUpdateRequest.getName());
         assertThat(updateUser.getGender()).isEqualTo(userUpdateRequest.getGender());
         assertThat(updateUser.getEmail()).isEqualTo(userUpdateRequest.getEmail());
@@ -221,7 +221,7 @@ class UserServiceTest {
 
         User updateUser = userService.updateUser(userId, userUpdateRequest);
 
-        assertThat(updateUser.getProfileUrl()).isEqualTo(user.getProfileUrl());
+        assertThat(updateUser.getUserProfile().getProfileUrl()).isEqualTo(user.getUserProfile().getProfileUrl());
         assertTrue(passwordEncoder.matches(userUpdateRequest.getPassword(), updateUser.getPassword()));
         assertThat(updateUser.getName()).isEqualTo(userUpdateRequest.getName());
         assertThat(updateUser.getGender()).isEqualTo(userUpdateRequest.getGender());
@@ -236,7 +236,7 @@ class UserServiceTest {
         String userId = user.getUserId();
 
         UserUpdateRequest userUpdateRequest = new UserUpdateRequest(
-                user.getProfileUrl(),
+                user.getUserProfile().getProfileUrl(),
                 "test1234",
                 "홍길동",
                 Gender.MAN,

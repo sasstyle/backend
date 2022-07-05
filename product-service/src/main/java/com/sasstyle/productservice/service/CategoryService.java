@@ -39,14 +39,23 @@ public class CategoryService {
 
     @Transactional
     public Long createCategory(Long id, String name) {
-        if (id == null) {
-            return categoryRepository.save(Category.create(null, name)).getId();
+        // 부모 카테고리 생성
+        if (isParent(id)) {
+            Category category = Category.builder()
+                    .name(name)
+                    .build();
+
+            return categoryRepository.save(category).getId();
         }
 
-        Category category = findById(id);
+        // 자식 카테고리 생성
+        Category parentCategory = findById(id);
+        Category category = Category.builder()
+                .category(parentCategory)
+                .name(name)
+                .build();
 
-        return categoryRepository.save(Category.create(category, name)).getId();
-
+        return categoryRepository.save(category).getId();
     }
 
     @Transactional
@@ -54,5 +63,9 @@ public class CategoryService {
         Category category = findById(id);
 
         categoryRepository.delete(category);
+    }
+
+    private boolean isParent(Long id) {
+        return id == null;
     }
 }
