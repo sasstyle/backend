@@ -47,6 +47,7 @@ public class ProductRepositoryImpl implements ProductQueryRepository {
                         product.id,
                         product.productProfile.profileUrl,
                         product.name,
+                        product.brandName,
                         product.price))
                 .from(product)
                 .distinct()
@@ -73,6 +74,7 @@ public class ProductRepositoryImpl implements ProductQueryRepository {
                         product.id,
                         product.productProfile.profileUrl,
                         product.name,
+                        product.brandName,
                         product.price))
                 .from(product)
                 .distinct()
@@ -101,6 +103,7 @@ public class ProductRepositoryImpl implements ProductQueryRepository {
                         product.id,
                         product.productProfile.profileUrl,
                         product.name,
+                        product.brandName,
                         product.price))
                 .from(product)
                 .join(product.category, category)
@@ -123,7 +126,7 @@ public class ProductRepositoryImpl implements ProductQueryRepository {
     @Override
     public List<ProductAutoCompleteResponse> autocomplete(ProductSearch productSearch, Pageable pageable) {
         return queryFactory
-                .select(new QProductAutoCompleteResponse(product.id, product.productProfile.profileUrl, product.name))
+                .select(new QProductAutoCompleteResponse(product.id, product.productProfile.profileUrl, product.name, product.brandName))
                 .from(product)
                 .join(product.productProfile, productProfile)
                 .where(nameContains(productSearch.getName()))
