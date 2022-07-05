@@ -3,6 +3,7 @@ package com.sasstyle.userservice.service;
 import com.sasstyle.userservice.controller.dto.*;
 import com.sasstyle.userservice.entity.Role;
 import com.sasstyle.userservice.entity.User;
+import com.sasstyle.userservice.entity.UserProfile;
 import com.sasstyle.userservice.error.exception.DuplicatedException;
 import com.sasstyle.userservice.error.exception.DuplicatedUsernameException;
 import com.sasstyle.userservice.error.exception.UserNotFoundException;
@@ -88,7 +89,8 @@ public class UserService {
         User user = findByUserId(userId);
 
         if (hasProfileUrl(request.getProfileUrl())) {
-            user.updateProfileUrl(request.getProfileUrl());
+            UserProfile userProfile = user.getUserProfile();
+            userProfile.setProfileUrl(request.getProfileUrl());
         }
 
         if (hasPassword(request.getPassword())) {

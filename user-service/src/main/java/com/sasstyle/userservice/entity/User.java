@@ -78,12 +78,6 @@ public class User extends BaseTime {
         this.address = new Address(address);
     }
 
-    public void updateProfileUrl(String profileUrl) {
-        this.userProfile = UserProfile.builder()
-                .profileUrl(profileUrl)
-                .build();
-    }
-
     public void updatePassword(String password) {
         this.password = encode(password);
     }
