@@ -18,7 +18,7 @@ public class ProductRequest {
     private Long categoryId;
 
     @Schema(description = "상품 이미지", example = "https://picsum.photos/seed/picsum/200/300", required = true)
-    private String imageUrl;
+    private String profileUrl;
 
     @Schema(description = "상품 이름", example = "한정판 후드티", required = true)
     private String name;
@@ -36,5 +36,5 @@ public class ProductRequest {
     private String bottomDescription;
 
     @Schema(description = "상품 상세 이미지", example = "[https://picsum.photos/seed/picsum/200/300]")
-    private List<String> detailImages;
+    private List<String> images;
 }

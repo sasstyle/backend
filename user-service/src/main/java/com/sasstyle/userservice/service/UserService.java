@@ -1,7 +1,9 @@
 package com.sasstyle.userservice.service;
 
 import com.sasstyle.userservice.controller.dto.*;
+import com.sasstyle.userservice.entity.Role;
 import com.sasstyle.userservice.entity.User;
+import com.sasstyle.userservice.entity.UserProfile;
 import com.sasstyle.userservice.error.exception.DuplicatedException;
 import com.sasstyle.userservice.error.exception.DuplicatedUsernameException;
 import com.sasstyle.userservice.error.exception.UserNotFoundException;
@@ -16,6 +18,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -62,7 +66,26 @@ public class UserService {
             throw new DuplicatedException("회원의 이메일이 이미 등록됐습니다.");
         }
 
-        User savedUser = userRepository.save(User.create(request));
+        // 유저 프로필 엔티티 생성
+        UserProfile userProfile = UserProfile.builder()
+                .profileUrl(request.getProfileUrl())
+                .build();
+
+        // 유저 생성
+        User user = User.builder()
+                .userProfile(userProfile)
+                .userId(UUID.randomUUID().toString())
+                .username(request.getUsername())
+                .password(request.getPassword())
+                .name(request.getName())
+                .gender(request.getGender())
+                .email(request.getEmail())
+                .phoneNumber(request.getPhoneNumber())
+                .address(request.getAddress())
+                .role(Role.valueOf(request.getRole().name()))
+                .build();
+
+        User savedUser = userRepository.save(user);
 
         return new JoinResponse(savedUser.getUserId(), savedUser.getUsername());
     }
@@ -72,14 +95,19 @@ public class UserService {
         User user = findByUserId(userId);
 
         if (hasProfileUrl(request.getProfileUrl())) {
-            user.updateProfileUrl(request.getProfileUrl());
+            UserProfile userProfile = user.getUserProfile();
+            userProfile.setProfileUrl(request.getProfileUrl());
         }
 
         if (hasPassword(request.getPassword())) {
             user.updatePassword(request.getPassword());
         }
 
-        user.updateInfo(request);
+        user.updateInfo(request.getName(),
+                request.getGender(),
+                request.getEmail(),
+                request.getPhoneNumber(),
+                request.getAddress());
 
         return user;
     }

@@ -21,17 +21,19 @@ public class JoinRequest {
     private String profileUrl;
 
     @NotNull(message = "아이디를 입력해 주세요.")
-    @Size(min = 4, max = 13, message = "아이디는 4~13자리로 입력해주세요.")
+    @Pattern(regexp = "^[A-Za-z0-9]{4,12}$", message = "아이디는 4~12자리로 입력해주세요.")
     @Schema(description = "아이디", example = "sasstyle", required = true)
     private String username;
 
     @NotNull(message = "비밀번호를 입력해 주세요.")
-    @Size(min = 8, max =  13, message = "비밀번호는 8~13자리로 입력해주세요.")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,13}$",
+            message = "비밀번호는 8자리 이상 13자리 이하여야 하며 숫자와 특수문자를 한 자리 이상 반드시 포함해야 합니다.")
     @Schema(description = "비밀번호", example = "test1234!", required = true)
     private String password;
 
     @NotNull(message = "이름을 입력해 주세요.")
-    @Size(min = 2, max = 6, message = "이름은 2~6자리로 입력해주세요.")
+    @Pattern(regexp = "^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]{2,6}$",
+            message = "이름은 2자리 이상 6자리 이하여야 하며 특수문자는 입력할 수 없습니다.")
     @Schema(description = "이름", example = "이순신", required = true)
     private String name;
 
@@ -45,7 +47,7 @@ public class JoinRequest {
     private String email;
 
     @NotNull(message = "전화번호를 입력해 주세요.")
-    @Pattern(regexp = "(01[1|6|7|8|9|0])-(\\d{3,4})-(\\d{4})$", message = "전화번호 형식이 유효하지 않습니다.")
+    @Pattern(regexp = "^01([0|1|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$", message = "전화번호 형식이 유효하지 않습니다.")
     @Schema(description = "전화번호", example = "010-1234-5678", required = true)
     private String phoneNumber;
 

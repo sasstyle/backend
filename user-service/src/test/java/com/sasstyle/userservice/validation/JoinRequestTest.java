@@ -2,7 +2,6 @@ package com.sasstyle.userservice.validation;
 
 import com.sasstyle.userservice.UserDummy;
 import com.sasstyle.userservice.controller.dto.JoinRequest;
-import com.sasstyle.userservice.entity.Gender;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -73,17 +72,17 @@ public class JoinRequestTest extends BeanValidationTest {
     }
 
     @Test
-    @DisplayName("회원가입 성공 - 사용자 아이디가 13자리인 경우")
-    void 회원가입_성공_아이디_13자() {
-        request.setUsername("sasstyle12345");
+    @DisplayName("회원가입 성공 - 사용자 아이디가 12자리인 경우")
+    void 회원가입_성공_아이디_12자() {
+        request.setUsername("sasstyle1234");
 
         isJoinTrue();
     }
 
     @Test
-    @DisplayName("회원가입 실패 - 사용자 아이디가 14자리 이상인 경우")
-    void 회원가입_실패_아이디_14자_이상() {
-        request.setUsername("sasstyle123456");
+    @DisplayName("회원가입 실패 - 사용자 아이디가 13자리 이상인 경우")
+    void 회원가입_실패_아이디_13자_이상() {
+        request.setUsername("sasstyle12345");
 
         isJoinFalse();
     }
@@ -97,11 +96,19 @@ public class JoinRequestTest extends BeanValidationTest {
     }
 
     @Test
-    @DisplayName("회원가입 성공 - 사용자 비밀번호가 8자리인 경우")
-    void 회원가입_성공_비밀번호_8자() {
-        request.setPassword("lovelove");
+    @DisplayName("회원가입 성공 - 사용자 비밀번호가 8자리인 경우(숫자 특수문자 포함)")
+    void 회원가입_성공_비밀번호_8자_숫특() {
+        request.setPassword("lovelo1!");
 
         isJoinTrue();
+    }
+
+    @Test
+    @DisplayName("회원가입 실패 - 사용자 비밀번호가 8자리인 경우(숫자 특수문자 X)")
+    void 회원가입_실패_비밀번호_8자() {
+        request.setPassword("lovelove");
+
+        isJoinFalse();
     }
 
     @Test
@@ -115,7 +122,7 @@ public class JoinRequestTest extends BeanValidationTest {
     @Test
     @DisplayName("회원가입 성공 - 사용자 비밀번호가 13자리인 경우")
     void 회원가입_성공_비밀번호_13자() {
-        request.setPassword("sasstyle12345");
+        request.setPassword("sasstyle1234!");
 
         isJoinTrue();
     }
@@ -132,6 +139,14 @@ public class JoinRequestTest extends BeanValidationTest {
     @DisplayName("회원가입 실패 - 사용자 이름을 입력하지 않는 경우")
     void 회원가입_실패_이름_입력_X() {
         request.setName(null);
+
+        isJoinFalse();
+    }
+
+    @Test
+    @DisplayName("회원가입 실패 - 사용자 이름에 특수문자가 포함된 경우")
+    void 회원가입_실패_이름_특문() {
+        request.setName("이순신!");
 
         isJoinFalse();
     }

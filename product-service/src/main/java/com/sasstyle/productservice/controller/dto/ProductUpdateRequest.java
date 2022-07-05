@@ -12,8 +12,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ProductUpdateRequest {
 
-    @Schema(description = "상품 이미지", example = "https://picsum.photos/seed/picsum/200/300", required = true)
-    private String imageUrl;
+    @Schema(description = "상품 이미지", example = "https://picsum.photos/seed/picsum/200/300")
+    private String profileUrl;
 
     @Schema(description = "상품 이름", example = "한정판 후드티", required = true)
     private String name;
@@ -24,9 +24,9 @@ public class ProductUpdateRequest {
     @Schema(description = "재고 수량", example = "100", required = true)
     private int stockQuantity;
 
-    @Schema(description = "상단 설명", example = "많은 구매 부탁드립니다.")
+    @Schema(description = "상단 설명", example = "많은 구매 부탁드립니다.", required = true)
     private String topDescription;
 
-    @Schema(description = "하단 설명", example = "한정판매!")
+    @Schema(description = "하단 설명", example = "한정판매!", required = true)
     private String bottomDescription;
 }
