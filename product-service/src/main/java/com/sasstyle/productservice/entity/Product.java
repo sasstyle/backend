@@ -60,13 +60,18 @@ public class Product extends BaseTime {
         this.topDescription = topDescription;
         this.bottomDescription = bottomDescription;
         this.views = views;
-        List<ProductImage> productImages = images.stream()
-                .map(ProductImage::new)
-                .collect(Collectors.toList());
-        productImages
-                .stream()
-                .forEach(this::addProductImage);
-        this.productImages = productImages;
+        this.productImages = new ArrayList<>();
+
+        if (images != null && !images.isEmpty()) {
+            List<ProductImage> productImages = images.stream()
+                    .map(ProductImage::new)
+                    .collect(Collectors.toList());
+            productImages
+                    .stream()
+                    .forEach(this::addProductImage);
+
+            this.productImages = productImages;
+        }
     }
 
     public void update(String name, int price, int stockQuantity, String topDescription, String bottomDescription) {

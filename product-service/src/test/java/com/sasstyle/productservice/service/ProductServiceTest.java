@@ -1,7 +1,9 @@
 package com.sasstyle.productservice.service;
 
+import com.sasstyle.productservice.client.UserServiceClient;
 import com.sasstyle.productservice.controller.dto.ProductRequest;
 import com.sasstyle.productservice.controller.dto.ProductUpdateRequest;
+import com.sasstyle.productservice.controller.dto.UserResponse;
 import com.sasstyle.productservice.entity.Category;
 import com.sasstyle.productservice.entity.Product;
 import com.sasstyle.productservice.repository.CategoryRepository;
@@ -35,11 +37,15 @@ class ProductServiceTest {
     @Mock
     private ProductRepository productRepository;
 
+    @Mock
+    private UserServiceClient userServiceClient;
+
     private Category category;
     private ProductRequest request;
     private Product product;
 
     private String userId = "cf53ab4e-64c9-49a7-97a7-9d18b73af22d";
+    private String brandName = "싸스타일";
 
     @BeforeEach
     void setUp() {
@@ -55,13 +61,25 @@ class ProductServiceTest {
         );
 
         category = new Category(1L, null,"의류", 1, new ArrayList<>(), new ArrayList<>());
-        product = Product.create(category, userId, "", request);
+        product = Product.builder()
+                .id(2L)
+                .category(category)
+                .userId(userId)
+                .brandName(brandName)
+                .profileUrl("https://picsum.photos/seed/picsum/200/300")
+                .name("한정판 맨투맨")
+                .price(10000)
+                .stockQuantity(10)
+                .topDescription("상단 설명")
+                .bottomDescription("하단 설명")
+                .build();
     }
 
     @Test
     @DisplayName("상품 등록")
     void 상품_등록() {
         given(categoryRepository.findById(category.getId())).willReturn(Optional.of(category));
+        given(userServiceClient.findByUserId(userId)).willReturn(new UserResponse(brandName));
         given(productRepository.save(any())).willReturn(product);
 
         Long productId = productService.createProduct(userId, request);
@@ -72,7 +90,7 @@ class ProductServiceTest {
     @Test
     @DisplayName("상품 수정")
     void 상품_수정() {
-        given(productRepository.findById(any())).willReturn(Optional.of(product));
+        given(productRepository.findProduct(any())).willReturn(product);
 
         ProductUpdateRequest updateRequest = new ProductUpdateRequest(
                 "https://picsum.photos/seed/picsum/200/300",
@@ -84,7 +102,7 @@ class ProductServiceTest {
 
         productService.updateProduct(userId, product.getId(), updateRequest);
 
-        assertThat(product.getImageUrl()).isEqualTo(updateRequest.getProfileUrl());
+        assertThat(product.getProductProfile().getProfileUrl()).isEqualTo(updateRequest.getProfileUrl());
         assertThat(product.getName()).isEqualTo(updateRequest.getName());
         assertThat(product.getPrice()).isEqualTo(updateRequest.getPrice());
         assertThat(product.getStockQuantity()).isEqualTo(updateRequest.getStockQuantity());
