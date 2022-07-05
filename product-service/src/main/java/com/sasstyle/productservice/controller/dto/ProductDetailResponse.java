@@ -18,6 +18,9 @@ public class ProductDetailResponse {
     @Schema(description = "상품 이름", example = "한정판 후드티", required = true)
     private String name;
 
+    @Schema(description = "브랜드 이름", example = "싸스타일", required = true)
+    private String brandName;
+
     @Schema(description = "상품 가격", example = "10000", required = true)
     private int price;
 
@@ -33,6 +36,7 @@ public class ProductDetailResponse {
     public ProductDetailResponse(Product product) {
         this.profileUrl = product.getProductProfile().getProfileUrl();
         this.name = product.getName();
+        this.brandName = product.getBrandName();
         this.price = product.getPrice();
         this.topDescription = product.getTopDescription();
         this.bottomDescription = product.getBottomDescription();

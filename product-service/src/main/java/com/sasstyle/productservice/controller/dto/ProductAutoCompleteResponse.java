@@ -16,10 +16,14 @@ public class ProductAutoCompleteResponse {
     @Schema(description = "상품 이름", example = "한정판 후드티", required = true)
     private String name;
 
+    @Schema(description = "브랜드 이름", example = "싸스타일", required = true)
+    private String brandName;
+
     @QueryProjection
-    public ProductAutoCompleteResponse(Long productId, String imageUrl, String name) {
+    public ProductAutoCompleteResponse(Long productId, String imageUrl, String name, String brandName) {
         this.productId = productId;
         this.imageUrl = imageUrl;
         this.name = name;
+        this.brandName = brandName;
     }
 }
