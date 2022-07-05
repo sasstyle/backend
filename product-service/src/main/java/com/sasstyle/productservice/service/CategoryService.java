@@ -56,7 +56,6 @@ public class CategoryService {
                 .build();
 
         return categoryRepository.save(category).getId();
-
     }
 
     @Transactional

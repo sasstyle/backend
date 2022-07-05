@@ -1,4 +1,4 @@
-package com.sasstyle;
+package com.sasstyle.productservice;
 
 import com.sasstyle.productservice.entity.Category;
 

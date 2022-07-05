@@ -1,5 +1,7 @@
 package com.sasstyle.productservice.service;
 
+import com.sasstyle.productservice.CategoryDummy;
+import com.sasstyle.productservice.ProductDummy;
 import com.sasstyle.productservice.client.UserServiceClient;
 import com.sasstyle.productservice.controller.dto.ProductRequest;
 import com.sasstyle.productservice.controller.dto.ProductUpdateRequest;
@@ -21,6 +23,8 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static com.sasstyle.productservice.ProductDummy.BRAND_NAME;
+import static com.sasstyle.productservice.ProductDummy.USER_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -41,14 +45,10 @@ class ProductServiceTest {
     @Mock
     private UserServiceClient userServiceClient;
 
-    private Category category;
-    private ProductRequest request;
+    private Category 의류;
     private Product product;
-    private ProductProfile productProfile;
-
-    private String userId = "cf53ab4e-64c9-49a7-97a7-9d18b73af22d";
-    private String brandName = "싸스타일";
-
+    private ProductProfile profile;
+    private ProductRequest request;
     @BeforeEach
     void setUp() {
         request = new ProductRequest(
@@ -62,35 +62,28 @@ class ProductServiceTest {
                 new ArrayList<>()
         );
 
-        category = new Category(1L, null,"의류", 1, new ArrayList<>(), new ArrayList<>());
-
-        productProfile = ProductProfile.builder()
+        의류 = CategoryDummy.dummy(1L, null, "의류");
+        profile = ProductProfile.builder()
                 .profileUrl("https://picsum.photos/seed/picsum/200/300")
                 .build();
-
-        product = Product.builder()
-                .id(2L)
-                .category(category)
-                .userId(userId)
-                .brandName(brandName)
-                .productProfile(productProfile)
-                .name("한정판 맨투맨")
-                .price(10000)
-                .stockQuantity(10)
-                .topDescription("상단 설명")
-                .bottomDescription("하단 설명")
-                .productImages(new ArrayList<>())
-                .build();
+        product = ProductDummy.dummy(1L,
+                의류,
+                profile,
+                "한정판 맨투맨",
+                10000,
+                10,
+                "상단 설명!",
+                "하단 설명");
     }
 
     @Test
     @DisplayName("상품 등록")
     void 상품_등록() {
-        given(categoryRepository.findById(category.getId())).willReturn(Optional.of(category));
-        given(userServiceClient.findByUserId(userId)).willReturn(new UserResponse(brandName));
+        given(categoryRepository.findById(의류.getId())).willReturn(Optional.of(의류));
+        given(userServiceClient.findByUserId(USER_ID)).willReturn(new UserResponse(BRAND_NAME));
         given(productRepository.save(any())).willReturn(product);
 
-        Long productId = productService.createProduct(userId, request);
+        Long productId = productService.createProduct(USER_ID, request);
 
         assertThat(productId).isEqualTo(product.getId());
     }
@@ -108,7 +101,7 @@ class ProductServiceTest {
                 "업데이트 상단 설명",
                 "업데이트 하단 설명");
 
-        productService.updateProduct(userId, product.getId(), updateRequest);
+        productService.updateProduct(USER_ID, product.getId(), updateRequest);
 
         assertThat(product.getProductProfile().getProfileUrl()).isEqualTo(updateRequest.getProfileUrl());
         assertThat(product.getName()).isEqualTo(updateRequest.getName());
@@ -123,7 +116,7 @@ class ProductServiceTest {
     void 상품_삭제() {
         given(productRepository.findById(any())).willReturn(Optional.of(product));
 
-        productService.deleteProduct(userId, product.getId());
+        productService.deleteProduct(USER_ID, product.getId());
 
         given(productRepository.findById(product.getId())).willReturn(Optional.empty());
 

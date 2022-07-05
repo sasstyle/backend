@@ -40,20 +40,16 @@ public class Category extends BaseTime {
 
     //== 비지니스 메서드 ==//
     @Builder
-    public Category(Category category, String name) {
+    public Category(Long id, Category category, String name) {
         int depth = 0;
 
         if (category != null) {
             depth = category.getDepth() + 1;
         }
 
+        this.id = id;
         this.parent = category;
         this.name = name;
         this.depth = depth;
-    }
-
-    public void addChildren(Category category) {
-        children.add(category);
-        category.parent = this;
     }
 }
