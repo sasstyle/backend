@@ -6,6 +6,7 @@ import com.sasstyle.productservice.controller.dto.ProductUpdateRequest;
 import com.sasstyle.productservice.controller.dto.UserResponse;
 import com.sasstyle.productservice.entity.Category;
 import com.sasstyle.productservice.entity.Product;
+import com.sasstyle.productservice.entity.ProductProfile;
 import com.sasstyle.productservice.repository.CategoryRepository;
 import com.sasstyle.productservice.repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,6 +44,7 @@ class ProductServiceTest {
     private Category category;
     private ProductRequest request;
     private Product product;
+    private ProductProfile productProfile;
 
     private String userId = "cf53ab4e-64c9-49a7-97a7-9d18b73af22d";
     private String brandName = "싸스타일";
@@ -61,17 +63,23 @@ class ProductServiceTest {
         );
 
         category = new Category(1L, null,"의류", 1, new ArrayList<>(), new ArrayList<>());
+
+        productProfile = ProductProfile.builder()
+                .profileUrl("https://picsum.photos/seed/picsum/200/300")
+                .build();
+
         product = Product.builder()
                 .id(2L)
                 .category(category)
                 .userId(userId)
                 .brandName(brandName)
-                .profileUrl("https://picsum.photos/seed/picsum/200/300")
+                .productProfile(productProfile)
                 .name("한정판 맨투맨")
                 .price(10000)
                 .stockQuantity(10)
                 .topDescription("상단 설명")
                 .bottomDescription("하단 설명")
+                .productImages(new ArrayList<>())
                 .build();
     }
 

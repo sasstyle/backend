@@ -29,6 +29,7 @@ public class ProductProfile extends BaseTime {
     private String profileUrl;
 
     //== 비지니스 메서드 ==//
+    public void setProduct(Product product) { this.product = product; }
     public void setProfileUrl(String profileUrl) {
         this.profileUrl = profileUrl;
     }

@@ -4,6 +4,7 @@ import com.sasstyle.productservice.client.UserServiceClient;
 import com.sasstyle.productservice.controller.dto.*;
 import com.sasstyle.productservice.entity.Category;
 import com.sasstyle.productservice.entity.Product;
+import com.sasstyle.productservice.entity.ProductImage;
 import com.sasstyle.productservice.entity.ProductProfile;
 import com.sasstyle.productservice.repository.CategoryRepository;
 import com.sasstyle.productservice.repository.ProductRepository;
@@ -14,8 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
@@ -47,12 +50,12 @@ public class ProductService {
         return productRepository.findProducts(pageable);
     }
 
-    public Page<ProductResponse> searchInQuery(List<Long> categoryIds, Pageable pageable) {
-        return productRepository.searchInQuery(categoryIds, pageable);
-    }
-
     public Page<ProductResponse> search(ProductSearch productSearch, Pageable pageable) {
         return productRepository.search(productSearch, pageable);
+    }
+
+    public Page<ProductResponse> searchInQuery(List<Long> categoryIds, Pageable pageable) {
+        return productRepository.searchInQuery(categoryIds, pageable);
     }
 
     public List<ProductAutoCompleteResponse> autocomplete(ProductSearch productSearch, Pageable pageable) {
@@ -68,10 +71,23 @@ public class ProductService {
         // 사용자 조회
         UserResponse userResponse = userServiceClient.findByUserId(userId);
 
+        // 상품 프로필 생성
+        ProductProfile productProfile = ProductProfile.builder()
+                .profileUrl(request.getProfileUrl())
+                .build();
+
+        // 상품 상세 이미지 생성
+        List<ProductImage> productImages = new ArrayList<>();
+        if (isUploadImages(request.getImages())) {
+            productImages = request.getImages().stream()
+                    .map(ProductImage::new)
+                    .collect(Collectors.toList());
+        }
+
         // 상품 생성
         Product product = Product.builder()
                 .category(findCategory)
-                .profileUrl(request.getProfileUrl())
+                .productProfile(productProfile)
                 .userId(userId)
                 .brandName(userResponse.getName())
                 .name(request.getName())
@@ -79,7 +95,7 @@ public class ProductService {
                 .stockQuantity(request.getStockQuantity())
                 .topDescription(request.getTopDescription())
                 .bottomDescription(request.getBottomDescription())
-                .images(request.getImages())
+                .productImages(productImages)
                 .build();
 
         return productRepository.save(product).getId();
@@ -123,5 +139,9 @@ public class ProductService {
 
     private boolean hasProfileUrl(String profileUrl) {
         return StringUtils.hasText(profileUrl);
+    }
+
+    private boolean isUploadImages(List<String> images) {
+        return images != null && !images.isEmpty();
     }
 }

@@ -43,33 +43,23 @@ public class Product extends BaseTime {
 
     //== 비지니스 메서드 ==//
     @Builder
-    public Product(Long id, Category category, String userId, String brandName, String profileUrl, String name,
-                   int price, int stockQuantity, String topDescription, String bottomDescription, List<String> images) {
+    public Product(Long id, Category category, String userId, String brandName, ProductProfile productProfile, String name,
+                   int price, int stockQuantity, String topDescription, String bottomDescription, List<ProductImage> productImages) {
         this.id = id;
         this.category = category;
         this.userId = userId;
         this.brandName = brandName;
-        this.productProfile = ProductProfile.builder()
-                .product(this)
-                .profileUrl(profileUrl)
-                .build();
+        productProfile.setProduct(this);
+        this.productProfile = productProfile;
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
         this.topDescription = topDescription;
         this.bottomDescription = bottomDescription;
-        this.productImages = new ArrayList<>();
-
-        if (images != null && !images.isEmpty()) {
-            List<ProductImage> productImages = images.stream()
-                    .map(ProductImage::new)
-                    .collect(Collectors.toList());
-            productImages
-                    .stream()
-                    .forEach(this::addProductImage);
-
-            this.productImages = productImages;
-        }
+        productImages
+                .stream()
+                .forEach(this::addProductImage);
+        this.productImages = productImages;
     }
 
     public void update(String name, int price, int stockQuantity, String topDescription, String bottomDescription) {
