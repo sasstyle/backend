@@ -20,15 +20,19 @@ public class ProductResponse {
     @Schema(description = "상품 이름", example = "한정판 후드티", required = true)
     private String name;
 
+    @Schema(description = "브랜드 이름", example = "싸스타일", required = true)
+    private String brandName;
+
     @Schema(description = "상품 가격", example = "10000", required = true)
     private int price;
 
     @QueryProjection
-    public ProductResponse(Long categoryId, Long productId, String profileUrl, String name, int price) {
+    public ProductResponse(Long categoryId, Long productId, String profileUrl, String name, String brandName, int price) {
         this.categoryId = categoryId;
         this.productId = productId;
         this.profileUrl = profileUrl;
         this.name = name;
+        this.brandName = brandName;
         this.price = price;
     }
 
@@ -37,6 +41,7 @@ public class ProductResponse {
         this.productId = product.getId();
         this.profileUrl = product.getProductProfile().getProfileUrl();
         this.name = product.getName();
+        this.brandName = product.getBrandName();
         this.price = product.getPrice();
     }
 }
