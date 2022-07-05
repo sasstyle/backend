@@ -6,7 +6,6 @@ import com.sasstyle.productservice.entity.Category;
 import com.sasstyle.productservice.entity.Product;
 import com.sasstyle.productservice.repository.CategoryRepository;
 import com.sasstyle.productservice.repository.ProductRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -85,7 +84,7 @@ class ProductServiceTest {
 
         productService.updateProduct(userId, product.getId(), updateRequest);
 
-        assertThat(product.getImageUrl()).isEqualTo(updateRequest.getImageUrl());
+        assertThat(product.getImageUrl()).isEqualTo(updateRequest.getProfileUrl());
         assertThat(product.getName()).isEqualTo(updateRequest.getName());
         assertThat(product.getPrice()).isEqualTo(updateRequest.getPrice());
         assertThat(product.getStockQuantity()).isEqualTo(updateRequest.getStockQuantity());

@@ -1,8 +1,5 @@
 package com.sasstyle.productservice.entity;
 
-import com.sasstyle.productservice.controller.dto.ProductRequest;
-import com.sasstyle.productservice.controller.dto.ProductUpdateRequest;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,14 +7,14 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-@AllArgsConstructor
-@Builder
 @Entity
 public class Product extends BaseTime {
 
@@ -32,7 +29,9 @@ public class Product extends BaseTime {
 
     private String userId;
     private String brandName;
-    private String imageUrl;
+
+    @OneToOne(mappedBy = "product", fetch = LAZY, cascade = ALL)
+    private ProductProfile productProfile;
     private String name;
     private int price;
     private int stockQuantity;
@@ -40,37 +39,46 @@ public class Product extends BaseTime {
     private String bottomDescription;
     private long views;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<ProductDetail> productDetails = new ArrayList<>();
+    @OneToMany(mappedBy = "product", cascade = ALL, orphanRemoval = true)
+    private List<ProductImage> productImages = new ArrayList<>();
 
     //== 비지니스 메서드 ==//
-    public static Product create(Category category, String userId, String brandName, ProductRequest request) {
-        return Product.builder()
-                .category(category)
-                .userId(userId)
-                .brandName(brandName)
-                .imageUrl(request.getImageUrl())
-                .name(request.getName())
-                .price(request.getPrice())
-                .stockQuantity(request.getStockQuantity())
-                .topDescription(request.getTopDescription())
-                .bottomDescription(request.getBottomDescription())
-                .views(0L)
-                .productDetails(new ArrayList<>())
+    @Builder
+    public Product(Long id, Category category, String userId, String brandName, String profileUrl, String name,
+                   int price, int stockQuantity, String topDescription, String bottomDescription, long views, List<String> images) {
+        this.id = id;
+        this.category = category;
+        this.userId = userId;
+        this.brandName = brandName;
+        this.productProfile = ProductProfile.builder()
+                .product(this)
+                .profileUrl(profileUrl)
                 .build();
+        this.name = name;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.topDescription = topDescription;
+        this.bottomDescription = bottomDescription;
+        this.views = views;
+        List<ProductImage> productImages = images.stream()
+                .map(ProductImage::new)
+                .collect(Collectors.toList());
+        productImages
+                .stream()
+                .forEach(this::addProductImage);
+        this.productImages = productImages;
     }
 
-    public void update(ProductUpdateRequest request) {
-        this.imageUrl = request.getImageUrl();
-        this.name = request.getName();
-        this.price = request.getPrice();
-        this.stockQuantity = request.getStockQuantity();
-        this.topDescription = request.getTopDescription();
-        this.bottomDescription = request.getBottomDescription();
+    public void update(String name, int price, int stockQuantity, String topDescription, String bottomDescription) {
+        this.name = name;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.topDescription = topDescription;
+        this.bottomDescription = bottomDescription;
     }
 
-    public void addDetailImage(ProductDetail productDetail) {
-        this.productDetails.add(productDetail);
-        productDetail.setProduct(this);
+    public void addProductImage(ProductImage productImage) {
+        this.productImages.add(productImage);
+        productImage.setProduct(this);
     }
 }

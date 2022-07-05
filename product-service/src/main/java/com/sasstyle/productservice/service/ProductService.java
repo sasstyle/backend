@@ -4,7 +4,7 @@ import com.sasstyle.productservice.client.UserServiceClient;
 import com.sasstyle.productservice.controller.dto.*;
 import com.sasstyle.productservice.entity.Category;
 import com.sasstyle.productservice.entity.Product;
-import com.sasstyle.productservice.entity.ProductDetail;
+import com.sasstyle.productservice.entity.ProductProfile;
 import com.sasstyle.productservice.repository.CategoryRepository;
 import com.sasstyle.productservice.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -61,32 +62,48 @@ public class ProductService {
     @Transactional
     public Long createProduct(String userId, ProductRequest request) {
         // 카테고리 조회
-        Category category = categoryRepository.findById(request.getCategoryId())
+        Category findCategory = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new NoSuchElementException("카테고리를 찾을 수 없습니다."));
 
         // 사용자 조회
         UserResponse userResponse = userServiceClient.findByUserId(userId);
 
         // 상품 생성
-        Product product = Product.create(category, userId, userResponse.getName(), request);
-
-        // 상품 디테일 이미지 생성
-        request.getDetailImages().stream()
-                .map(ProductDetail::new)
-                .forEach(product::addDetailImage);
+        Product product = Product.builder()
+                .category(findCategory)
+                .profileUrl(request.getProfileUrl())
+                .userId(userId)
+                .brandName(userResponse.getName())
+                .name(request.getName())
+                .price(request.getPrice())
+                .stockQuantity(request.getStockQuantity())
+                .topDescription(request.getTopDescription())
+                .bottomDescription(request.getBottomDescription())
+                .images(request.getImages())
+                .build();
 
         return productRepository.save(product).getId();
     }
 
     @Transactional
     public void updateProduct(String userId, Long productId, ProductUpdateRequest request) {
-        Product product = findById(productId);
+        Product product = findProduct(productId);
 
         if (isNotValidSeller(userId, product.getUserId())) {
             throw new IllegalArgumentException("상품 판매자와 로그인한 사용자가 일치하지 않습니다.");
         }
 
-        product.update(request);
+        // 상품 프로필 업데이트
+        if (hasProfileUrl(request.getProfileUrl())) {
+            ProductProfile productProfile = product.getProductProfile();
+            productProfile.setProfileUrl(request.getProfileUrl());
+        }
+
+        product.update(request.getName(),
+                request.getPrice(),
+                request.getStockQuantity(),
+                request.getTopDescription(),
+                request.getBottomDescription());
     }
 
     @Transactional
@@ -102,5 +119,9 @@ public class ProductService {
 
     private boolean isNotValidSeller(String userId, String productUserId) {
         return !userId.equals(productUserId);
+    }
+
+    private boolean hasProfileUrl(String profileUrl) {
+        return StringUtils.hasText(profileUrl);
     }
 }

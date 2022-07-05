@@ -1,6 +1,9 @@
 package com.sasstyle.productservice.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -12,7 +15,7 @@ import static lombok.AccessLevel.PROTECTED;
 @AllArgsConstructor
 @Builder
 @Entity
-public class ProductDetail extends BaseTime {
+public class ProductImage extends BaseTime {
 
     @Id
     @GeneratedValue
@@ -27,7 +30,7 @@ public class ProductDetail extends BaseTime {
     private String imageUrl;
 
     //== 비지니스 메서드 ==//
-    public ProductDetail(String imageUrl) {
+    public ProductImage(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 

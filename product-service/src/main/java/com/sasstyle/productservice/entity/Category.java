@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,6 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
-@Builder
 @Entity
 public class Category extends BaseTime {
 
@@ -41,20 +39,17 @@ public class Category extends BaseTime {
     private List<Product> products = new ArrayList<>();
 
     //== 비지니스 메서드 ==//
-    public static Category create(Category category, String name) {
+    @Builder
+    public Category(Category category, String name) {
         int depth = 0;
 
         if (category != null) {
             depth = category.getDepth() + 1;
         }
 
-        return Category.builder()
-                .parent(category)
-                .name(name)
-                .depth(depth)
-                .children(new ArrayList<>())
-                .products(new ArrayList<>())
-                .build();
+        this.parent = category;
+        this.name = name;
+        this.depth = depth;
     }
 
     public void addChildren(Category category) {
