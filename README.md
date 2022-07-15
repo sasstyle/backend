@@ -7,3 +7,8 @@
 ## 아키텍처
 
 ## DB ERD
+
+## 📌Issue
+- [Entity 객체가 Dto를 의존하는 문제](https://github.com/sasstyle/backend/issues/24)
+- [마이크로서비스의 서비스를 나누는 경계](https://github.com/sasstyle/backend/issues/34)
+- [마이크로서비스의 트랜잭션 관리 방법](https://github.com/sasstyle/backend/issues/29)
