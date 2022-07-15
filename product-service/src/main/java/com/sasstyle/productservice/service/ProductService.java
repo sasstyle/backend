@@ -1,6 +1,7 @@
 package com.sasstyle.productservice.service;
 
 import com.sasstyle.productservice.client.UserServiceClient;
+import com.sasstyle.productservice.client.dto.UserResponse;
 import com.sasstyle.productservice.controller.dto.*;
 import com.sasstyle.productservice.entity.Category;
 import com.sasstyle.productservice.entity.Product;

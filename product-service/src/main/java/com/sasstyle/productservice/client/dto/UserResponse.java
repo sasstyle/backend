@@ -1,4 +1,4 @@
-package com.sasstyle.productservice.controller.dto;
+package com.sasstyle.productservice.client.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

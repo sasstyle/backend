@@ -32,7 +32,7 @@ public class JoinRequest {
     private String password;
 
     @NotNull(message = "이름을 입력해 주세요.")
-    @Pattern(regexp = "^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]{2,6}$",
+    @Pattern(regexp = "^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]{2,10}$",
             message = "이름은 2자리 이상 6자리 이하여야 하며 특수문자는 입력할 수 없습니다.")
     @Schema(description = "이름", example = "이순신", required = true)
     private String name;

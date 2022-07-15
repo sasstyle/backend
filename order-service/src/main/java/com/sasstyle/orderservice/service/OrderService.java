@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.sasstyle.orderservice.entity.OrderStatus.READY;
+import static com.sasstyle.orderservice.entity.OrderStatus.ORDER;
 
 @RequiredArgsConstructor
 @Service
@@ -22,6 +22,11 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final ProductServiceClient productServiceClient;
+
+    public Order findById(Long orderId) {
+        return orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("주문이 존재하지 않습니다."));
+    }
 
     public List<Order> findAllByOrderer(String userId) {
         return orderRepository.findAllByUserId(userId);
@@ -35,7 +40,8 @@ public class OrderService {
 
         Order order = Order.builder()
                 .userId(userId)
-                .status(READY)
+                .address(request.getAddress())
+                .status(ORDER)
                 .build();
 
         for (OrderProductRequest orderProductRequest : request.getData()) {

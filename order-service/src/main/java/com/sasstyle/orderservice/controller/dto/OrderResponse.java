@@ -25,6 +25,9 @@ public class OrderResponse {
     @Schema(description = "주문 날짜", example = "", required = true)
     private LocalDateTime orderDate;
 
+    @Schema(description = "배송 주소", example = "서울시 어딘가...", required = true)
+    private String address;
+
     public OrderResponse(Order order) {
         this.totalPrice = order.getOrderDetails().stream()
                 .mapToInt(orderProduct -> orderProduct.getProduct().getOrderPrice() * orderProduct.getProduct().getCount())
@@ -34,5 +37,6 @@ public class OrderResponse {
                 .collect(toList());
         this.status = order.getStatus();
         this.orderDate = order.getOrderDate();
+        this.address = order.getAddress().getDetails();
     }
 }
