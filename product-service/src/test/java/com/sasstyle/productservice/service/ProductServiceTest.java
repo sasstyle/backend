@@ -107,8 +107,6 @@ class ProductServiceTest {
         assertThat(product.getName()).isEqualTo(updateRequest.getName());
         assertThat(product.getPrice()).isEqualTo(updateRequest.getPrice());
         assertThat(product.getStockQuantity()).isEqualTo(updateRequest.getStockQuantity());
-        assertThat(product.getTopDescription()).isEqualTo(updateRequest.getTopDescription());
-        assertThat(product.getBottomDescription()).isEqualTo(updateRequest.getBottomDescription());
     }
 
     @Test

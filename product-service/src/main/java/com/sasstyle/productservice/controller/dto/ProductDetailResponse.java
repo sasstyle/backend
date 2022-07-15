@@ -24,12 +24,6 @@ public class ProductDetailResponse {
     @Schema(description = "상품 가격", example = "10000", required = true)
     private int price;
 
-    @Schema(description = "상단 설명", example = "많은 구매 부탁드립니다.")
-    private String topDescription;
-
-    @Schema(description = "하단 설명", example = "한정판매!")
-    private String bottomDescription;
-
     @Schema(description = "상품 상세 이미지", example = "[https://picsum.photos/seed/picsum/200/300]")
     private List<String> images;
 
@@ -38,8 +32,6 @@ public class ProductDetailResponse {
         this.name = product.getName();
         this.brandName = product.getBrandName();
         this.price = product.getPrice();
-        this.topDescription = product.getTopDescription();
-        this.bottomDescription = product.getBottomDescription();
         this.images = product.getProductImages().stream()
                 .map(detail -> String.valueOf(detail.getImageUrl()))
                 .collect(Collectors.toList());

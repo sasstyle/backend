@@ -22,8 +22,6 @@ public class ProductDummy {
                 .name(name)
                 .price(price)
                 .stockQuantity(stockQuantity)
-                .topDescription(topDescription)
-                .bottomDescription(bottomDescription)
                 .productImages(new ArrayList<>())
                 .build();
     }

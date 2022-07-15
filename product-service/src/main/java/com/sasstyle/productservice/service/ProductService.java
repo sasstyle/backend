@@ -94,8 +94,6 @@ public class ProductService {
                 .name(request.getName())
                 .price(request.getPrice())
                 .stockQuantity(request.getStockQuantity())
-                .topDescription(request.getTopDescription())
-                .bottomDescription(request.getBottomDescription())
                 .productImages(productImages)
                 .build();
 
