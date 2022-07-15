@@ -25,7 +25,7 @@ public class OrderController {
     @Operation(summary = "주문 목록 조회", description = "사용자 주문 목록을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "주문 목록 조회 성공")
     @GetMapping
-    public ResponseEntity<Result> findOrders(@RequestHeader String userId) {
+    public ResponseEntity<Result<List<OrderResponse>>> findOrders(@RequestHeader String userId) {
         List<OrderResponse> orderResponses = orderService.findAllByOrderer(userId).stream()
                 .map(OrderResponse::new)
                 .collect(toList());

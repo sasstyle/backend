@@ -1,9 +1,6 @@
 package com.sasstyle.productservice.controller;
 
-import com.sasstyle.productservice.controller.dto.CategoryIdResponse;
-import com.sasstyle.productservice.controller.dto.CategoryRequest;
-import com.sasstyle.productservice.controller.dto.ProductResponse;
-import com.sasstyle.productservice.controller.dto.Result;
+import com.sasstyle.productservice.controller.dto.*;
 import com.sasstyle.productservice.service.CategoryService;
 import com.sasstyle.productservice.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,7 +27,7 @@ public class CategoryController {
     @Operation(summary = "모든 카테고리 조회", description = "모든 카테고리를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "모든 카테고리 조회 성공")
     @GetMapping
-    public ResponseEntity<Result> categories() {
+    public ResponseEntity<Result<List<CategoryResponse>>> categories() {
         return ResponseEntity
                 .ok(new Result(categoryService.findAllWithChildren()));
     }

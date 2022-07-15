@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.http.HttpStatus.CREATED;
 
 @Slf4j
@@ -42,7 +44,7 @@ public class ProductController {
     @Operation(summary = "상품 이름 자동 완성", description = "상품 이름을 검색할때 자동 완성 목록을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "상품 목록 조회 성공")
     @GetMapping("/search/autocomplete")
-    public ResponseEntity<Result> autocomplete(@ModelAttribute ProductSearch productSearch, Pageable pageable) {
+    public ResponseEntity<Result<List<ProductAutoCompleteResponse>>> autocomplete(@ModelAttribute ProductSearch productSearch, Pageable pageable) {
         return ResponseEntity
                 .ok(new Result(productService.autocomplete(productSearch, pageable)));
     }
