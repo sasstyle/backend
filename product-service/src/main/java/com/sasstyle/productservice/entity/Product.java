@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.REMOVE;
 import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -39,8 +39,8 @@ public class Product extends BaseTime {
     @OneToMany(mappedBy = "product", cascade = ALL, orphanRemoval = true)
     private List<ProductImage> productImages = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product", cascade = ALL, orphanRemoval = true)
-    private List<ProductLike> productLikes = new ArrayList<>();
+    @OneToMany(mappedBy = "product", cascade = REMOVE, orphanRemoval = true)
+    private List<ProductWish> productWishes = new ArrayList<>();
 
     //== 비지니스 메서드 ==//
     @Builder

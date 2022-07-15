@@ -6,7 +6,6 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sasstyle.productservice.controller.dto.*;
 import com.sasstyle.productservice.entity.Product;
-import com.sasstyle.productservice.entity.QProductProfile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +17,7 @@ import static com.sasstyle.productservice.entity.QCategory.category;
 import static com.sasstyle.productservice.entity.QProduct.product;
 import static com.sasstyle.productservice.entity.QProductImage.productImage;
 import static com.sasstyle.productservice.entity.QProductProfile.productProfile;
+import static com.sasstyle.productservice.entity.QProductWish.productWish;
 import static org.springframework.util.StringUtils.hasText;
 
 @RequiredArgsConstructor
@@ -134,6 +134,35 @@ public class ProductRepositoryImpl implements ProductQueryRepository {
                 .limit(pageable.getPageSize())
                 .orderBy(orderById(productSearch.getSort()))
                 .fetch();
+    }
+
+    @Override
+    public Page<ProductResponse> findProductsWithWish(String userId, Pageable pageable) {
+        List<ProductResponse> content = queryFactory
+                .select(new QProductResponse(
+                        product.category.id,
+                        product.id,
+                        product.productProfile.profileUrl,
+                        product.name,
+                        product.brandName,
+                        product.price))
+                .distinct()
+                .from(product)
+                .join(product.category, category)
+                .join(product.productProfile, productProfile)
+                .join(product.productWishes, productWish)
+                .where(productWish.userId.eq(userId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(product.count()).from(product)
+                .join(product.category, category)
+                .join(product.productProfile, productProfile)
+                .join(product.productWishes, productWish);
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
     private BooleanExpression productIdEq(Long id) {
