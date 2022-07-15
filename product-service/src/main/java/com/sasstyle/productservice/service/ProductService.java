@@ -116,9 +116,7 @@ public class ProductService {
 
         product.update(request.getName(),
                 request.getPrice(),
-                request.getStockQuantity(),
-                request.getTopDescription(),
-                request.getBottomDescription());
+                request.getStockQuantity());
     }
 
     @Transactional

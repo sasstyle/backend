@@ -23,10 +23,4 @@ public class ProductUpdateRequest {
 
     @Schema(description = "재고 수량", example = "100", required = true)
     private int stockQuantity;
-
-    @Schema(description = "상단 설명", example = "많은 구매 부탁드립니다.", required = true)
-    private String topDescription;
-
-    @Schema(description = "하단 설명", example = "한정판매!", required = true)
-    private String bottomDescription;
 }

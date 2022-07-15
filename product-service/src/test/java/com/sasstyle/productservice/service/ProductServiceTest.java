@@ -3,9 +3,9 @@ package com.sasstyle.productservice.service;
 import com.sasstyle.productservice.CategoryDummy;
 import com.sasstyle.productservice.ProductDummy;
 import com.sasstyle.productservice.client.UserServiceClient;
+import com.sasstyle.productservice.client.dto.UserResponse;
 import com.sasstyle.productservice.controller.dto.ProductRequest;
 import com.sasstyle.productservice.controller.dto.ProductUpdateRequest;
-import com.sasstyle.productservice.client.dto.UserResponse;
 import com.sasstyle.productservice.entity.Category;
 import com.sasstyle.productservice.entity.Product;
 import com.sasstyle.productservice.entity.ProductProfile;
@@ -57,8 +57,6 @@ class ProductServiceTest {
                 "한정판 맨투맨",
                 10000,
                 10,
-                "상단 설명",
-                "하단 설명",
                 new ArrayList<>()
         );
 
@@ -71,9 +69,7 @@ class ProductServiceTest {
                 profile,
                 "한정판 맨투맨",
                 10000,
-                10,
-                "상단 설명!",
-                "하단 설명");
+                10);
     }
 
     @Test
@@ -97,9 +93,7 @@ class ProductServiceTest {
                 "https://picsum.photos/seed/picsum/200/300",
                 "예쁜 후드티",
                 20000,
-                100,
-                "업데이트 상단 설명",
-                "업데이트 하단 설명");
+                100);
 
         productService.updateProduct(USER_ID, product.getId(), updateRequest);
 

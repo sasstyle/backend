@@ -39,6 +39,9 @@ public class Product extends BaseTime {
     @OneToMany(mappedBy = "product", cascade = ALL, orphanRemoval = true)
     private List<ProductImage> productImages = new ArrayList<>();
 
+    @OneToMany(mappedBy = "product", cascade = ALL, orphanRemoval = true)
+    private List<ProductLike> productLikes = new ArrayList<>();
+
     //== 비지니스 메서드 ==//
     @Builder
     public Product(Long id, Category category, String userId, String brandName, ProductProfile productProfile, String name,
@@ -58,7 +61,7 @@ public class Product extends BaseTime {
         this.productImages = productImages;
     }
 
-    public void update(String name, int price, int stockQuantity, String topDescription, String bottomDescription) {
+    public void update(String name, int price, int stockQuantity) {
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;

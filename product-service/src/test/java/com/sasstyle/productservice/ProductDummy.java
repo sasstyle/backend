@@ -12,7 +12,7 @@ public class ProductDummy {
     public static final String BRAND_NAME = "싸스타일";
 
     public static Product dummy(Long id, Category category, ProductProfile productProfile, String name,
-                                int price, int stockQuantity, String topDescription, String bottomDescription) {
+                                int price, int stockQuantity) {
         return Product.builder()
                 .id(id)
                 .category(category)
