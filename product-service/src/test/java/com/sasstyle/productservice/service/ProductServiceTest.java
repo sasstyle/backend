@@ -5,7 +5,7 @@ import com.sasstyle.productservice.ProductDummy;
 import com.sasstyle.productservice.client.UserServiceClient;
 import com.sasstyle.productservice.controller.dto.ProductRequest;
 import com.sasstyle.productservice.controller.dto.ProductUpdateRequest;
-import com.sasstyle.productservice.controller.dto.UserResponse;
+import com.sasstyle.productservice.client.dto.UserResponse;
 import com.sasstyle.productservice.entity.Category;
 import com.sasstyle.productservice.entity.Product;
 import com.sasstyle.productservice.entity.ProductProfile;
