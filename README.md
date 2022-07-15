@@ -3,6 +3,17 @@
 ## 프로젝트 소개
 
 ## 기술 스택
+- Java11
+- Spring boot 2.7.1
+- Spring security
+- Spring data jpa
+- Spring cloud eureka
+- Junit5
+- H2 Database
+- Docker
+- Kubernetes
+- NaverCloud
+- Accordion
 
 ## 아키텍처
 
