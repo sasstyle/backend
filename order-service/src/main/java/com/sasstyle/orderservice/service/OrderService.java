@@ -35,6 +35,7 @@ public class OrderService {
 
         Order order = Order.builder()
                 .userId(userId)
+                .address(request.getAddress())
                 .status(READY)
                 .build();
 

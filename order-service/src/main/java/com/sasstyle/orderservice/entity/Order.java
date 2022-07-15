@@ -34,6 +34,9 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = ALL)
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
+    @Embedded
+    private Address address;
+
     @Enumerated(STRING)
     private OrderStatus status;
 
@@ -41,10 +44,11 @@ public class Order {
     private LocalDateTime orderDate;
 
     @Builder
-    public Order(Long id, String userId, OrderStatus status) {
+    public Order(Long id, String userId, OrderStatus status, String address) {
         this.id = id;
         this.userId = userId;
         this.status = status;
+        this.address = new Address(address);
     }
 
     //== 비지니스 메서드 ==//
