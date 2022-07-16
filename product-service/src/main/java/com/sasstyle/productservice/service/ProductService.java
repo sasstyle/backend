@@ -47,7 +47,7 @@ public class ProductService {
         return product;
     }
 
-    public Page<ProductResponse> findProducts(Pageable pageable) {
+    public Page<ProductResponse> findAllProduct(Pageable pageable) {
         return productRepository.findProducts(pageable);
     }
 
@@ -55,12 +55,12 @@ public class ProductService {
         return productRepository.search(productSearch, pageable);
     }
 
-    public Page<ProductResponse> searchInQuery(List<Long> categoryIds, Pageable pageable) {
-        return productRepository.searchInQuery(categoryIds, pageable);
+    public List<ProductSimpleResponse> findAllSimple(ProductSearch productSearch, Pageable pageable) {
+        return productRepository.findAllSimple(productSearch, pageable);
     }
 
-    public List<ProductAutoCompleteResponse> autocomplete(ProductSearch productSearch, Pageable pageable) {
-        return productRepository.autocomplete(productSearch, pageable);
+    public Page<ProductResponse> findAllByCategoryIds(List<Long> categoryIds, Pageable pageable) {
+        return productRepository.findAllByCategoryIds(categoryIds, pageable);
     }
 
     @Transactional

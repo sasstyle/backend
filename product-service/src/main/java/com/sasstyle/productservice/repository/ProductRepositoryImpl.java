@@ -6,7 +6,6 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sasstyle.productservice.controller.dto.*;
 import com.sasstyle.productservice.entity.Product;
-import com.sasstyle.productservice.entity.QProduct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +17,6 @@ import static com.sasstyle.productservice.entity.QCategory.category;
 import static com.sasstyle.productservice.entity.QProduct.product;
 import static com.sasstyle.productservice.entity.QProductImage.productImage;
 import static com.sasstyle.productservice.entity.QProductProfile.productProfile;
-import static com.sasstyle.productservice.entity.QProductWish.productWish;
 import static org.springframework.util.StringUtils.hasText;
 
 @RequiredArgsConstructor
@@ -68,35 +66,6 @@ public class ProductRepositoryImpl implements ProductQueryRepository {
     }
 
     @Override
-    public Page<ProductResponse> searchInQuery(List<Long> categoryIds, Pageable pageable) {
-        List<ProductResponse> content = queryFactory
-                .select(new QProductResponse(
-                        product.category.id,
-                        product.id,
-                        product.productProfile.profileUrl,
-                        product.name,
-                        product.brandName,
-                        product.price))
-                .from(product)
-                .distinct()
-                .join(product.category, category)
-                .join(product.productProfile, productProfile)
-                .where(category.id.in(categoryIds))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(product.id.desc())
-                .fetch();
-
-        JPAQuery<Long> countQuery = queryFactory
-                .select(product.count()).from(product).distinct()
-                .join(product.category, category)
-                .join(product.productProfile, productProfile)
-                .where(category.id.in(categoryIds));
-
-        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
-    }
-
-    @Override
     public Page<ProductResponse> search(ProductSearch productSearch, Pageable pageable) {
         List<ProductResponse> content = queryFactory
                 .select(new QProductResponse(
@@ -125,9 +94,9 @@ public class ProductRepositoryImpl implements ProductQueryRepository {
     }
 
     @Override
-    public List<ProductAutoCompleteResponse> autocomplete(ProductSearch productSearch, Pageable pageable) {
+    public List<ProductSimpleResponse> findAllSimple(ProductSearch productSearch, Pageable pageable) {
         return queryFactory
-                .select(new QProductAutoCompleteResponse(product.id, product.productProfile.profileUrl, product.name, product.brandName))
+                .select(new QProductSimpleResponse(product.id, product.productProfile.profileUrl, product.name, product.brandName))
                 .from(product)
                 .join(product.productProfile, productProfile)
                 .where(nameContains(productSearch.getName()))
@@ -136,7 +105,36 @@ public class ProductRepositoryImpl implements ProductQueryRepository {
                 .orderBy(orderById(productSearch.getSort()))
                 .fetch();
     }
-    
+
+    @Override
+    public Page<ProductResponse> findAllByCategoryIds(List<Long> categoryIds, Pageable pageable) {
+        List<ProductResponse> content = queryFactory
+                .select(new QProductResponse(
+                        product.category.id,
+                        product.id,
+                        product.productProfile.profileUrl,
+                        product.name,
+                        product.brandName,
+                        product.price))
+                .from(product)
+                .distinct()
+                .join(product.category, category)
+                .join(product.productProfile, productProfile)
+                .where(category.id.in(categoryIds))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(product.id.desc())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(product.count()).from(product).distinct()
+                .join(product.category, category)
+                .join(product.productProfile, productProfile)
+                .where(category.id.in(categoryIds));
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
+
     private BooleanExpression productIdEq(Long id) {
         return product.id.eq(id);
     }

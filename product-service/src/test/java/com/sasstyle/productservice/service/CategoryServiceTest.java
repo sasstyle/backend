@@ -70,9 +70,9 @@ class CategoryServiceTest {
     @Test
     @DisplayName("현재 카테고리 아이디 및 하위 아이디 조회")
     void 카테고리_아이디_조회() {
-        given(categoryRepository.findCategoryIds(의류.getId())).willReturn(List.of(상의.getId(), 의류.getId()));
+        given(categoryRepository.findWithChildrenIds(의류.getId())).willReturn(List.of(상의.getId(), 의류.getId()));
 
-        List<Long> categoryIds = categoryService.findCategoryIds(의류.getId());
+        List<Long> categoryIds = categoryService.findWithChildrenIds(의류.getId());
 
         assertThat(categoryIds.size()).isEqualTo(2);
         assertThat(categoryIds).contains(의류.getId());

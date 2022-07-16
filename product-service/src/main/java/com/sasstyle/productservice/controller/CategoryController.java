@@ -39,21 +39,21 @@ public class CategoryController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<Page<ProductResponse>> products(@PathVariable Long id, Pageable pageable) {
-        List<Long> categoryIds = categoryService.findCategoryIds(id);
+        List<Long> categoryIds = categoryService.findWithChildrenIds(id);
 
         return ResponseEntity
-                .ok(productService.searchInQuery(categoryIds, pageable));
+                .ok(productService.findAllByCategoryIds(categoryIds, pageable));
     }
 
     @Operation(summary = "카테고리 생성", description = "상품의 카테고리를 생성합니다.")
     @ApiResponse(responseCode = "201", description = "카테고리 생성 성공")
     @PostMapping
-    public ResponseEntity<CategoryIdResponse> createCategory(@RequestBody CategoryRequest request) {
-        Long categoryId = categoryService.createCategory(request.getCategoryId(), request.getName());
+    public ResponseEntity<Void> createCategory(@RequestBody CategoryRequest request) {
+        categoryService.createCategory(request.getCategoryId(), request.getName());
 
         return ResponseEntity
                 .status(CREATED)
-                .body(new CategoryIdResponse(categoryId));
+                .build();
     }
 
     @Operation(summary = "카테고리 삭제", description = "카테고리 아이디에 해당하는 카테고리 및 자식 카테고리를 삭제합니다.")

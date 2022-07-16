@@ -1,7 +1,6 @@
 package com.sasstyle.productservice.controller.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
-import com.sasstyle.productservice.entity.Product;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
@@ -34,14 +33,5 @@ public class ProductResponse {
         this.name = name;
         this.brandName = brandName;
         this.price = price;
-    }
-
-    public ProductResponse(Product product) {
-        this.categoryId = product.getCategory().getId();
-        this.productId = product.getId();
-        this.profileUrl = product.getProductProfile().getProfileUrl();
-        this.name = product.getName();
-        this.brandName = product.getBrandName();
-        this.price = product.getPrice();
     }
 }
