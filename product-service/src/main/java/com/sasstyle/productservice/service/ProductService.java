@@ -47,20 +47,24 @@ public class ProductService {
         return product;
     }
 
-    public Page<ProductResponse> findAllProduct(Pageable pageable) {
-        return productRepository.findProducts(pageable);
+    public ProductDetailResponse findProductWithWish(String userId, Long productId) {
+        return productRepository.findProductWithWish(userId, productId);
     }
 
-    public Page<ProductResponse> search(ProductSearch productSearch, Pageable pageable) {
-        return productRepository.search(productSearch, pageable);
+    public Page<ProductResponse> findProducts(String userId, Pageable pageable) {
+        return productRepository.findProducts(userId, pageable);
+    }
+
+    public Page<ProductResponse> search(String userId, ProductSearch productSearch, Pageable pageable) {
+        return productRepository.search(userId, productSearch, pageable);
     }
 
     public List<ProductSimpleResponse> findAllSimple(ProductSearch productSearch, Pageable pageable) {
         return productRepository.findAllSimple(productSearch, pageable);
     }
 
-    public Page<ProductResponse> findAllByCategoryIds(List<Long> categoryIds, Pageable pageable) {
-        return productRepository.findAllByCategoryIds(categoryIds, pageable);
+    public Page<ProductResponse> findAllByCategoryIds(String userId, List<Long> categoryIds, Pageable pageable) {
+        return productRepository.findAllByCategoryIds(userId, categoryIds, pageable);
     }
 
     @Transactional

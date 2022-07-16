@@ -25,13 +25,17 @@ public class ProductResponse {
     @Schema(description = "상품 가격", example = "10000", required = true)
     private int price;
 
+    @Schema(description = "상품 좋아요", example = "true", required = true)
+    private boolean isWish;
+
     @QueryProjection
-    public ProductResponse(Long categoryId, Long productId, String profileUrl, String name, String brandName, int price) {
+    public ProductResponse(Long categoryId, Long productId, String profileUrl, String name, String brandName, int price, boolean isWish) {
         this.categoryId = categoryId;
         this.productId = productId;
         this.profileUrl = profileUrl;
         this.name = name;
         this.brandName = brandName;
         this.price = price;
+        this.isWish = isWish;
     }
 }

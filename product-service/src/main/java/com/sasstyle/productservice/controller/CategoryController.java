@@ -38,11 +38,11 @@ public class CategoryController {
             @ApiResponse(responseCode = "400", description = "카테고리 아이디에 해당하는 카테고리가 존재하지 않는 경우에 발생할 수 있습니다.")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Page<ProductResponse>> products(@PathVariable Long id, Pageable pageable) {
+    public ResponseEntity<Page<ProductResponse>> products(@RequestHeader(required = false) String userId, @PathVariable Long id, Pageable pageable) {
         List<Long> categoryIds = categoryService.findWithChildrenIds(id);
 
         return ResponseEntity
-                .ok(productService.findAllByCategoryIds(categoryIds, pageable));
+                .ok(productService.findAllByCategoryIds(userId, categoryIds, pageable));
     }
 
     @Operation(summary = "카테고리 생성", description = "상품의 카테고리를 생성합니다.")

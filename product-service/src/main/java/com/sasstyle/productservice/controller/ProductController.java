@@ -27,9 +27,9 @@ public class ProductController {
     @Operation(summary = "모든 상품 조회", description = "모든 상품 목록을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "상품 목록 조회 성공")
     @GetMapping
-    public ResponseEntity<Page<ProductResponse>> products(Pageable pageable) {
+    public ResponseEntity<Page<ProductResponse>> products(@RequestHeader(required = false) String userId, Pageable pageable) {
         return ResponseEntity
-                .ok(productService.findAllProduct(pageable));
+                .ok(productService.findProducts(userId, pageable));
     }
 
     @Operation(summary = "상품 조회", description = "상품 아이디에 해당하는 상품을 조회합니다.")
@@ -38,17 +38,17 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "상품 아이디에 해당하는 상품이 존재하지 않는 경우에 발생할 수 있습니다.")
     })
     @GetMapping("/{productId}")
-    public ResponseEntity<ProductDetailResponse> product(@PathVariable Long productId) {
+    public ResponseEntity<ProductDetailResponse> product(@RequestHeader(required = false) String userId, @PathVariable Long productId) {
         return ResponseEntity
-                .ok(new ProductDetailResponse(productService.findProduct(productId)));
+                .ok(productService.findProductWithWish(userId, productId));
     }
 
     @Operation(summary = "상품 이름 검색", description = "상품 이름을 포함하는 상품 목록을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "상품 목록 조회 성공")
     @GetMapping("/search")
-    public ResponseEntity<Page<ProductResponse>> search(@ModelAttribute ProductSearch productSearch, Pageable pageable) {
+    public ResponseEntity<Page<ProductResponse>> search(@RequestHeader(required = false) String userId, @ModelAttribute ProductSearch productSearch, Pageable pageable) {
         return ResponseEntity
-                .ok(productService.search(productSearch, pageable));
+                .ok(productService.search(userId, productSearch, pageable));
     }
 
     @Operation(summary = "상품 이름 자동 완성", description = "상품 이름을 검색할때 자동 완성 목록을 조회합니다.")
