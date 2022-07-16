@@ -63,10 +63,6 @@ public class ProductService {
         return productRepository.autocomplete(productSearch, pageable);
     }
 
-    public Page<ProductResponse> findProductsWithWish(String userId, Pageable pageable) {
-        return productRepository.findProductsWithWish(userId, pageable);
-    }
-
     @Transactional
     public Long createProduct(String userId, ProductRequest request) {
         // 카테고리 조회

@@ -20,6 +20,4 @@ public interface ProductQueryRepository {
     Page<ProductResponse> search(ProductSearch productSearch, Pageable pageable);
 
     List<ProductAutoCompleteResponse> autocomplete(ProductSearch productSearch, Pageable pageable);
-
-    Page<ProductResponse> findProductsWithWish(String userId, Pageable pageable);
 }

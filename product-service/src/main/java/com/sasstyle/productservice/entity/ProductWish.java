@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Getter
@@ -18,12 +19,12 @@ public class ProductWish extends BaseTime {
 
     @Id
     @GeneratedValue
-    @Column(name = "product_like_id")
+    @Column(name = "product_wish_id")
     private Long id;
 
     private String userId;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 }

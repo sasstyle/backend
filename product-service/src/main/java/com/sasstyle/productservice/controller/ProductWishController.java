@@ -2,6 +2,8 @@ package com.sasstyle.productservice.controller;
 
 import com.sasstyle.productservice.controller.dto.ProductResponse;
 import com.sasstyle.productservice.controller.dto.WishRequest;
+import com.sasstyle.productservice.controller.dto.WishResponse;
+import com.sasstyle.productservice.entity.ProductWish;
 import com.sasstyle.productservice.service.ProductWishService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -10,6 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -21,8 +26,8 @@ public class ProductWishController {
 
     @Operation(summary = "위시리스트 상품 목록", description = "사용자가 좋아요를 누른 상품 목록을 출력합니다.")
     @ApiResponse(responseCode = "200", description = "위시리스트 상품 목록 반환 성공")
-    @GetMapping("/me")
-    public ResponseEntity<Page<ProductResponse>> wishList(@RequestHeader String userId, Pageable pageable) {
+    @GetMapping
+    public ResponseEntity<Page<WishResponse>> wishList(@RequestHeader String userId, Pageable pageable) {
         return ResponseEntity
                 .ok(productWishService.findWishList(userId, pageable));
     }

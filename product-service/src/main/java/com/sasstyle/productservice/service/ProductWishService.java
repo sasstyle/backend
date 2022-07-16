@@ -1,6 +1,7 @@
 package com.sasstyle.productservice.service;
 
 import com.sasstyle.productservice.controller.dto.ProductResponse;
+import com.sasstyle.productservice.controller.dto.WishResponse;
 import com.sasstyle.productservice.entity.Product;
 import com.sasstyle.productservice.entity.ProductWish;
 import com.sasstyle.productservice.repository.ProductWishRepository;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
@@ -20,8 +22,8 @@ public class ProductWishService {
     private final ProductService productService;
     private final ProductWishRepository productWishRepository;
 
-    public Page<ProductResponse> findWishList(String userId, Pageable pageable) {
-        return productService.findProductsWithWish(userId, pageable);
+    public Page<WishResponse> findWishList(String userId, Pageable pageable) {
+        return productWishRepository.findAllWithProduct(userId, pageable);
     }
 
     @Transactional
