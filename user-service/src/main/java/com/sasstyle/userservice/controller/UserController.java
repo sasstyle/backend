@@ -37,7 +37,7 @@ public class UserController {
     @Operation(summary = "사용자 정보 조회", description = "userId에 해당하는 사용자 정보를 반환합니다.")
     @ApiResponse(responseCode = "200", description = "사용자 정보 조회 성공")
     @GetMapping("/{userId}")
-    public ResponseEntity<UserInfoResponse> findByUserId(@PathVariable String userId) {
+    public ResponseEntity<UserInfoResponse> info(@PathVariable String userId) {
         return ResponseEntity
                 .ok(new UserInfoResponse(userService.findByUserId(userId)));
     }
