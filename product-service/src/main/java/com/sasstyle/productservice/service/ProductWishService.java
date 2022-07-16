@@ -1,6 +1,5 @@
 package com.sasstyle.productservice.service;
 
-import com.sasstyle.productservice.controller.dto.ProductResponse;
 import com.sasstyle.productservice.controller.dto.WishResponse;
 import com.sasstyle.productservice.entity.Product;
 import com.sasstyle.productservice.entity.ProductWish;
@@ -10,9 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Service

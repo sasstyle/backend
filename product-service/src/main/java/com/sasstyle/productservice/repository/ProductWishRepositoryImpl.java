@@ -4,7 +4,6 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sasstyle.productservice.controller.dto.QWishResponse;
 import com.sasstyle.productservice.controller.dto.WishResponse;
-import com.sasstyle.productservice.entity.ProductWish;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +11,6 @@ import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
 
-import static com.sasstyle.productservice.entity.QCategory.category;
 import static com.sasstyle.productservice.entity.QProduct.product;
 import static com.sasstyle.productservice.entity.QProductProfile.productProfile;
 import static com.sasstyle.productservice.entity.QProductWish.productWish;

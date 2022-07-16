@@ -1,9 +1,7 @@
 package com.sasstyle.productservice.controller;
 
-import com.sasstyle.productservice.controller.dto.ProductResponse;
 import com.sasstyle.productservice.controller.dto.WishRequest;
 import com.sasstyle.productservice.controller.dto.WishResponse;
-import com.sasstyle.productservice.entity.ProductWish;
 import com.sasstyle.productservice.service.ProductWishService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -12,9 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
