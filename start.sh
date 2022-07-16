@@ -2,6 +2,6 @@
 
 echo [+] Creating backend docker container
 
-echo sudo docker-compose up -d
+sudo docker-compose up -d
 
 echo [+] Done!
