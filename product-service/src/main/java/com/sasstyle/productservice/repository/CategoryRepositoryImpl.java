@@ -32,7 +32,7 @@ public class CategoryRepositoryImpl implements CategoryQueryRepository {
     }
 
     @Override
-    public List<Long> findCategoryIds(Long id) {
+    public List<Long> findWithChildrenIds(Long id) {
         QCategory children = new QCategory("children");
 
         Category result = queryFactory

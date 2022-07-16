@@ -27,8 +27,8 @@ public class CategoryService {
 
     }
 
-    public List<Long> findCategoryIds(Long id) {
-        List<Long> categoryIds = categoryRepository.findCategoryIds(id);
+    public List<Long> findWithChildrenIds(Long id) {
+        List<Long> categoryIds = categoryRepository.findWithChildrenIds(id);
 
         if (categoryIds.isEmpty()) {
             throw new NoSuchElementException("카테고리를 찾을 수 없습니다.");
@@ -39,17 +39,12 @@ public class CategoryService {
 
     @Transactional
     public Long createCategory(Long id, String name) {
-        // 부모 카테고리 생성
-        if (isParent(id)) {
-            Category category = Category.builder()
-                    .name(name)
-                    .build();
+        Category parentCategory = null;
 
-            return categoryRepository.save(category).getId();
+        if (id != null) {
+            parentCategory = findById(id);
         }
 
-        // 자식 카테고리 생성
-        Category parentCategory = findById(id);
         Category category = Category.builder()
                 .category(parentCategory)
                 .name(name)
@@ -60,12 +55,6 @@ public class CategoryService {
 
     @Transactional
     public void deleteCategory(Long id) {
-        Category category = findById(id);
-
-        categoryRepository.delete(category);
-    }
-
-    private boolean isParent(Long id) {
-        return id == null;
+        categoryRepository.deleteById(id);
     }
 }

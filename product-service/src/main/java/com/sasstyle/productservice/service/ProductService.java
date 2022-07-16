@@ -1,6 +1,7 @@
 package com.sasstyle.productservice.service;
 
 import com.sasstyle.productservice.client.UserServiceClient;
+import com.sasstyle.productservice.client.dto.UserResponse;
 import com.sasstyle.productservice.controller.dto.*;
 import com.sasstyle.productservice.entity.Category;
 import com.sasstyle.productservice.entity.Product;
@@ -46,20 +47,24 @@ public class ProductService {
         return product;
     }
 
-    public Page<ProductResponse> findProducts(Pageable pageable) {
-        return productRepository.findProducts(pageable);
+    public ProductDetailResponse findProductWithWish(String userId, Long productId) {
+        return productRepository.findProductWithWish(userId, productId);
     }
 
-    public Page<ProductResponse> search(ProductSearch productSearch, Pageable pageable) {
-        return productRepository.search(productSearch, pageable);
+    public Page<ProductResponse> findProducts(String userId, Pageable pageable) {
+        return productRepository.findProducts(userId, pageable);
     }
 
-    public Page<ProductResponse> searchInQuery(List<Long> categoryIds, Pageable pageable) {
-        return productRepository.searchInQuery(categoryIds, pageable);
+    public Page<ProductResponse> search(String userId, ProductSearch productSearch, Pageable pageable) {
+        return productRepository.search(userId, productSearch, pageable);
     }
 
-    public List<ProductAutoCompleteResponse> autocomplete(ProductSearch productSearch, Pageable pageable) {
-        return productRepository.autocomplete(productSearch, pageable);
+    public List<ProductSimpleResponse> findAllSimple(ProductSearch productSearch, Pageable pageable) {
+        return productRepository.findAllSimple(productSearch, pageable);
+    }
+
+    public Page<ProductResponse> findAllByCategoryIds(String userId, List<Long> categoryIds, Pageable pageable) {
+        return productRepository.findAllByCategoryIds(userId, categoryIds, pageable);
     }
 
     @Transactional
@@ -93,8 +98,6 @@ public class ProductService {
                 .name(request.getName())
                 .price(request.getPrice())
                 .stockQuantity(request.getStockQuantity())
-                .topDescription(request.getTopDescription())
-                .bottomDescription(request.getBottomDescription())
                 .productImages(productImages)
                 .build();
 
@@ -117,9 +120,7 @@ public class ProductService {
 
         product.update(request.getName(),
                 request.getPrice(),
-                request.getStockQuantity(),
-                request.getTopDescription(),
-                request.getBottomDescription());
+                request.getStockQuantity());
     }
 
     @Transactional

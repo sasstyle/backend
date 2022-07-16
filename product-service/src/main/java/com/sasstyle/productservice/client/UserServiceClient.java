@@ -1,6 +1,6 @@
 package com.sasstyle.productservice.client;
 
-import com.sasstyle.productservice.controller.dto.UserResponse;
+import com.sasstyle.productservice.client.dto.UserResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

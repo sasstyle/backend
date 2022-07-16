@@ -8,5 +8,5 @@ public interface CategoryQueryRepository {
 
     List<CategoryResponse> findAllWithChildren();
 
-    List<Long> findCategoryIds(Long id);
+    List<Long> findWithChildrenIds(Long id);
 }

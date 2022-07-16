@@ -1,9 +1,6 @@
 package com.sasstyle.productservice.controller;
 
-import com.sasstyle.productservice.controller.dto.CategoryIdResponse;
-import com.sasstyle.productservice.controller.dto.CategoryRequest;
-import com.sasstyle.productservice.controller.dto.ProductResponse;
-import com.sasstyle.productservice.controller.dto.Result;
+import com.sasstyle.productservice.controller.dto.*;
 import com.sasstyle.productservice.service.CategoryService;
 import com.sasstyle.productservice.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,7 +27,7 @@ public class CategoryController {
     @Operation(summary = "모든 카테고리 조회", description = "모든 카테고리를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "모든 카테고리 조회 성공")
     @GetMapping
-    public ResponseEntity<Result> categories() {
+    public ResponseEntity<Result<List<CategoryResponse>>> categories() {
         return ResponseEntity
                 .ok(new Result(categoryService.findAllWithChildren()));
     }
@@ -41,22 +38,22 @@ public class CategoryController {
             @ApiResponse(responseCode = "400", description = "카테고리 아이디에 해당하는 카테고리가 존재하지 않는 경우에 발생할 수 있습니다.")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Page<ProductResponse>> products(@PathVariable Long id, Pageable pageable) {
-        List<Long> categoryIds = categoryService.findCategoryIds(id);
+    public ResponseEntity<Page<ProductResponse>> products(@RequestHeader(required = false) String userId, @PathVariable Long id, Pageable pageable) {
+        List<Long> categoryIds = categoryService.findWithChildrenIds(id);
 
         return ResponseEntity
-                .ok(productService.searchInQuery(categoryIds, pageable));
+                .ok(productService.findAllByCategoryIds(userId, categoryIds, pageable));
     }
 
     @Operation(summary = "카테고리 생성", description = "상품의 카테고리를 생성합니다.")
     @ApiResponse(responseCode = "201", description = "카테고리 생성 성공")
     @PostMapping
-    public ResponseEntity<CategoryIdResponse> createCategory(@RequestBody CategoryRequest request) {
-        Long categoryId = categoryService.createCategory(request.getCategoryId(), request.getName());
+    public ResponseEntity<Void> createCategory(@RequestBody CategoryRequest request) {
+        categoryService.createCategory(request.getCategoryId(), request.getName());
 
         return ResponseEntity
                 .status(CREATED)
-                .body(new CategoryIdResponse(categoryId));
+                .build();
     }
 
     @Operation(summary = "카테고리 삭제", description = "카테고리 아이디에 해당하는 카테고리 및 자식 카테고리를 삭제합니다.")

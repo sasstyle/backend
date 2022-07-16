@@ -1,7 +1,6 @@
 package com.sasstyle.productservice.controller.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
-import com.sasstyle.productservice.entity.Product;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
@@ -26,22 +25,17 @@ public class ProductResponse {
     @Schema(description = "상품 가격", example = "10000", required = true)
     private int price;
 
+    @Schema(description = "상품 좋아요", example = "true", required = true)
+    private boolean isWish;
+
     @QueryProjection
-    public ProductResponse(Long categoryId, Long productId, String profileUrl, String name, String brandName, int price) {
+    public ProductResponse(Long categoryId, Long productId, String profileUrl, String name, String brandName, int price, boolean isWish) {
         this.categoryId = categoryId;
         this.productId = productId;
         this.profileUrl = profileUrl;
         this.name = name;
         this.brandName = brandName;
         this.price = price;
-    }
-
-    public ProductResponse(Product product) {
-        this.categoryId = product.getCategory().getId();
-        this.productId = product.getId();
-        this.profileUrl = product.getProductProfile().getProfileUrl();
-        this.name = product.getName();
-        this.brandName = product.getBrandName();
-        this.price = product.getPrice();
+        this.isWish = isWish;
     }
 }

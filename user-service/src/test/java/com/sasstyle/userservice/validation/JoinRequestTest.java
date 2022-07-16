@@ -176,9 +176,9 @@ public class JoinRequestTest extends BeanValidationTest {
     }
 
     @Test
-    @DisplayName("회원가입 실패 - 사용자 이름이 7자리 이상인 경우")
-    void 회원가입_실패_이름_7자_이상() {
-        request.setName("홍길동홍길동홍");
+    @DisplayName("회원가입 실패 - 사용자 이름이 11자리 이상인 경우")
+    void 회원가입_실패_이름_11자_이상() {
+        request.setName("홍길동홍길동홍길동홍길동");
 
         isJoinFalse();
     }
