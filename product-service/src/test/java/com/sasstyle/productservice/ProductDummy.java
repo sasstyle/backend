@@ -15,6 +15,7 @@ public class ProductDummy {
     private static final int PRODUCT_PRICE = 10000;
     private static final int PRODUCT_STOCKQUANTITY = 10;
 
+
     public static ProductRequest 상품_요청() {
         return new ProductRequest(
                 1L,
