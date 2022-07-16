@@ -6,7 +6,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sasstyle.productservice.controller.dto.*;
 import com.sasstyle.productservice.entity.Product;
-import com.sasstyle.productservice.entity.QProductProfile;
+import com.sasstyle.productservice.entity.QProduct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +18,7 @@ import static com.sasstyle.productservice.entity.QCategory.category;
 import static com.sasstyle.productservice.entity.QProduct.product;
 import static com.sasstyle.productservice.entity.QProductImage.productImage;
 import static com.sasstyle.productservice.entity.QProductProfile.productProfile;
+import static com.sasstyle.productservice.entity.QProductWish.productWish;
 import static org.springframework.util.StringUtils.hasText;
 
 @RequiredArgsConstructor
@@ -135,7 +136,7 @@ public class ProductRepositoryImpl implements ProductQueryRepository {
                 .orderBy(orderById(productSearch.getSort()))
                 .fetch();
     }
-
+    
     private BooleanExpression productIdEq(Long id) {
         return product.id.eq(id);
     }

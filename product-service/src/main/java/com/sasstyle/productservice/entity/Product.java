@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.REMOVE;
 import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -35,16 +35,17 @@ public class Product extends BaseTime {
     private String name;
     private int price;
     private int stockQuantity;
-    private String topDescription;
-    private String bottomDescription;
 
     @OneToMany(mappedBy = "product", cascade = ALL, orphanRemoval = true)
     private List<ProductImage> productImages = new ArrayList<>();
 
+    @OneToMany(mappedBy = "product", cascade = REMOVE, orphanRemoval = true)
+    private List<ProductWish> productWishes = new ArrayList<>();
+
     //== 비지니스 메서드 ==//
     @Builder
     public Product(Long id, Category category, String userId, String brandName, ProductProfile productProfile, String name,
-                   int price, int stockQuantity, String topDescription, String bottomDescription, List<ProductImage> productImages) {
+                   int price, int stockQuantity, List<ProductImage> productImages) {
         this.id = id;
         this.category = category;
         this.userId = userId;
@@ -54,20 +55,16 @@ public class Product extends BaseTime {
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
-        this.topDescription = topDescription;
-        this.bottomDescription = bottomDescription;
         productImages
                 .stream()
                 .forEach(this::addProductImage);
         this.productImages = productImages;
     }
 
-    public void update(String name, int price, int stockQuantity, String topDescription, String bottomDescription) {
+    public void update(String name, int price, int stockQuantity) {
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
-        this.topDescription = topDescription;
-        this.bottomDescription = bottomDescription;
     }
 
     public void addProductImage(ProductImage productImage) {

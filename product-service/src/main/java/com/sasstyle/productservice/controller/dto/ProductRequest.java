@@ -29,12 +29,6 @@ public class ProductRequest {
     @Schema(description = "재고 수량", example = "100", required = true)
     private int stockQuantity;
 
-    @Schema(description = "상단 설명", example = "많은 구매 부탁드립니다.")
-    private String topDescription;
-
-    @Schema(description = "하단 설명", example = "한정판매!")
-    private String bottomDescription;
-
     @Schema(description = "상품 상세 이미지", example = "[https://picsum.photos/seed/picsum/200/300]")
     private List<String> images;
 }

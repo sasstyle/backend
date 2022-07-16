@@ -1,8 +1,8 @@
 package com.sasstyle.productservice.repository;
 
+import com.sasstyle.productservice.controller.dto.ProductAutoCompleteResponse;
 import com.sasstyle.productservice.controller.dto.ProductResponse;
 import com.sasstyle.productservice.controller.dto.ProductSearch;
-import com.sasstyle.productservice.controller.dto.ProductAutoCompleteResponse;
 import com.sasstyle.productservice.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
