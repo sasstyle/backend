@@ -69,7 +69,7 @@ class ProductServiceTest {
     @Test
     @DisplayName("상품 수정")
     void 상품_수정() {
-        given(productRepository.findProduct(userId, any())).willReturn(더미_상품);
+        given(productRepository.findProduct(any())).willReturn(더미_상품);
 
         ProductUpdateRequest updateRequest = new ProductUpdateRequest(
                 "https://picsum.photos/seed/picsum/200/300",
