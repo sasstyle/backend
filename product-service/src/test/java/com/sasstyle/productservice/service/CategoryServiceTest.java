@@ -28,17 +28,18 @@ class CategoryServiceTest {
     @Mock
     private CategoryRepository categoryRepository;
 
+    private Category 의류 = CategoryDummy.의류();
+    private Category 상의 = CategoryDummy.상의();
+
     @BeforeEach
     void setUp() {
-
-
+        의류 = CategoryDummy.의류();
+        상의 = CategoryDummy.상의();
     }
 
     @Test
     @DisplayName("모든 카테고리 조회")
     void 모든_카테고리_조회() {
-        Category 의류 = CategoryDummy.dummy(1L, null, "의류");
-        Category 상의 = CategoryDummy.dummy(2L, 의류, "상의");
         List<Category> categories = List.of(의류, 상의);
         List<CategoryResponse> responses = categories
                 .stream()
@@ -55,8 +56,6 @@ class CategoryServiceTest {
     @Test
     @DisplayName("단일 카테고리 조회")
     void 카테고리_조회() {
-        Category 상의 = CategoryDummy.dummy(1L, null, "상의");
-
         상의.getChildren().clear();
         given(categoryRepository.findById(상의.getId())).willReturn(Optional.of(상의));
 
@@ -71,9 +70,6 @@ class CategoryServiceTest {
     @Test
     @DisplayName("현재 카테고리 아이디 및 하위 아이디 조회")
     void 카테고리_아이디_조회() {
-        Category 의류 = CategoryDummy.dummy(1L,null, "의류");
-        Category 상의 = CategoryDummy.dummy(2L, 의류, "상의");
-
         given(categoryRepository.findCategoryIds(의류.getId())).willReturn(List.of(상의.getId(), 의류.getId()));
 
         List<Long> categoryIds = categoryService.findCategoryIds(의류.getId());
@@ -86,8 +82,6 @@ class CategoryServiceTest {
     @Test
     @DisplayName("카테고리 생성")
     void 카테고리_생성() {
-        Category 의류 = CategoryDummy.dummy(1L,null, "의류");
-
         given(categoryRepository.save(any())).willReturn(의류);
 
         Long savedCategoryId = categoryService.createCategory(null, 의류.getName());
@@ -98,9 +92,6 @@ class CategoryServiceTest {
     @Test
     @DisplayName("카테고리 삭제")
     void 카테고리_삭제() {
-        Category 의류 = CategoryDummy.dummy(1L,null, "의류");
-        Category 상의 = CategoryDummy.dummy(2L, 의류, "상의");
-
         given(categoryRepository.findById(의류.getId())).willReturn(Optional.of(의류));
 
         categoryService.deleteCategory(의류.getId());
