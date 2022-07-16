@@ -17,7 +17,9 @@ services:
       - sasstyle-network
 
   config-service:
-    image: config-service
+    build:
+      context: ./config-service
+      dockerfile: Dockerfile
     container_name: config-service
     restart: always
     depends_on:
@@ -28,7 +30,9 @@ services:
       - sasstyle-network
 
   discovery-service:
-    image: discovery-service
+    build:
+      context: ./discovery-service
+      dockerfile: Dockerfile
     container_name: discovery-service
     restart: always
     depends_on:
@@ -42,7 +46,9 @@ services:
       - sasstyle-network
 
   gateway-service:
-    image: gateway-service
+    build:
+      context: ./gateway-service
+      dockerfile: Dockerfile
     container_name: gateway-service
     restart: always
     depends_on:
@@ -58,7 +64,9 @@ services:
       - sasstyle-network
 
   user-service:
-    image: user-service
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
     container_name: user-service
     restart: always
     depends_on:
@@ -73,7 +81,9 @@ services:
       - sasstyle-network
 
   product-service:
-    image: product-service
+    build:
+      context: ./product-service
+      dockerfile: Dockerfile
     container_name: product-service
     restart: always
     depends_on:
@@ -82,6 +92,25 @@ services:
       - discovery-service
       - gateway-service
       - user-service
+    environment:
+      SPRING_CLOUD_CONFIG_URI: "http://config-service:8888"
+      SRPING_RABBITMQ_HOST: "rabbitmq"
+    networks:
+      - sasstyle-network
+
+  order-service:
+    build:
+      context: ./order-service
+      dockerfile: Dockerfile
+    container_name: order-service
+    restart: always
+    depends_on:
+      - rabbitmq
+      - config-service
+      - discovery-service
+      - gateway-service
+      - user-service
+      - product-service
     environment:
       SPRING_CLOUD_CONFIG_URI: "http://config-service:8888"
       SRPING_RABBITMQ_HOST: "rabbitmq"

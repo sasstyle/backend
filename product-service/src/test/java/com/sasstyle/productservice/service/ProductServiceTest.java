@@ -8,7 +8,6 @@ import com.sasstyle.productservice.controller.dto.ProductRequest;
 import com.sasstyle.productservice.controller.dto.ProductUpdateRequest;
 import com.sasstyle.productservice.entity.Category;
 import com.sasstyle.productservice.entity.Product;
-import com.sasstyle.productservice.entity.ProductProfile;
 import com.sasstyle.productservice.repository.CategoryRepository;
 import com.sasstyle.productservice.repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;

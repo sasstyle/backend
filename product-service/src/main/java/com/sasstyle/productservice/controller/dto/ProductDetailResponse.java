@@ -1,14 +1,16 @@
 package com.sasstyle.productservice.controller.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import com.sasstyle.productservice.entity.Product;
+import com.sasstyle.productservice.entity.ProductImage;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Getter
 public class ProductDetailResponse {
 
@@ -27,13 +29,19 @@ public class ProductDetailResponse {
     @Schema(description = "상품 상세 이미지", example = "[https://picsum.photos/seed/picsum/200/300]")
     private List<String> images;
 
-    public ProductDetailResponse(Product product) {
-        this.profileUrl = product.getProductProfile().getProfileUrl();
-        this.name = product.getName();
-        this.brandName = product.getBrandName();
-        this.price = product.getPrice();
-        this.images = product.getProductImages().stream()
-                .map(detail -> String.valueOf(detail.getImageUrl()))
+    @Schema(description = "상품 좋아요", example = "true", required = true)
+    private boolean isWish;
+
+    @QueryProjection
+    public ProductDetailResponse(String profileUrl, String name, String brandName, int price, List<ProductImage> images, boolean isWish) {
+        this.profileUrl = profileUrl;
+        this.name = name;
+        this.brandName = brandName;
+        this.price = price;
+        this.images = images
+                .stream()
+                .map(image -> image.getImageUrl())
                 .collect(Collectors.toList());
+        this.isWish = isWish;
     }
 }

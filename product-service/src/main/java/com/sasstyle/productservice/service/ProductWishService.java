@@ -18,7 +18,7 @@ public class ProductWishService {
     private final ProductService productService;
     private final ProductWishRepository productWishRepository;
 
-    public Page<WishResponse> findWishList(String userId, Pageable pageable) {
+    public Page<WishResponse> findAllWish(String userId, Pageable pageable) {
         return productWishRepository.findAllWithProduct(userId, pageable);
     }
 
