@@ -37,6 +37,9 @@ dependencies {
 
     //openfeign
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+    // openapi
+    implementation 'org.springdoc:springdoc-openapi-webmvc-core:1.6.9'
 }
 
 dependencyManagement {
