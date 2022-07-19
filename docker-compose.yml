@@ -98,6 +98,25 @@ services:
     networks:
       - sasstyle-network
 
+  cart-service:
+    build:
+      context: ./cart-service
+      dockerfile: Dockerfile
+    container_name: cart-service
+    restart: always
+    depends_on:
+      - rabbitmq
+      - config-service
+      - discovery-service
+      - gateway-service
+      - user-service
+      - product-service
+    environment:
+      SPRING_CLOUD_CONFIG_URI: "http://config-service:8888"
+      SRPING_RABBITMQ_HOST: "rabbitmq"
+    networks:
+      - sasstyle-network
+
   order-service:
     build:
       context: ./order-service
@@ -111,6 +130,7 @@ services:
       - gateway-service
       - user-service
       - product-service
+      - cart-service
     environment:
       SPRING_CLOUD_CONFIG_URI: "http://config-service:8888"
       SRPING_RABBITMQ_HOST: "rabbitmq"
