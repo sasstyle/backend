@@ -49,7 +49,7 @@ public class CartService {
     }
 
     @Transactional
-    public Long addCart(String userId, Long productId, int count) {
+    public void addCart(String userId, Long productId, int count) {
         Cart cart = cartRepository.findCart(userId)
                 .orElse(Cart.builder().userId(userId).build());
 
@@ -66,9 +66,8 @@ public class CartService {
                     .build();
 
             cart.addCartDetail(cartDetail);
+            cartRepository.save(cart);
         }
-
-        return cartRepository.save(cart).getId();
     }
 
     @Transactional
