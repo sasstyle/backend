@@ -13,5 +13,6 @@ public class ProductResponse {
 
     private String profileUrl;
     private String name;
+    private String brandName;
     private int price;
 }
