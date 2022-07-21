@@ -70,7 +70,7 @@ class CartServiceTest {
         cartService.addCart(USER_ID, PRODUCT_ID, ADD_COUNT);
 
         given(cartRepository.findCart(USER_ID)).willReturn(Optional.of(cart));
-        given(productServiceClient.findById(PRODUCT_ID)).willReturn(new ProductResponse(PROFILE_URL, NAME, PRICE));
+        given(productServiceClient.findById(PRODUCT_ID)).willReturn(new ProductResponse(PROFILE_URL, NAME, BRAND_NAME, PRICE));
         CartResponse response = cartService.findCart(USER_ID);
 
         assertThat(response.getCartId()).isEqualTo(CART_ID);
