@@ -37,9 +37,12 @@ public class CartService {
         // 부하 테스트 필요
         for (CartDetail cartDetail : cart.getCartDetails()) {
             ProductResponse product = productServiceClient.findById(cartDetail.getProductId());
-            responses.add(new CartDetailResponse(cartDetail.getId(),
+            responses.add(new CartDetailResponse(
+                    cartDetail.getId(),
+                    cartDetail.getProductId(),
                     product.getProfileUrl(),
                     product.getName(),
+                    product.getBrandName(),
                     product.getPrice(),
                     cartDetail.getCount()));
             price += product.getPrice() * cartDetail.getCount();
