@@ -16,6 +16,22 @@ services:
     networks:
       - sasstyle-network
 
+  database:
+    image: mysql:latest
+    container_name: database
+    restart: always
+    ports:
+      - "3306:3306"
+    environment: 
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: saastyle
+    volumes:
+      - mysql/data:/var/lib/mysql
+    depends_on:
+      - rabbitmq
+    networks:
+      - sasstyle-network
+
   config-service:
     build:
       context: ./config-service
@@ -24,6 +40,7 @@ services:
     restart: always
     depends_on:
       - rabbitmq
+      - database
     ports:
       - "8888:8888"
     networks:
@@ -37,6 +54,7 @@ services:
     restart: always
     depends_on:
       - rabbitmq
+      - database
       - config-service
     environment:
       SPRING_CLOUD_CONFIG_URI: "http://config-service:8888"
@@ -53,6 +71,7 @@ services:
     restart: always
     depends_on:
       - rabbitmq
+      - database
       - config-service
       - discovery-service
     environment:
@@ -71,6 +90,7 @@ services:
     restart: always
     depends_on:
       - rabbitmq
+      - database
       - config-service
       - discovery-service
       - gateway-service
@@ -88,10 +108,10 @@ services:
     restart: always
     depends_on:
       - rabbitmq
+      - database
       - config-service
       - discovery-service
       - gateway-service
-      - user-service
     environment:
       SPRING_CLOUD_CONFIG_URI: "http://config-service:8888"
       SRPING_RABBITMQ_HOST: "rabbitmq"
@@ -106,11 +126,10 @@ services:
     restart: always
     depends_on:
       - rabbitmq
+      - database
       - config-service
       - discovery-service
       - gateway-service
-      - user-service
-      - product-service
     environment:
       SPRING_CLOUD_CONFIG_URI: "http://config-service:8888"
       SRPING_RABBITMQ_HOST: "rabbitmq"
@@ -125,12 +144,10 @@ services:
     restart: always
     depends_on:
       - rabbitmq
+      - database
       - config-service
       - discovery-service
       - gateway-service
-      - user-service
-      - product-service
-      - cart-service
     environment:
       SPRING_CLOUD_CONFIG_URI: "http://config-service:8888"
       SRPING_RABBITMQ_HOST: "rabbitmq"
