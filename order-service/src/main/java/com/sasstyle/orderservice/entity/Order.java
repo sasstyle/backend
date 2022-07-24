@@ -15,6 +15,7 @@ import static com.sasstyle.orderservice.entity.OrderStatus.CANCEL;
 import static com.sasstyle.orderservice.entity.OrderStatus.ORDER;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Getter
@@ -25,7 +26,7 @@ import static lombok.AccessLevel.PROTECTED;
 public class Order {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "order_id")
     private Long id;
 

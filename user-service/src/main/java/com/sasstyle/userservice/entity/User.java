@@ -11,6 +11,7 @@ import static com.sasstyle.userservice.util.PasswordUtils.encode;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Getter
@@ -21,7 +22,7 @@ import static lombok.AccessLevel.PROTECTED;
 public class User extends BaseTime {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @OneToOne(fetch = LAZY, cascade = ALL)
