@@ -12,8 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.sasstyle.orderservice.entity.OrderStatus.ORDER;
+import static java.util.stream.Collectors.groupingBy;
 
 @RequiredArgsConstructor
 @Service
@@ -44,19 +47,29 @@ public class OrderService {
                 .status(ORDER)
                 .build();
 
-        for (OrderProductRequest orderProductRequest : request.getData()) {
-            ProductResponse productResponse = productServiceClient.findByProductId(orderProductRequest.getProductId());
+        Map<Long, List<OrderProductRequest>> productMap = getProductMap(request.getData());
+        productMap.forEach((productId, values) -> {
+            ProductResponse productResponse = productServiceClient.findByProductId(productId);
+
+            int count = 0;
+            for (OrderProductRequest value : values) {
+                if (value.getCount() <= 0) {
+                    throw new IllegalArgumentException("주문 상품의 수량이 0 이하일 수 없습니다.");
+                }
+
+                count += value.getCount();
+            }
 
             OrderDetail orderDetail = OrderDetail.builder()
-                    .productId(orderProductRequest.getProductId())
+                    .productId(productId)
                     .profileUrl(productResponse.getProfileUrl())
                     .productName(productResponse.getName())
                     .orderPrice(productResponse.getPrice())
-                    .count(orderProductRequest.getCount())
+                    .count(count)
                     .build();
 
             orderDetail.setOrder(order);
-        }
+        });
 
         return orderRepository.save(order).getId();
     }
@@ -70,6 +83,11 @@ public class OrderService {
         }
 
         order.cancel();
+    }
+
+    private Map<Long, List<OrderProductRequest>> getProductMap(List<OrderProductRequest> data) {
+        return data.stream()
+                .collect(groupingBy(OrderProductRequest::getProductId));
     }
 
     private boolean emptyData(List<OrderProductRequest> data) {
