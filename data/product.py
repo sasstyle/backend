@@ -1,7 +1,7 @@
 import requests
 
-URL = "http://203.252.240.42:8000/product-service/products"
-token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzYXNzdHlsZS5jb20iLCJleHAiOjE2NTg1MTQ1MDMsInVzZXJJZCI6ImM1NWZmNTc0LWFmM2UtNDg0NC05MzY0LWRjZmU4MGYyYzYzYyIsInVzZXJuYW1lIjoic2Fzc3R5bGUifQ.F29Q4P23cmBjomaTfTHzNpzv0JaoIUvaigVrgB_Hm5tXKIdYtWc59Q9J818CnpyXPKMF37u1L8tCO5maN-yIDQ"
+URL = "http://175.205.6.23:8000/product-service/products"
+token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzYXNzdHlsZS5jb20iLCJleHAiOjE2NTg3NjYwOTQsInVzZXJJZCI6IjU0NjQwOGRlLWVmM2ItNDAzZi1hMDJkLTUzODdiMzVlZjEzNCIsInVzZXJuYW1lIjoic2Fzc3R5bGUifQ.vIsNEY3YE4sSa_sTva5gderEIqmsMyxwBTSnRGjfgthh5zptXqdWsaM7CSW7LyxCuWjj24u63zGigpNQA8kRGg"
 headers={'Authorization': token}
 
 requests.post(URL, json={

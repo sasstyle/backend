@@ -1,6 +1,6 @@
 import requests
 
-URL = "http://203.252.240.42:8000/product-service/categories"
+URL = "http://175.205.6.23:8000/product-service/categories"
 
 부모_ID = 0
 
