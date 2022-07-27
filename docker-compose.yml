@@ -24,7 +24,7 @@ services:
       - "3306:3306"
     environment: 
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: saastyle
+      MYSQL_DATABASE: sasstyle
     volumes:
       - ./mysql/data:/var/lib/mysql
     depends_on:
