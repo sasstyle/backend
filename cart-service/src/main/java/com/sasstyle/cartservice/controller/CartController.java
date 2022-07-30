@@ -27,9 +27,20 @@ public class CartController {
                 .ok(cartService.findCart(userId));
     }
 
+    @Operation(summary = "장바구니 생성", description = "회원가입시 장바구니가 생성돼야합니다.")
+    @ApiResponse(responseCode = "201", description = "장바구니 생성 성공")
+    @PostMapping
+    public ResponseEntity<Void> createCart(@RequestHeader String userId) {
+        cartService.createCart(userId);
+
+        return ResponseEntity
+                .status(CREATED)
+                .build();
+    }
+
     @Operation(summary = "장바구니 상품 추가", description = "사용자 장바구니에 상품을 추가합니다.")
     @ApiResponse(responseCode = "201", description = "장바구니 상품 추가 성공")
-    @PostMapping
+    @PostMapping("/detail")
     public ResponseEntity<Void> addCart(@RequestHeader String userId, @RequestBody CartDetailRequest request) {
         cartService.addCart(userId, request.getProductId(), request.getCount());
 
@@ -51,9 +62,9 @@ public class CartController {
 
     @Operation(summary = "장바구니 전체 삭제", description = "장바구니 전체 항목을 삭제합니다.")
     @ApiResponse(responseCode = "200", description = "장바구니 전체 삭제 성공")
-    @DeleteMapping("/{cartId}")
-    public ResponseEntity<Void> deleteCart(@PathVariable Long cartId) {
-        cartService.deleteCart(cartId);
+    @DeleteMapping
+    public ResponseEntity<Void> deleteCart(@RequestHeader String userId) {
+        cartService.deleteCart(userId);
 
         return ResponseEntity
                 .ok()

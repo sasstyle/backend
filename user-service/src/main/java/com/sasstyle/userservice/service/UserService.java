@@ -1,5 +1,6 @@
 package com.sasstyle.userservice.service;
 
+import com.sasstyle.userservice.client.CartServiceClient;
 import com.sasstyle.userservice.controller.dto.*;
 import com.sasstyle.userservice.entity.Role;
 import com.sasstyle.userservice.entity.User;
@@ -30,6 +31,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenGenerator jwtTokenGenerator;
+    private final CartServiceClient cartServiceClient;
 
     public User findByUserId(String userId) {
         User user = userRepository.findByUserId(userId);
@@ -86,6 +88,8 @@ public class UserService {
                 .build();
 
         User savedUser = userRepository.save(user);
+
+        cartServiceClient.createCart(savedUser.getUserId());
 
         return new JoinResponse(savedUser.getUserId(), savedUser.getUsername());
     }
