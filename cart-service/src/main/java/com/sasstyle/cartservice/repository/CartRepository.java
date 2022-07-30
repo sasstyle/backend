@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
-    @Query("select distinct c from Cart c join fetch c.cartDetails as cd where c.userId=:userId order by cd.updatedAt desc")
+    @Query("select distinct c from Cart c left join fetch c.cartDetails as cd where c.userId=:userId order by cd.updatedAt desc")
     Optional<Cart> findCart(@Param("userId") String userId);
 }

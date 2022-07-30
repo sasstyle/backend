@@ -1,8 +1,8 @@
 package com.sasstyle.orderservice.service;
 
 import com.sasstyle.orderservice.OrderDummy;
-import com.sasstyle.orderservice.UserDummy;
-import com.sasstyle.orderservice.client.ProductResponse;
+import com.sasstyle.orderservice.client.CartServiceClient;
+import com.sasstyle.orderservice.client.dto.ProductResponse;
 import com.sasstyle.orderservice.client.ProductServiceClient;
 import com.sasstyle.orderservice.controller.dto.OrderProductRequest;
 import com.sasstyle.orderservice.controller.dto.OrderRequest;
@@ -40,6 +40,8 @@ class OrderServiceTest {
     @Mock
     private ProductServiceClient productServiceClient;
 
+    @Mock
+    private CartServiceClient cartServiceClient;
 
     public List<OrderProductRequest> testOrderProductRequest() {
         return List.of(new OrderProductRequest(PRODUCT_ID.get(0), 1),

@@ -15,8 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 @Service
@@ -27,9 +29,13 @@ public class CartService {
     private final CartDetailRepository cartDetailRepository;
     private final ProductServiceClient productServiceClient;
 
+    public Cart findByUserId(String userId) {
+        return cartRepository.findCart(userId)
+                .orElseThrow(() -> new IllegalArgumentException("장바구니를 찾을 수 없습니다."));
+    }
+
     public CartResponse findCart(String userId) {
-        Cart cart = cartRepository.findCart(userId)
-                .orElse(Cart.builder().id(null).build());
+        Cart cart = findByUserId(userId);
 
         List<CartDetailResponse> responses = new ArrayList<>();
         int price = 0;
@@ -52,9 +58,17 @@ public class CartService {
     }
 
     @Transactional
+    public void createCart(String userId) {
+        Cart cart = Cart.builder()
+                .userId(userId)
+                .build();
+
+        cartRepository.save(cart);
+    }
+
+    @Transactional
     public void addCart(String userId, Long productId, int count) {
-        Cart cart = cartRepository.findCart(userId)
-                .orElse(Cart.builder().userId(userId).build());
+        Cart cart = findByUserId(userId);
 
         // 이미 상품을 추가한 경우
         if (hasProduct(getProductMap(cart.getCartDetails()), productId)) {
@@ -69,7 +83,6 @@ public class CartService {
                     .build();
 
             cart.addCartDetail(cartDetail);
-            cartRepository.save(cart);
         }
     }
 
@@ -84,8 +97,16 @@ public class CartService {
     }
 
     @Transactional
-    public void deleteCart(Long cartId) {
-        cartRepository.deleteById(cartId);
+    public void deleteCart(String userId) {
+        Cart cart = findByUserId(userId);
+
+        if (cart.getCartDetails() != null && !cart.getCartDetails().isEmpty()) {
+            List<Long> ids = cart.getCartDetails().stream()
+                    .map(CartDetail::getId)
+                    .collect(toList());
+
+            cartDetailRepository.deleteAllByIdInQuery(ids);
+        }
     }
 
     @Transactional
