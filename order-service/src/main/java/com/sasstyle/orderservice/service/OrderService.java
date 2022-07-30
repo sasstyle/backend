@@ -1,6 +1,7 @@
 package com.sasstyle.orderservice.service;
 
-import com.sasstyle.orderservice.client.ProductResponse;
+import com.sasstyle.orderservice.client.CartServiceClient;
+import com.sasstyle.orderservice.client.dto.ProductResponse;
 import com.sasstyle.orderservice.client.ProductServiceClient;
 import com.sasstyle.orderservice.controller.dto.OrderProductRequest;
 import com.sasstyle.orderservice.controller.dto.OrderRequest;
@@ -13,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static com.sasstyle.orderservice.entity.OrderStatus.ORDER;
 import static java.util.stream.Collectors.groupingBy;
@@ -25,6 +25,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final ProductServiceClient productServiceClient;
+    private final CartServiceClient cartServiceClient;
 
     public Order findById(Long orderId) {
         return orderRepository.findById(orderId)
@@ -70,6 +71,9 @@ public class OrderService {
 
             orderDetail.setOrder(order);
         });
+
+        // 장바구니 삭제
+        cartServiceClient.deleteCart(userId);
 
         return orderRepository.save(order).getId();
     }

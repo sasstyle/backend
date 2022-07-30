@@ -24,7 +24,6 @@ import static com.sasstyle.cartservice.ProductDummy.*;
 import static com.sasstyle.cartservice.UserDummy.USER_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -48,11 +47,12 @@ class CartServiceTest {
         int count = 1;
 
         Cart cart = CartDummy.dummy();
-        given(cartRepository.save(any())).willReturn(cart);
-
-        cartService.addCart(USER_ID, PRODUCT_ID, count);
         given(cartRepository.findCart(USER_ID)).willReturn(Optional.of(cart));
 
+        cartService.addCart(USER_ID, PRODUCT_ID, count);
+
+        given(cartRepository.findCart(USER_ID)).willReturn(Optional.of(cart));
+        given(productServiceClient.findById(PRODUCT_ID)).willReturn(new ProductResponse(PROFILE_URL, NAME, BRAND_NAME, PRICE));
         CartResponse response = cartService.findCart(USER_ID);
 
         assertThat(response.getCartId()).isEqualTo(CART_ID);
@@ -105,10 +105,9 @@ class CartServiceTest {
     @DisplayName("장바구니 전체 삭제")
     @Test
     void 장바구니_삭제() {
-        cartService.deleteCart(CART_ID);
+        given(cartRepository.findCart(USER_ID)).willReturn(Optional.ofNullable(CartDummy.dummy()));
 
-        given(cartRepository.findById(CART_ID)).willReturn(Optional.empty());
-        assertThat(cartRepository.findById(CART_ID).isEmpty()).isTrue();
+        cartService.deleteCart(USER_ID);
     }
 
     @DisplayName("장바구니 상품 삭제")

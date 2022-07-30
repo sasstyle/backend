@@ -60,6 +60,9 @@ dependencies {
 
     // prometheus
     implementation 'io.micrometer:micrometer-registry-prometheus'
+
+    //openfeign
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 }
 
 dependencyManagement {

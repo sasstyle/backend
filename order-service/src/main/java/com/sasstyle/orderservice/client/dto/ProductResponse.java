@@ -1,4 +1,4 @@
-package com.sasstyle.orderservice.client;
+package com.sasstyle.orderservice.client.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

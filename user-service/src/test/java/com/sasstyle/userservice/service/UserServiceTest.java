@@ -1,6 +1,7 @@
 package com.sasstyle.userservice.service;
 
 import com.sasstyle.userservice.UserDummy;
+import com.sasstyle.userservice.client.CartServiceClient;
 import com.sasstyle.userservice.controller.dto.*;
 import com.sasstyle.userservice.entity.Gender;
 import com.sasstyle.userservice.entity.Role;
@@ -52,10 +53,13 @@ class UserServiceTest {
 
     private JoinRequest joinRequest;
 
+    @Mock
+    private CartServiceClient cartServiceClient;
+
     @BeforeEach
     void setUp() {
         jwtTokenGenerator = new JwtTokenGenerator(env);
-        userService = new UserService(userRepository, authenticationManager, jwtTokenGenerator);
+        userService = new UserService(userRepository, authenticationManager, jwtTokenGenerator, cartServiceClient);
 
         user = UserDummy.user();
         joinRequest = UserDummy.join();

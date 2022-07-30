@@ -1,12 +1,10 @@
 package com.sasstyle.orderservice;
 
-import com.sasstyle.orderservice.client.ProductResponse;
+import com.sasstyle.orderservice.client.dto.ProductResponse;
 import com.sasstyle.orderservice.controller.dto.OrderProductRequest;
 import com.sasstyle.orderservice.controller.dto.OrderRequest;
 import com.sasstyle.orderservice.entity.Order;
 import com.sasstyle.orderservice.entity.OrderDetail;
-
-import java.util.List;
 
 import static com.sasstyle.orderservice.ProductDummy.*;
 import static com.sasstyle.orderservice.UserDummy.ADDRESS;
