@@ -22,7 +22,7 @@ public class ReviewController {
     @Operation(summary = "리뷰 조회", description = "모든 리뷰를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "리뷰 조회 성공")
     @GetMapping
-    public ResponseEntity<Page<ReviewResponse>> reviews(@RequestBody ReviewFindRequest request, Pageable pageable) {
+    public ResponseEntity<Page<ReviewResponse>> reviews(@ModelAttribute ReviewFindRequest request, Pageable pageable) {
         return ResponseEntity
                 .ok(reviewService.findAllByProductId(request.getProductId(), pageable));
     }
