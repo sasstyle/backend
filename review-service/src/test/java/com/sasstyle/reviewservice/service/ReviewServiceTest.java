@@ -21,6 +21,7 @@ import java.util.Optional;
 import static com.sasstyle.reviewservice.ProductDummy.PRODUCT_ID;
 import static com.sasstyle.reviewservice.ReviewDummy.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -60,7 +61,15 @@ class ReviewServiceTest {
     @DisplayName("리뷰 생성")
     @Test
     void 리뷰_생성() {
-        reviewService.createReview(REVIEWER_ID, request());
+        given(reviewRepository.save(any())).willReturn(ReviewDummy.dummy());
+
+        Long reviewId = reviewService.createReview(REVIEWER_ID, request());
+
+        given(reviewRepository.findById(reviewId)).willReturn(Optional.ofNullable(ReviewDummy.dummy()));
+
+        Review review = reviewRepository.findById(reviewId).get();
+        assertThat(review.getId()).isEqualTo(reviewId);
+        assertThat(review.getContent()).isEqualTo(CONTENT);
     }
 
     @DisplayName("리뷰 삭제 성공 - 리뷰를 작성자와 리뷰어랑 같은 경우")
