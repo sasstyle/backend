@@ -36,7 +36,7 @@ public class ReviewService {
     }
 
     @Transactional
-    public void createReview(String userId, ReviewRequest request) {
+    public Long createReview(String userId, ReviewRequest request) {
         Review review = Review.builder()
                 .userId(userId)
                 .content(request.getContent())
@@ -53,7 +53,7 @@ public class ReviewService {
                     .forEach(reviewImage -> review.addReviewImage(reviewImage));
         }
 
-        reviewRepository.save(review);
+        return reviewRepository.save(review).getId();
     }
 
     @Transactional

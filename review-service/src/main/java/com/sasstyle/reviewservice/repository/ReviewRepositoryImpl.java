@@ -1,5 +1,6 @@
 package com.sasstyle.reviewservice.repository;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sasstyle.reviewservice.controller.dto.QReviewResponse;
@@ -27,13 +28,15 @@ public class ReviewRepositoryImpl implements ReviewQueryRepository {
         List<ReviewResponse> content = queryFactory
                 .select(new QReviewResponse(review.id, review.content, review.rate))
                 .from(review)
+                .where(productIdEq(productId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(review.createdAt.desc())
                 .fetch();
 
         JPAQuery<Long> countQuery = queryFactory
-                .select(review.count()).from(review);
+                .select(review.count()).from(review)
+                .where(productIdEq(productId));
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
@@ -47,5 +50,9 @@ public class ReviewRepositoryImpl implements ReviewQueryRepository {
                         .where(review.id.eq(reviewId))
                         .fetchOne()
         );
+    }
+
+    private BooleanExpression productIdEq(Long productId) {
+        return productId == null ? null : review.productId.eq(productId);
     }
 }
