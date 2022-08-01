@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/myunbongs/Downloads/fitting-service'
+make: Leaving directory `/Users/myunbongs/Downloads/fitting-service'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+

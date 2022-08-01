@@ -1,0 +1,7 @@
+{
+    "makefile.extensionOutputFolder": "./.vscode",
+    "python.analysis.extraPaths": [
+        "./ACGPN/U-2-Net",
+        "./ACGPN"
+    ]
+}
