@@ -22,12 +22,16 @@ public class WishResponse {
     @Schema(description = "상품 가격", example = "10000", required = true)
     private int price;
 
+    @Schema(description = "상품 좋아요", example = "true", required = true)
+    private boolean isWish;
+
     @QueryProjection
-    public WishResponse(Long productId, String profileUrl, String productName, String brandName, int price) {
+    public WishResponse(Long productId, String profileUrl, String productName, String brandName, int price, boolean isWish) {
         this.productId = productId;
         this.profileUrl = profileUrl;
         this.productName = productName;
         this.brandName = brandName;
         this.price = price;
+        this.isWish = isWish;
     }
 }
