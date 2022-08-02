@@ -1,5 +1,6 @@
 package com.sasstyle.productservice.repository;
 
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sasstyle.productservice.controller.dto.QWishResponse;
@@ -27,7 +28,8 @@ public class ProductWishRepositoryImpl implements ProductWishQueryRepository {
                         productProfile.profileUrl,
                         product.name,
                         product.brandName,
-                        product.price))
+                        product.price,
+                        Expressions.asBoolean(true)))
                 .from(productWish)
                 .join(productWish.product, product)
                 .join(product.productProfile, productProfile)
