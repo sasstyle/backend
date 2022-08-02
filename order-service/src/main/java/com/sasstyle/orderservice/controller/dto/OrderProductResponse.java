@@ -7,6 +7,9 @@ import lombok.Getter;
 @Getter
 public class OrderProductResponse {
 
+    @Schema(description = "상품 아이디", example = "1", required = true)
+    private Long productId;
+
     @Schema(description = "상품 이미지", example = "https://picsum.photos/seed/picsum/200/300", required = true)
     private String profileUrl;
 
@@ -20,6 +23,7 @@ public class OrderProductResponse {
     private int count;
 
     public OrderProductResponse(OrderDetail orderDetail) {
+        this.productId = orderDetail.getProduct().getProductId();
         this.profileUrl = orderDetail.getProduct().getProfileUrl();
         this.productName = orderDetail.getProduct().getProductName();
         this.price = orderDetail.getProduct().getOrderPrice();
