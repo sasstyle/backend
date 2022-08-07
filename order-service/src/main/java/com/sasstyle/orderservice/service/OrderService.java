@@ -42,6 +42,7 @@ public class OrderService {
             throw new IllegalArgumentException("주문 상품이 존재하지 않습니다.");
         }
 
+        // 상품 주문
         Order order = Order.builder()
                 .userId(userId)
                 .address(request.getAddress())
@@ -54,6 +55,7 @@ public class OrderService {
 
             int count = 0;
             for (OrderProductRequest value : values) {
+                // 상품 수량 검증
                 if (value.getCount() <= 0) {
                     throw new IllegalArgumentException("주문 상품의 수량이 0 이하일 수 없습니다.");
                 }
@@ -61,6 +63,7 @@ public class OrderService {
                 count += value.getCount();
             }
 
+            // 주문 상세
             OrderDetail orderDetail = OrderDetail.builder()
                     .productId(productId)
                     .profileUrl(productResponse.getProfileUrl())

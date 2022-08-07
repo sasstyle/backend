@@ -21,7 +21,7 @@ services:
     container_name: database
     restart: always
     ports:
-      - "3306:3306"
+      - "3308:3306"
     environment: 
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: sasstyle
@@ -171,6 +171,18 @@ services:
       SRPING_RABBITMQ_HOST: "rabbitmq"
     networks:
       - sasstyle-network
+
+  fitting-service:
+    build:
+      context: ./fitting-service
+      dockerfile: Dockerfile
+    container_name: fitting-service
+    volumes:
+      - ./fitting-service:/code
+    ports:
+      - "9002:9002"
+    networks:
+      - sasstyle-network:
   
   prometheus:
     image: prom/prometheus

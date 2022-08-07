@@ -1,5 +1,7 @@
 package com.sasstyle.reviewservice.service;
 
+import com.sasstyle.reviewservice.client.UserServiceClient;
+import com.sasstyle.reviewservice.client.dto.UserResponse;
 import com.sasstyle.reviewservice.controller.dto.ReviewRequest;
 import com.sasstyle.reviewservice.controller.dto.ReviewResponse;
 import com.sasstyle.reviewservice.entity.Review;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final UserServiceClient userServiceClient;
 
     public Page<ReviewResponse> findAllByProductId(Long productId, Pageable pageable) {
         return reviewRepository.findAllByProductId(productId, pageable);
@@ -37,8 +40,11 @@ public class ReviewService {
 
     @Transactional
     public Long createReview(String userId, ReviewRequest request) {
+        UserResponse userResponse = userServiceClient.findByUserId(userId);
+
         Review review = Review.builder()
                 .userId(userId)
+                .reviewerName(userResponse.getName())
                 .content(request.getContent())
                 .productId(request.getProductId())
                 .rate(request.getRate())

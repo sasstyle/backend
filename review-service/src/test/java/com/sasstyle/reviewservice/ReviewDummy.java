@@ -19,7 +19,7 @@ public class ReviewDummy {
         return new ReviewRequest(PRODUCT_ID, CONTENT, List.of("https://picsum.photos/seed/picsum/200/300"), 5);
     }
     public static ReviewResponse response() {
-        return new ReviewResponse(REVIEW_ID, CONTENT, 5);
+        return new ReviewResponse(REVIEW_ID, CONTENT, new ArrayList<>(), 5);
     }
 
     public static Review dummy() {

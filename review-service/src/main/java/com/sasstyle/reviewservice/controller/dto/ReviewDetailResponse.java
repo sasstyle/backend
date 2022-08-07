@@ -14,6 +14,9 @@ public class ReviewDetailResponse {
     @Schema(description = "리뷰 후기", example = "너무 상품이 마음에 들어요~", required = true)
     private String content;
 
+    @Schema(description = "리뷰어 이름", example = "싸스타일", required = true)
+    private String reviewerName;
+
     @Schema(description = "리뷰 상세 이미지", example = "[https://picsum.photos/seed/picsum/200/300]")
     private List<String> images;
 
@@ -22,6 +25,7 @@ public class ReviewDetailResponse {
 
     public ReviewDetailResponse(Review review) {
         this.content = review.getContent();
+        this.reviewerName = review.getReviewerName();
         this.images = review.getReviewImages().stream()
                 .map(ReviewImage::getImageUrl)
                 .collect(Collectors.toList());
