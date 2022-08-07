@@ -177,6 +177,22 @@ services:
       context: ./fitting-service
       dockerfile: Dockerfile
     container_name: fitting-service
+    volumes:
+      - ./fitting-service:/code
+    ports:
+      - "9002:9002"
+    networks:
+      - sasstyle-network:
+  
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
     restart: always
     depends_on:
       - rabbitmq
@@ -184,13 +200,25 @@ services:
       - config-service
       - discovery-service
       - gateway-service
-    volumes:
-      - ./fitting-service:/code
-    ports:
-      - "9002:9002"
     networks:
-      sasstyle-network:
-      
+      - sasstyle-network
+
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    restart: always
+    depends_on:
+      - rabbitmq
+      - database
+      - config-service
+      - discovery-service
+      - gateway-service
+      - prometheus
+    networks:
+      - sasstyle-network
+
 networks:
   sasstyle-network:
     external: true

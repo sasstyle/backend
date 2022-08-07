@@ -15,7 +15,7 @@ spring:
         git:
           uri: https://github.com/kingjaewon2000/spring-cloud-config
   profiles:
-    active: local
+    active: dev
 
 management:
   endpoints:
