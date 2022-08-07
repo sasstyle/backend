@@ -28,6 +28,7 @@ public class Review extends BaseTime{
 
     private Long productId;
     private String userId;
+    private String reviewerName;
 
     private String content;
 
