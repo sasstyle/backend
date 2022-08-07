@@ -1,6 +1,8 @@
 package com.sasstyle.reviewservice.service;
 
 import com.sasstyle.reviewservice.ReviewDummy;
+import com.sasstyle.reviewservice.client.UserServiceClient;
+import com.sasstyle.reviewservice.client.dto.UserResponse;
 import com.sasstyle.reviewservice.controller.dto.ReviewResponse;
 import com.sasstyle.reviewservice.entity.Review;
 import com.sasstyle.reviewservice.repository.ReviewRepository;
@@ -33,6 +35,9 @@ class ReviewServiceTest {
     @Mock
     private ReviewRepository reviewRepository;
 
+    @Mock
+    private UserServiceClient userServiceClient;
+
     @DisplayName("상품 아이디로 리뷰 조회")
     @Test
     void 상품_아이디로_리뷰_조회() {
@@ -61,6 +66,7 @@ class ReviewServiceTest {
     @DisplayName("리뷰 생성")
     @Test
     void 리뷰_생성() {
+        given(userServiceClient.findByUserId(REVIEWER_ID)).willReturn(new UserResponse("테스트계정"));
         given(reviewRepository.save(any())).willReturn(ReviewDummy.dummy());
 
         Long reviewId = reviewService.createReview(REVIEWER_ID, request());
