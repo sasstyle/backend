@@ -1,0 +1,5 @@
+fitting-service/ACGPN/checkpoints/label2city/*.pth filter=lfs diff=lfs merge=lfs -text
+fitting-service/ACGPN/pose/pose_iter_440000.caffemodel filter=lfs diff=lfs merge=lfs -text
+fitting-service/ACGPN/lip_final.pth filter=lfs diff=lfs merge=lfs -text
+fitting-service/ACGPN/U_2_Net/saved_models/u2net/u2net.pth filter=lfs diff=lfs merge=lfs -text
+fitting-service/ACGPN/U_2_Net/saved_models/u2netp/u2netp.pth filter=lfs diff=lfs merge=lfs -text
