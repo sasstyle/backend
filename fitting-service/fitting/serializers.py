@@ -1,4 +1,3 @@
-from dataclasses import field
 from rest_framework import serializers
 
 from fitting.models import Fitting
@@ -16,16 +15,17 @@ class FittingDetailSerializer(serializers.ModelSerializer):
 class FittingPostSerializer(serializers.ModelSerializer):
       class Meta:
         model = Fitting 
-        fields = ('userId', 'productId', 'image', 'desc',)
-
-class FittingPostParamsSerializer(serializers.ModelSerializer):
-      class Meta:
-        model = Fitting 
         fields = ('userId', 'productId', 'desc',)
+
+class FittingPostParamsSerializer(serializers.Serializer):
+  userId = serializers.UUIDField()
+  productId = serializers.IntegerField()
+  clothUrl = serializers.URLField(max_length=None, min_length=None, allow_blank=False)
+  profileUrl = serializers.URLField(max_length=None, min_length=None, allow_blank=False)
+  desc = serializers.CharField()
+
 
 class FittingUpdateSerializer(serializers.ModelSerializer): 
       class Meta:
         model = Fitting 
         fields = ('desc',)
-    
-      
