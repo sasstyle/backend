@@ -24,7 +24,7 @@ if __name__ == '__main__':
     port = 9002
     eureka_client.init(eureka_server="http://discovery-service:8761/eureka",
                    app_name="fitting-service",
-                   eureka_context="/fitting-service"
+                   eureka_context="/fitting-service",
                    instance_port=port)
 
     main()
