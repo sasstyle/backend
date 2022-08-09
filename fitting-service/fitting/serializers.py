@@ -23,7 +23,7 @@ class FittingPostParamsSerializer(serializers.ModelSerializer):
   productId = serializers.IntegerField()
   clothUrl = serializers.URLField(max_length=None, min_length=None, allow_blank=False)
   profileUrl = serializers.URLField(max_length=None, min_length=None, allow_blank=False)
-  desc = serializers.CharFiled()
+  desc = serializers.CharField()
 
 
 class FittingUpdateSerializer(serializers.ModelSerializer): 
