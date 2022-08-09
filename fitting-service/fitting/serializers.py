@@ -18,7 +18,7 @@ class FittingPostSerializer(serializers.ModelSerializer):
         fields = ('userId', 'productId', 'desc',)
 
 class FittingPostParamsSerializer(serializers.Serializer):
-  userId = serializers.UUIDField()
+  userId = serializers.CharField()
   productId = serializers.IntegerField()
   clothUrl = serializers.URLField(max_length=None, min_length=None, allow_blank=False)
   profileUrl = serializers.URLField(max_length=None, min_length=None, allow_blank=False)
