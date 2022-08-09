@@ -3,7 +3,7 @@ import reserve as reserve
 from django.db import models
 
 class Fitting(models.Model):
-    userId = models.CharField(max_length=None, default='fa9f83fc-934e-408a-9875-4092e2872694')
+    userId = models.CharField(max_length=100, default='fa9f83fc-934e-408a-9875-4092e2872694')
     productId = models.FloatField()
 
     image = models.ImageField()
