@@ -5,7 +5,6 @@ import sys
 
 import django.core.management.commands.runserver as runserver
 from django.core.management.commands.runserver import Command as runserver
-import py_eureka_client.eureka_client as eureka_client
 
 def main():
     """Run administrative tasks."""
@@ -21,10 +20,4 @@ def main():
     execute_from_command_line(sys.argv)
 
 if __name__ == '__main__':
-    port = 9002
-    eureka_client.init(eureka_server="http://discovery-service:8761/eureka",
-                   app_name="fitting-service",
-                   eureka_context="/fitting-service"
-                   instance_port=port)
-
     main()
