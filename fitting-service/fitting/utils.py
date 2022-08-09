@@ -57,7 +57,7 @@ def virtual_try_on(profileUrl, images, profile_name, cloth_name):
 
 def delete_fitting(request):
     os.system('rm -rf ACGPN/Data_preprocessing/test_color/*')
-    os.system('rm -rf ACGPN/Data_preprocessing/test_edge/')
+    os.system('rm -rf ACGPN/Data_preprocessing/test_edge/*')
     os.system('rm -rf ACGPN/Data_preprocessing/test_img/*')
     os.system('rm -rf ACGPN/Data_preprocessing/test_label/*')
     os.system('rm -rf ACGPN/Data_preprocessing/test_mask/*')
