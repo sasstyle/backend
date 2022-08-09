@@ -25,8 +25,7 @@ SECRET_KEY = 'django-insecure-iea0r9#tq04=vnp@x-1-@k8(igl!fhzs#gtlh5qic%u4$f!qfl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['175.45.203.114', '175.45.203.114:9002', '52.219.148.45:3000', '52.219.148.45']
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -43,7 +42,6 @@ INSTALLED_APPS = [
 
     'drf_yasg',
     'rest_framework',
-    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -53,7 +51,6 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -64,13 +61,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
-CORS_ORIGIN_WHITELIST = [
-       'http://175.45.203.114:9002',
-       'http://52.219.148.45:3000',
-]
-
-# CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'config.urls'
 
