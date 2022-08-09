@@ -115,3 +115,5 @@ whitenoise==6.2.0
 yacs==0.1.8
 yarl==1.7.2
 zipp==3.8.1
+drf_yasg==1.21.3
+django-cors-headers==3.13.0
