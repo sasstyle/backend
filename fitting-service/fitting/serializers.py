@@ -1,4 +1,3 @@
-from unittest.util import _MAX_LENGTH
 from rest_framework import serializers
 
 from fitting.models import Fitting
@@ -13,12 +12,12 @@ class FittingDetailSerializer(serializers.ModelSerializer):
         model = Fitting 
         fields = '__all__'
 
-class FittingPostSerializer(serializers.Serializer):
+class FittingPostSerializer(serializers.ModelSerializer):
       class Meta:
         model = Fitting 
         fields = ('userId', 'productId', 'desc',)
 
-class FittingPostParamsSerializer(serializers.ModelSerializer):
+class FittingPostParamsSerializer(serializers.Serializer):
   userId = serializers.UUIDField()
   productId = serializers.IntegerField()
   clothUrl = serializers.URLField(max_length=None, min_length=None, allow_blank=False)
@@ -30,5 +29,3 @@ class FittingUpdateSerializer(serializers.ModelSerializer):
       class Meta:
         model = Fitting 
         fields = ('desc',)
-    
-      
