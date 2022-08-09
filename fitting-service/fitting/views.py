@@ -34,7 +34,7 @@ class FittingListView(APIView):
 
         with open(result, 'rb') as img:
             data = {
-                'userId': request.data.get("userId"),
+                'userId': request.headers.get('userId'),
                 'productId': request.data.get("productId"), 
                 'image': File(img), 
                 'desc': request.data.get("desc"), 
