@@ -82,5 +82,11 @@ class FittingAPIView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class FittingFilteringListView(APIView):
+    parser_classes = [MultiPartParser, JSONParser, ]
 
-
+    @swagger_auto_schema(operation_description='상품별 피팅 리스트 조회', request_body=None, responses={"200": FittingListSerializer(many=True)}) 
+    def get(self, request, productId):
+        fittings = Fitting.objects.filter(productId=productId)
+        serializer = FittingListSerializer(fittings, many = True)
+        return Response(serializer.data)
