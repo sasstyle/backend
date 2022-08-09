@@ -43,8 +43,6 @@ def virtual_try_on(profileUrl, images, profile_name, cloth_name):
         pose_time = time.time()
         print('Pose map generated in {}s'.format(pose_time - parse_time))
 
-        os.system('rm -rf ACGPN/Data_preprocessing/test_pairs.txt')
-
         with open('ACGPN/Data_preprocessing/test_pairs.txt','w') as f:
             f.write(profile_name + " " + cloth_name)
 
