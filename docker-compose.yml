@@ -177,13 +177,20 @@ services:
       context: ./fitting-service
       dockerfile: Dockerfile
     container_name: fitting-service
+    restart: always
+    depends_on:
+      - rabbitmq
+      - database
+      - config-service
+      - discovery-service
+      - gateway-service
     volumes:
       - ./fitting-service:/code
     ports:
       - "9002:9002"
     networks:
-      - sasstyle-network:
-  
+      - sasstyle-network
+
   prometheus:
     image: prom/prometheus
     container_name: prometheus
@@ -218,7 +225,7 @@ services:
       - prometheus
     networks:
       - sasstyle-network
-
+      
 networks:
   sasstyle-network:
     external: true
