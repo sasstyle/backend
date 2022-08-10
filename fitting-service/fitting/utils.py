@@ -43,8 +43,6 @@ def virtual_try_on(profileUrl, images, profile_name, cloth_name):
         pose_time = time.time()
         print('Pose map generated in {}s'.format(pose_time - parse_time))
 
-        os.system('rm -rf ACGPN/Data_preprocessing/test_pairs.txt')
-
         with open('ACGPN/Data_preprocessing/test_pairs.txt','w') as f:
             f.write(profile_name + " " + cloth_name)
 
@@ -57,7 +55,7 @@ def virtual_try_on(profileUrl, images, profile_name, cloth_name):
 
 def delete_fitting(request):
     os.system('rm -rf ACGPN/Data_preprocessing/test_color/*')
-    os.system('rm -rf ACGPN/Data_preprocessing/test_edge/')
+    os.system('rm -rf ACGPN/Data_preprocessing/test_edge/*')
     os.system('rm -rf ACGPN/Data_preprocessing/test_img/*')
     os.system('rm -rf ACGPN/Data_preprocessing/test_label/*')
     os.system('rm -rf ACGPN/Data_preprocessing/test_mask/*')
